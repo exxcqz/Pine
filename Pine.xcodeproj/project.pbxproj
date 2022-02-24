@@ -56,15 +56,55 @@
 		11ECCC4D27C73346003DE888 /* Pine */ = {
 			isa = PBXGroup;
 			children = (
-				11ECCC4E27C73346003DE888 /* AppDelegate.swift */,
-				11ECCC5027C73346003DE888 /* SceneDelegate.swift */,
-				11ECCC5227C73346003DE888 /* ViewController.swift */,
-				11ECCC5427C73346003DE888 /* Main.storyboard */,
-				11ECCC5727C73349003DE888 /* Assets.xcassets */,
-				11ECCC5927C73349003DE888 /* LaunchScreen.storyboard */,
+				11ECCC6527C733F4003DE888 /* Applications */,
+				11ECCC6327C733BD003DE888 /* Services */,
+				11ECCC6227C733B3003DE888 /* Models */,
+				11ECCC6427C733CF003DE888 /* Screens */,
+				11ECCC6627C733FE003DE888 /* Resources */,
 				11ECCC5C27C73349003DE888 /* Info.plist */,
 			);
 			path = Pine;
+			sourceTree = "<group>";
+		};
+		11ECCC6227C733B3003DE888 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		11ECCC6327C733BD003DE888 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		11ECCC6427C733CF003DE888 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				11ECCC5227C73346003DE888 /* ViewController.swift */,
+				11ECCC5427C73346003DE888 /* Main.storyboard */,
+				11ECCC5927C73349003DE888 /* LaunchScreen.storyboard */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		11ECCC6527C733F4003DE888 /* Applications */ = {
+			isa = PBXGroup;
+			children = (
+				11ECCC5027C73346003DE888 /* SceneDelegate.swift */,
+				11ECCC4E27C73346003DE888 /* AppDelegate.swift */,
+			);
+			path = Applications;
+			sourceTree = "<group>";
+		};
+		11ECCC6627C733FE003DE888 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				11ECCC5727C73349003DE888 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11265D2227C787AD001A47F8 /* CollectionViewTools in Frameworks */ = {isa = PBXBuildFile; productRef = 11265D2127C787AD001A47F8 /* CollectionViewTools */; };
 		11ECCC4F27C73346003DE888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECCC4E27C73346003DE888 /* AppDelegate.swift */; };
 		11ECCC5127C73346003DE888 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECCC5027C73346003DE888 /* SceneDelegate.swift */; };
 		11ECCC5327C73346003DE888 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECCC5227C73346003DE888 /* ViewController.swift */; };
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11265D2227C787AD001A47F8 /* CollectionViewTools in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +125,9 @@
 			dependencies = (
 			);
 			name = Pine;
+			packageProductDependencies = (
+				11265D2127C787AD001A47F8 /* CollectionViewTools */,
+			);
 			productName = Pine;
 			productReference = 11ECCC4B27C73346003DE888 /* Pine.app */;
 			productType = "com.apple.product-type.application";
@@ -151,6 +156,9 @@
 				Base,
 			);
 			mainGroup = 11ECCC4227C73346003DE888;
+			packageReferences = (
+				11265D2027C787AD001A47F8 /* XCRemoteSwiftPackageReference "CollectionViewTools" */,
+			);
 			productRefGroup = 11ECCC4C27C73346003DE888 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -400,6 +408,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		11265D2027C787AD001A47F8 /* XCRemoteSwiftPackageReference "CollectionViewTools" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rosberry/CollectionViewTools";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		11265D2127C787AD001A47F8 /* CollectionViewTools */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11265D2027C787AD001A47F8 /* XCRemoteSwiftPackageReference "CollectionViewTools" */;
+			productName = CollectionViewTools;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 11ECCC4327C73346003DE888 /* Project object */;
 }

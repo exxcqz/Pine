@@ -18,6 +18,15 @@
           "revision": "2639b3a11054d666a4c5ec1b7dd2808e437f3289",
           "version": "2.3.3"
         }
+      },
+      {
+        "package": "Framezilla",
+        "repositoryURL": "https://github.com/rosberry/Framezilla",
+        "state": {
+          "branch": null,
+          "revision": "1a757e608731f8d51accc1e9864edc1c41d9e75e",
+          "version": "5.1.2"
+        }
       }
     ]
   },

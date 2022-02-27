@@ -15,6 +15,7 @@
 		11265D3527C8D37B001A47F8 /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D3027C8D37B001A47F8 /* SFProText-Bold.ttf */; };
 		11265D3727C8D38A001A47F8 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11265D3627C8D38A001A47F8 /* Fonts.swift */; };
 		11265D3A27C90A4B001A47F8 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11265D3927C90A4B001A47F8 /* MainCollectionViewCell.swift */; };
+		11265D4127C92D1E001A47F8 /* Framezilla in Frameworks */ = {isa = PBXBuildFile; productRef = 11265D4027C92D1E001A47F8 /* Framezilla */; };
 		11ECCC4F27C73346003DE888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECCC4E27C73346003DE888 /* AppDelegate.swift */; };
 		11ECCC5127C73346003DE888 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECCC5027C73346003DE888 /* SceneDelegate.swift */; };
 		11ECCC5327C73346003DE888 /* MainCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECCC5227C73346003DE888 /* MainCollectionViewController.swift */; };
@@ -31,6 +32,7 @@
 		11265D3027C8D37B001A47F8 /* SFProText-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Bold.ttf"; sourceTree = "<group>"; };
 		11265D3627C8D38A001A47F8 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Fonts.swift; path = ../../../../Documents/Fonts.swift; sourceTree = "<group>"; };
 		11265D3927C90A4B001A47F8 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
+		119AAB8F27CB77F60085094C /* DetailImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageViewController.swift; sourceTree = "<group>"; };
 		11ECCC4B27C73346003DE888 /* Pine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11ECCC4E27C73346003DE888 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		11ECCC5027C73346003DE888 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11265D2227C787AD001A47F8 /* CollectionViewTools in Frameworks */,
+				11265D4127C92D1E001A47F8 /* Framezilla in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +75,14 @@
 				11265D3927C90A4B001A47F8 /* MainCollectionViewCell.swift */,
 			);
 			path = MainCollection;
+			sourceTree = "<group>";
+		};
+		119AAB8E27CB77EB0085094C /* DetailImage */ = {
+			isa = PBXGroup;
+			children = (
+				119AAB8F27CB77F60085094C /* DetailImageViewController.swift */,
+			);
+			path = DetailImage;
 			sourceTree = "<group>";
 		};
 		11ECCC4227C73346003DE888 = {
@@ -121,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				11265D3827C90A3E001A47F8 /* MainCollection */,
+				119AAB8E27CB77EB0085094C /* DetailImage */,
 				11ECCC5427C73346003DE888 /* Main.storyboard */,
 				11ECCC5927C73349003DE888 /* LaunchScreen.storyboard */,
 			);
@@ -164,6 +176,7 @@
 			name = Pine;
 			packageProductDependencies = (
 				11265D2127C787AD001A47F8 /* CollectionViewTools */,
+				11265D4027C92D1E001A47F8 /* Framezilla */,
 			);
 			productName = Pine;
 			productReference = 11ECCC4B27C73346003DE888 /* Pine.app */;
@@ -195,6 +208,7 @@
 			mainGroup = 11ECCC4227C73346003DE888;
 			packageReferences = (
 				11265D2027C787AD001A47F8 /* XCRemoteSwiftPackageReference "CollectionViewTools" */,
+				11265D3F27C92D1E001A47F8 /* XCRemoteSwiftPackageReference "Framezilla" */,
 			);
 			productRefGroup = 11ECCC4C27C73346003DE888 /* Products */;
 			projectDirPath = "";
@@ -462,6 +476,14 @@
 				minimumVersion = 0.1.7;
 			};
 		};
+		11265D3F27C92D1E001A47F8 /* XCRemoteSwiftPackageReference "Framezilla" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rosberry/Framezilla";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -469,6 +491,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 11265D2027C787AD001A47F8 /* XCRemoteSwiftPackageReference "CollectionViewTools" */;
 			productName = CollectionViewTools;
+		};
+		11265D4027C92D1E001A47F8 /* Framezilla */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 11265D3F27C92D1E001A47F8 /* XCRemoteSwiftPackageReference "Framezilla" */;
+			productName = Framezilla;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

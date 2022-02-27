@@ -21,13 +21,11 @@ class MainCollectionViewController: UIViewController {
         return collectionView
     }()
 
-    private var imagesData: [Int] = {
-        var massive: [Int] = []
-        for i in 0...20 {
-            massive.append(i)
-        }
-        return massive
-    }()
+    private var imagesData = [RandomImage]()
+    private var query = ""
+    private var currentPage = 1
+    private var totalPage = 1
+    private let scaleWidth = UIScreen.main.bounds.size.width / 375
 
     override func viewDidLoad() {
         super.viewDidLoad()

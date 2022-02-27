@@ -52,6 +52,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         return button
     }()
 
+    private var task: URLSessionDataTask?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(imageView)
@@ -59,7 +61,6 @@ class MainCollectionViewCell: UICollectionViewCell {
         imageView.addSubview(firstNameLabel)
         imageView.addSubview(lastNameLabel)
         imageView.addSubview(shareButton)
-
         setConstraints()
     }
 

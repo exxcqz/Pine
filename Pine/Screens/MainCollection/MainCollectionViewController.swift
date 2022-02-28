@@ -21,7 +21,8 @@ class MainCollectionViewController: UIViewController {
         return collectionView
     }()
 
-    private var imagesData = [RandomImage]()
+    private var imagesData = [ImageInfo]()
+    private var randomData = [RandomImage]()
     private var query = ""
     private var currentPage = 1
     private var totalPage = 1
@@ -34,6 +35,8 @@ class MainCollectionViewController: UIViewController {
         setConstraints()
         setNavigationBar()
         setupSearchController()
+        CacheManager.cache.removeAllObjects()
+        fetchRandomData(page: 1)
     }
 
     private func setupViews() {
@@ -61,18 +64,51 @@ class MainCollectionViewController: UIViewController {
         searchController.searchBar.setImage(loupeImage, for: .search, state: .normal)
         searchController.searchBar.tintColor = .black
     }
+
+    private func fetchData(query: String, page: Int) {
+        NetworkDataFetch.shared.fetchSearchData(query: query, page: page) { searchResult, error in
+            if error == nil {
+                guard let searchResult = searchResult else { return }
+                self.imagesData.append(contentsOf: searchResult.results)
+                self.totalPage = searchResult.totalPages
+                if self.currentPage > self.totalPage { return }
+                self.currentPage += 1
+                DispatchQueue.main.async {
+                    self.imagesCollectionView.reloadData()
+                }
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    private func fetchRandomData(page: Int) {
+        NetworkDataFetch.shared.fetchRandomData(page: page) { result, error in
+            guard let result = result else { return }
+            self.randomData.append(contentsOf: result)
+            self.currentPage += 1
+            print(self.randomData.count)
+            DispatchQueue.main.async {
+                self.imagesCollectionView.reloadData()
+            }
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
 // MARK: - UICollectionViewDataSource
 extension MainCollectionViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imagesData.count
+        return randomData.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionViewCell
-        let imageInfo = imagesData[indexPath.row]
+        let imageInfo = randomData[indexPath.row]
+        cell.configureImagesCell(imageInfo: imageInfo)
         return cell
     }
 }

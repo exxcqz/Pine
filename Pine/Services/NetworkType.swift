@@ -45,6 +45,7 @@ enum NetworkType {
             return request
         case .getRandomImage:
             request.httpMethod = "GET"
+            print(request.url)
             return request
         }
     }

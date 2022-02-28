@@ -14,8 +14,6 @@ class DetailImageViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.backgroundColor = .black
         imageView.translatesAutoresizingMaskIntoConstraints = false
-
-        imageView.image = UIImage(named: "test")
         return imageView
     }()
 
@@ -39,7 +37,7 @@ class DetailImageViewController: UIViewController {
 
     private let shareButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "icShareWhite"), for: .normal)
+        button.setImage(UIImage(named: Icons.icShareWhite), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -56,6 +54,7 @@ class DetailImageViewController: UIViewController {
         super.viewDidLoad()
         setViews()
         setConstraint()
+        changeNavigationBar()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -63,12 +62,45 @@ class DetailImageViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .black
     }
 
-    func setViews() {
+    private func setViews() {
+        view.backgroundColor = .black
         view.addSubview(imageView)
         view.addSubview(firstNameLabel)
         view.addSubview(lastNameLabel)
         view.addSubview(transparentRectangleView)
         view.addSubview(shareButton)
+    }
+
+    private func changeNavigationBar() {
+        navigationController?.navigationBar.backIndicatorImage = UIImage(named: Icons.icBack)
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.tintColor = .white
+    }
+
+    func setImage(imageInfo: ImageData) {
+        let url = imageInfo.urls.regular
+        NetworkDataFetch.shared.fetchImage(urlImage: url) { image in
+            self.imageView.image = image
+            self.firstNameLabel.text = imageInfo.user?.firstName
+            self.lastNameLabel.text = imageInfo.user?.lastName
+            let widthView = self.view.bounds.width
+            let scale = widthView / CGFloat(imageInfo.width)
+            if imageInfo.width < imageInfo.height {
+                self.imageView.heightAnchor.constraint(
+                    equalToConstant: CGFloat(imageInfo.height) * scale
+                ).isActive = true
+                self.imageView.widthAnchor.constraint(
+                    equalToConstant: widthView
+                ).isActive = true
+            } else {
+                self.imageView.heightAnchor.constraint(
+                    equalToConstant: CGFloat(imageInfo.height) * scale
+                ).isActive = true
+                self.imageView.widthAnchor.constraint(
+                    equalToConstant: widthView
+                ).isActive = true
+            }
+        }
     }
 }
 

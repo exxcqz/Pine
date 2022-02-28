@@ -32,14 +32,14 @@ class NetworkDataFetch {
         }
     }
 
-    func fetchRandomData(page: Int, response: @escaping ([RandomImage]?, Error?) -> Void) {
+    func fetchRandomData(page: Int, response: @escaping ([ImageData]?, Error?) -> Void) {
         NetworkRequest.shared.requestData(
             request: NetworkType.getRandomImage(page: page).request
         ) { result in
             switch result {
             case .success(let data):
                 do {
-                    let randomImageResult = try JSONDecoder().decode([RandomImage].self, from: data)
+                    let randomImageResult = try JSONDecoder().decode([ImageData].self, from: data)
                     response(randomImageResult, nil)
                 } catch let jsonError {
                     print("Failed decode JSON", jsonError.localizedDescription)

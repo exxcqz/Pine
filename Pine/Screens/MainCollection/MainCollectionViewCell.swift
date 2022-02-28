@@ -14,8 +14,6 @@ class MainCollectionViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.backgroundColor = .black
         imageView.translatesAutoresizingMaskIntoConstraints = false
-
-        imageView.image = UIImage(named: "test")
         return imageView
     }()
 
@@ -29,7 +27,6 @@ class MainCollectionViewCell: UICollectionViewCell {
 
     private let firstNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Hello"
         label.font = .proTextFontMedium(ofSize: 14)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +36,6 @@ class MainCollectionViewCell: UICollectionViewCell {
     private let lastNameLabel: UILabel = {
         let label = UILabel()
         label.font = .proTextFontMedium(ofSize: 14)
-        label.text = "World"
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,7 +43,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 
     private let shareButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "icShareLight"), for: .normal)
+        button.setImage(UIImage(named: Icons.icShareLight), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -68,12 +64,12 @@ class MainCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureImagesCell(imageInfo: RandomImage) {
-        imageView.image = UIImage(named: "test1")
+    func configureImagesCell(imageInfo: ImageData) {
+        imageView.image = nil
         if let task = task {
             task.cancel()
         }
-        guard let url = URL(string: imageInfo.urls.small) else { return }
+        guard let url = URL(string: imageInfo.urls.regular) else { return }
         if let imageFromCache = CacheManager.cache.object(forKey: url.absoluteString as AnyObject) as? UIImage {
             self.imageView.image = imageFromCache
             return

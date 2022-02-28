@@ -21,11 +21,10 @@ class MainCollectionViewController: UIViewController {
         return collectionView
     }()
 
-    private var imagesData = [ImageInfo]()
-    private var randomData = [RandomImage]()
+    private var imagesData = [ImageData]()
     private var query = ""
     private var currentPage = 1
-    private var totalPage = 1
+    private var totalPage = 50
     private let scaleWidth = UIScreen.main.bounds.size.width / 375
 
     override func viewDidLoad() {
@@ -37,6 +36,11 @@ class MainCollectionViewController: UIViewController {
         setupSearchController()
         CacheManager.cache.removeAllObjects()
         fetchRandomData(page: 1)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.barStyle = .default
     }
 
     private func setupViews() {
@@ -58,8 +62,8 @@ class MainCollectionViewController: UIViewController {
     private func setupSearchController() {
         searchController.searchBar.placeholder = "Search"
         searchController.obscuresBackgroundDuringPresentation = false
-        let cancelImage = UIImage(named: "icCross")
-        let loupeImage = UIImage(named: "icLoupe")
+        let cancelImage = UIImage(named: Icons.icCross)
+        let loupeImage = UIImage(named: Icons.icLoupe)
         searchController.searchBar.setImage(cancelImage, for: .clear, state: .normal)
         searchController.searchBar.setImage(loupeImage, for: .search, state: .normal)
         searchController.searchBar.tintColor = .black
@@ -85,9 +89,8 @@ class MainCollectionViewController: UIViewController {
     private func fetchRandomData(page: Int) {
         NetworkDataFetch.shared.fetchRandomData(page: page) { result, error in
             guard let result = result else { return }
-            self.randomData.append(contentsOf: result)
+            self.imagesData.append(contentsOf: result)
             self.currentPage += 1
-            print(self.randomData.count)
             DispatchQueue.main.async {
                 self.imagesCollectionView.reloadData()
             }
@@ -102,14 +105,32 @@ class MainCollectionViewController: UIViewController {
 extension MainCollectionViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return randomData.count
+        return imagesData.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionViewCell
-        let imageInfo = randomData[indexPath.row]
+        let imageInfo = imagesData[indexPath.row]
         cell.configureImagesCell(imageInfo: imageInfo)
         return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension MainCollectionViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == imagesData.count - 1 && currentPage < totalPage {
+            fetchRandomData(page: currentPage)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let imageViewController = DetailImageViewController()
+        imageViewController.title = query
+        let imageInfo = imagesData[indexPath.row]
+        imageViewController.setImage(imageInfo: imageInfo)
+        navigationController?.pushViewController(imageViewController, animated: true)
     }
 }
 

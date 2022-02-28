@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct RandomImage: Codable {
-    let id: String?
-    let width: Int?
-    let height: Int?
+struct ImageData: Codable {
+    let id: String
+    let width: Int
+    let height: Int
     let urls: Urls
     let user: UserModel?
 }

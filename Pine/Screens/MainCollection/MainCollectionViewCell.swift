@@ -25,15 +25,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         return rectangle
     }()
 
-    private let firstNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .proTextFontMedium(ofSize: 14)
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let lastNameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .proTextFontMedium(ofSize: 14)
         label.textColor = .white
@@ -43,7 +35,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 
     private let shareButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: Icons.icShareLight), for: .normal)
+        button.setImage(UIImage(named: Icons.icShareWhite), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -54,8 +46,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         self.addSubview(imageView)
         imageView.addSubview(transparentRectangleView)
-        imageView.addSubview(firstNameLabel)
-        imageView.addSubview(lastNameLabel)
+        imageView.addSubview(nameLabel)
         imageView.addSubview(shareButton)
         setConstraints()
     }
@@ -84,8 +75,8 @@ class MainCollectionViewCell: UICollectionViewCell {
             CacheManager.cache.setObject(image, forKey: url.absoluteString as AnyObject)
             DispatchQueue.main.async {
                 self.imageView.image = image
-                self.firstNameLabel.text = imageInfo.user?.firstName
-                self.lastNameLabel.text = imageInfo.user?.lastName
+                let nameUser = "\(imageInfo.user?.firstName ?? "") \(imageInfo.user?.lastName ?? "")"
+                self.nameLabel.text = nameUser
             }
         }
         task?.resume()
@@ -107,23 +98,22 @@ extension MainCollectionViewCell {
             transparentRectangleView.leftAnchor.constraint(equalTo: self.imageView.leftAnchor, constant: 0),
             transparentRectangleView.rightAnchor.constraint(equalTo: self.imageView.rightAnchor, constant: 0),
             transparentRectangleView.bottomAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 0),
-            transparentRectangleView.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: -37)
+            transparentRectangleView.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: -44)
 
         ])
 
         NSLayoutConstraint.activate([
-            firstNameLabel.leftAnchor.constraint(equalTo: self.imageView.leftAnchor, constant: 12),
-            firstNameLabel.bottomAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: -8)
+            nameLabel.leftAnchor.constraint(equalTo: self.imageView.leftAnchor, constant: 16),
+            nameLabel.bottomAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: -14),
+            nameLabel.heightAnchor.constraint(equalToConstant: 16),
+            nameLabel.widthAnchor.constraint(equalToConstant: 315)
         ])
 
         NSLayoutConstraint.activate([
-            lastNameLabel.leftAnchor.constraint(equalTo: self.firstNameLabel.rightAnchor, constant: 5),
-            lastNameLabel.bottomAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: -8)
-        ])
-
-        NSLayoutConstraint.activate([
-            shareButton.rightAnchor.constraint(equalTo: self.imageView.rightAnchor, constant: -5),
-            shareButton.bottomAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: -2)
+            shareButton.widthAnchor.constraint(equalToConstant: 36),
+            shareButton.heightAnchor.constraint(equalToConstant: 36),
+            shareButton.rightAnchor.constraint(equalTo: self.imageView.rightAnchor, constant: -8),
+            shareButton.bottomAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: -4),
         ])
     }
 }

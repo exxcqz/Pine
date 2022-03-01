@@ -17,19 +17,9 @@ class DetailImageViewController: UIViewController {
         return imageView
     }()
 
-    private let firstNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Hello"
-        label.font = .proTextFontMedium(ofSize: 14)
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let lastNameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .proTextFontMedium(ofSize: 14)
-        label.text = "World"
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -65,8 +55,7 @@ class DetailImageViewController: UIViewController {
     private func setViews() {
         view.backgroundColor = .black
         view.addSubview(imageView)
-        view.addSubview(firstNameLabel)
-        view.addSubview(lastNameLabel)
+        view.addSubview(nameLabel)
         view.addSubview(transparentRectangleView)
         view.addSubview(shareButton)
     }
@@ -81,24 +70,32 @@ class DetailImageViewController: UIViewController {
         let url = imageInfo.urls.regular
         NetworkDataFetch.shared.fetchImage(urlImage: url) { image in
             self.imageView.image = image
-            self.firstNameLabel.text = imageInfo.user?.firstName
-            self.lastNameLabel.text = imageInfo.user?.lastName
+            let nameUser = "\(imageInfo.user?.firstName ?? "") \(imageInfo.user?.lastName ?? "")"
+            self.nameLabel.text = nameUser
             let widthView = self.view.bounds.width
             let scale = widthView / CGFloat(imageInfo.width)
             if imageInfo.width < imageInfo.height {
-                self.imageView.heightAnchor.constraint(
-                    equalToConstant: CGFloat(imageInfo.height) * scale
-                ).isActive = true
-                self.imageView.widthAnchor.constraint(
-                    equalToConstant: widthView
-                ).isActive = true
+                NSLayoutConstraint.activate([
+                    self.imageView.heightAnchor.constraint(
+                        equalToConstant: 690
+                    ),
+                    self.imageView.widthAnchor.constraint(
+                        equalToConstant: widthView
+                    ),
+                    self.imageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+                ])
+
             } else {
-                self.imageView.heightAnchor.constraint(
-                    equalToConstant: CGFloat(imageInfo.height) * scale
-                ).isActive = true
-                self.imageView.widthAnchor.constraint(
-                    equalToConstant: widthView
-                ).isActive = true
+                NSLayoutConstraint.activate([
+                    self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+                    self.imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                    self.imageView.heightAnchor.constraint(
+                        equalToConstant: CGFloat(imageInfo.height) * scale
+                    ),
+                    self.imageView.widthAnchor.constraint(
+                        equalToConstant: widthView
+                    )
+                ])
             }
         }
     }
@@ -109,30 +106,24 @@ extension DetailImageViewController {
 
     private func setConstraint() {
         NSLayoutConstraint.activate([
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
+            nameLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
+            nameLabel.heightAnchor.constraint(equalToConstant: 16),
+            nameLabel.widthAnchor.constraint(equalToConstant: 315)
         ])
 
         NSLayoutConstraint.activate([
-            firstNameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12),
-            firstNameLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
-        ])
-
-        NSLayoutConstraint.activate([
-            lastNameLabel.leftAnchor.constraint(equalTo: firstNameLabel.rightAnchor, constant: 5),
-            lastNameLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
-        ])
-
-        NSLayoutConstraint.activate([
-            shareButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -2)
+            shareButton.widthAnchor.constraint(equalToConstant: 36),
+            shareButton.heightAnchor.constraint(equalToConstant: 36),
+            shareButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -8),
+            shareButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
         ])
 
         NSLayoutConstraint.activate([
             transparentRectangleView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
             transparentRectangleView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
             transparentRectangleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            transparentRectangleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -37)
+            transparentRectangleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -44)
         ])
     }
 }

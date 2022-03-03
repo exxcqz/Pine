@@ -7,7 +7,18 @@
 
 import UIKit
 
-class MainCollectionViewController: UIViewController {
+protocol MainCollectionViewOutput: class {
+    func viewDidLoad()
+}
+
+protocol MainCollectionViewInput: class {
+    func update(with viewModel: MainCollectionViewModel, force: Bool, animated: Bool)
+}
+
+final class MainCollectionViewController: UIViewController {
+
+    weak var output: MainCollectionViewOutput?
+
     private let searchController = UISearchController(searchResultsController: nil)
     private var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -27,6 +38,15 @@ class MainCollectionViewController: UIViewController {
     private var totalPage = 50
     private let scaleWidth = UIScreen.main.bounds.size.width / 375
 
+    init(output: MainCollectionViewOutput?) {
+        super.init(nibName: nil, bundle: nil)
+        self.output = output
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+       super.init(coder: aDecoder)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -36,6 +56,7 @@ class MainCollectionViewController: UIViewController {
         setupSearchController()
         CacheManager.cache.removeAllObjects()
         fetchRandomData(page: 1)
+        imagesCollectionView.reloadData()
     }
 
     override func viewDidAppear(_ animated: Bool) {

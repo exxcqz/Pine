@@ -84,6 +84,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - SetConstraints
+
 extension MainCollectionViewCell {
 
     private func setConstraints() {

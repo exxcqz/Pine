@@ -17,14 +17,6 @@ class DetailImageViewController: UIViewController {
         return imageView
     }()
 
-    private let transparentRectangleView: UIView = {
-        let rectangle = UIView()
-        rectangle.backgroundColor = .black
-        rectangle.alpha = 0.2
-        rectangle.translatesAutoresizingMaskIntoConstraints = false
-        return rectangle
-    }()
-
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .proTextFontMedium(ofSize: 14)
@@ -39,7 +31,14 @@ class DetailImageViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    private let scaleWidth = UIScreen.main.bounds.size.width / 375
+
+    private let transparentRectangleView: UIView = {
+        let rectangle = UIView()
+        rectangle.backgroundColor = .black
+        rectangle.alpha = 0.2
+        rectangle.translatesAutoresizingMaskIntoConstraints = false
+        return rectangle
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +77,7 @@ class DetailImageViewController: UIViewController {
             if imageInfo.width < imageInfo.height {
                 NSLayoutConstraint.activate([
                     self.imageView.heightAnchor.constraint(
-                        equalToConstant: 690 * self.scaleWidth
+                        equalToConstant: 690
                     ),
                     self.imageView.widthAnchor.constraint(
                         equalToConstant: widthView
@@ -107,13 +106,6 @@ extension DetailImageViewController {
 
     private func setConstraint() {
         NSLayoutConstraint.activate([
-            transparentRectangleView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
-            transparentRectangleView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
-            transparentRectangleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            transparentRectangleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -44)
-        ])
-
-        NSLayoutConstraint.activate([
             nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
             nameLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
             nameLabel.heightAnchor.constraint(equalToConstant: 16),
@@ -125,6 +117,13 @@ extension DetailImageViewController {
             shareButton.heightAnchor.constraint(equalToConstant: 36),
             shareButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -8),
             shareButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
+        ])
+
+        NSLayoutConstraint.activate([
+            transparentRectangleView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
+            transparentRectangleView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
+            transparentRectangleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            transparentRectangleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -44)
         ])
     }
 }

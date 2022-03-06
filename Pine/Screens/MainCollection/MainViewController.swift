@@ -1,13 +1,25 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  Pine
 //
-//  Created by Nikita Gavrikov on 24.02.2022.
+//  Created by Nikita Gavrikov on 04.03.2022.
 //
 
 import UIKit
 
-class MainCollectionViewController: UIViewController {
+protocol MainViewInput: class {
+    func update(with viewModel: MainViewModel, force: Bool, animated: Bool)
+}
+
+protocol MainViewOutput: class {
+    func viewDidLoad()
+    func fetchData()
+}
+
+class MainViewController: UIViewController {
+    var viewModel: MainViewModel
+    weak var output: MainViewOutput?
+    
     private let searchController = UISearchController(searchResultsController: nil)
     private var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -21,11 +33,18 @@ class MainCollectionViewController: UIViewController {
         return collectionView
     }()
 
-    private var imagesData = [ImageData]()
-    private var query = ""
-    private var currentPage = 1
-    private var totalPage = 50
+    var cellViewModels: [MainCellViewModel] = []
     private let scaleWidth = UIScreen.main.bounds.size.width / 375
+
+    init(viewModel: MainViewModel, output: MainViewOutput?) {
+        self.viewModel = viewModel
+        self.output = output
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +53,7 @@ class MainCollectionViewController: UIViewController {
         setConstraints()
         setNavigationBar()
         setupSearchController()
-        CacheManager.cache.removeAllObjects()
-        fetchRandomData(page: 1)
+        output?.viewDidLoad()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -68,74 +86,48 @@ class MainCollectionViewController: UIViewController {
         searchController.searchBar.setImage(loupeImage, for: .search, state: .normal)
         searchController.searchBar.tintColor = .black
     }
-
-    private func fetchData(query: String, page: Int) {
-        NetworkDataFetch.shared.fetchSearchData(query: query, page: page) { searchResult, error in
-            if error == nil {
-                guard let searchResult = searchResult else { return }
-                self.imagesData.append(contentsOf: searchResult.results)
-                self.totalPage = searchResult.totalPages
-                if self.currentPage > self.totalPage { return }
-                self.currentPage += 1
-                DispatchQueue.main.async {
-                    self.imagesCollectionView.reloadData()
-                }
-            } else if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-    }
-
-    private func fetchRandomData(page: Int) {
-        NetworkDataFetch.shared.fetchRandomData(page: page) { result, error in
-            guard let result = result else { return }
-            self.imagesData.append(contentsOf: result)
-            self.currentPage += 1
-            DispatchQueue.main.async {
-                self.imagesCollectionView.reloadData()
-            }
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-    }
 }
 
 // MARK: - UICollectionViewDataSource
-extension MainCollectionViewController: UICollectionViewDataSource {
+
+extension MainViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imagesData.count
+        return cellViewModels.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionViewCell
-        let imageInfo = imagesData[indexPath.row]
-        cell.configureImagesCell(imageInfo: imageInfo)
+        let mainCellViewModel = cellViewModels[indexPath.row]
+        cell.configureImagesCell(imageInfo: mainCellViewModel.imageData)
         return cell
     }
 }
 
 // MARK: - UICollectionViewDelegate
-extension MainCollectionViewController: UICollectionViewDelegate {
+
+extension MainViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == imagesData.count - 1 && currentPage < totalPage {
-            fetchRandomData(page: currentPage)
+        print(indexPath.row)
+        if indexPath.row == cellViewModels.count - 1 && viewModel.currentPage < viewModel.totalPage {
+            print("выполняю")
+            output?.fetchData()
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let imageViewController = DetailImageViewController()
-        imageViewController.title = query
-        let imageInfo = imagesData[indexPath.row]
-        imageViewController.setImage(imageInfo: imageInfo)
+        let mainCellViewModel = cellViewModels[indexPath.row]
+        let imageData = mainCellViewModel.imageData
+        imageViewController.setImage(imageInfo: imageData)
         navigationController?.pushViewController(imageViewController, animated: true)
     }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension MainCollectionViewController: UICollectionViewDelegateFlowLayout {
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(
@@ -146,7 +138,8 @@ extension MainCollectionViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - UISearchBarDelegate
-extension MainCollectionViewController: UISearchBarDelegate {
+
+extension MainViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     }
@@ -155,8 +148,20 @@ extension MainCollectionViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: - MainViewInput
+
+extension MainViewController: MainViewInput {
+
+    func update(with viewModel: MainViewModel, force: Bool, animated: Bool) {
+        self.viewModel = viewModel
+        cellViewModels = viewModel.cellViewModels
+        imagesCollectionView.reloadData()
+    }
+}
+
 // MARK: - SetConstraints
-extension MainCollectionViewController {
+
+extension MainViewController {
 
     private func setConstraints() {
         NSLayoutConstraint.activate([
@@ -167,4 +172,3 @@ extension MainCollectionViewController {
         ])
     }
 }
-

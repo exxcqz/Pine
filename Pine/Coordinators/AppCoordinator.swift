@@ -2,7 +2,7 @@
 //  AppCoordinator.swift
 //  Pine
 //
-//  Created by Nikita Gavrikov on 02.03.2022.
+//  Created by Nikita Gavrikov on 04.03.2022.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ final class AppCoordinator: BaseCoordinator<UINavigationController> {
     var window: UIWindow?
 
     init() {
-        let module = MainCollectionModule()
+        let module = MainModule()
         super.init(rootViewController: UINavigationController(rootViewController: module.viewController))
     }
 
@@ -27,22 +27,21 @@ final class AppCoordinator: BaseCoordinator<UINavigationController> {
     //MARK: - Private
 
     private func showNextScreen() {
-        let module = MainCollectionModule()
+        let module = MainModule()
         rootViewController.pushViewController(module.viewController, animated: true)
     }
 
-    private func makeMainCollectionModule() -> MainCollectionModule {
-        let module = MainCollectionModule()
+    private func makeMainCollectionModule() -> MainModule {
+        let module = MainModule()
         return module
     }
 }
 
-extension AppCoordinator: MainCollectionModuleOutput {
+// MARK: - MainModuleOutput
 
-    func mainCollectionModuleClosed(_ moduleInput: MainCollectionModuleInput) {
-    }
-
-    func mainCollectionModuleShowNextScreenEventTriggered(_ moduleInput: MainCollectionModuleInput) {
+extension AppCoordinator: MainModuleOutput {
+    
+    func exampleModuleEventTriggered(_ moduleInput: MainModuleInput) {
         showNextScreen()
     }
 }

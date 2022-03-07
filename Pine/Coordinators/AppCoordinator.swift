@@ -9,39 +9,23 @@ import UIKit
 
 final class AppCoordinator: BaseCoordinator<UINavigationController> {
 
-    var window: UIWindow?
+    private var window: UIWindow?
 
     init() {
-        let module = MainModule()
-        super.init(rootViewController: UINavigationController(rootViewController: module.viewController))
+        let navigationController = UINavigationController()
+        super.init(rootViewController: navigationController)
     }
 
-    override func start() {
-        window = UIWindow()
+    func start(with scene: UIWindowScene) {
+        window = UIWindow(windowScene: scene)
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
-        let module = makeMainCollectionModule()
-        rootViewController.setViewControllers([module.viewController], animated: false)
+        startMainCoordinator()
     }
 
-    //MARK: - Private
-
-    private func showNextScreen() {
-        let module = MainModule()
-        rootViewController.pushViewController(module.viewController, animated: true)
-    }
-
-    private func makeMainCollectionModule() -> MainModule {
-        let module = MainModule()
-        return module
-    }
-}
-
-// MARK: - MainModuleOutput
-
-extension AppCoordinator: MainModuleOutput {
-    
-    func exampleModuleEventTriggered(_ moduleInput: MainModuleInput) {
-        showNextScreen()
+    private func startMainCoordinator() {
+        let coordinator = MainCoordinator(viewController: rootViewController)
+        append(child: coordinator)
+        coordinator.start()
     }
 }

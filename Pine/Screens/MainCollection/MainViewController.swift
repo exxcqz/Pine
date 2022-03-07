@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .blue
         collectionView.bounces = false
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.keyboardDismissMode = .onDrag

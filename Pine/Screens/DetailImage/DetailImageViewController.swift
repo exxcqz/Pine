@@ -77,7 +77,7 @@ class DetailImageViewController: UIViewController {
             if imageInfo.width < imageInfo.height {
                 NSLayoutConstraint.activate([
                     self.imageView.heightAnchor.constraint(
-                        equalToConstant: 690
+                        equalToConstant: 690 * Layout.scaleFactorW
                     ),
                     self.imageView.widthAnchor.constraint(
                         equalToConstant: widthView

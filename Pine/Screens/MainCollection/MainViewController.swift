@@ -18,25 +18,25 @@ protocol MainViewOutput: class {
 
 class MainViewController: UIViewController {
     var viewModel: MainViewModel
-    weak var output: MainViewOutput?
+    var output: MainViewOutput
     
     private let searchController = UISearchController(searchResultsController: nil)
     private var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .blue
+        collectionView.backgroundColor = .white
         collectionView.bounces = false
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(IndicatorViewCell.self, forCellWithReuseIdentifier: "indicator")
         collectionView.keyboardDismissMode = .onDrag
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
 
     var cellViewModels: [MainCellViewModel] = []
-    private let scaleWidth = UIScreen.main.bounds.size.width / 375
 
-    init(viewModel: MainViewModel, output: MainViewOutput?) {
+    init(viewModel: MainViewModel, output: MainViewOutput) {
         self.viewModel = viewModel
         self.output = output
         super.init(nibName: nil, bundle: nil)
@@ -53,7 +53,8 @@ class MainViewController: UIViewController {
         setConstraints()
         setNavigationBar()
         setupSearchController()
-        output?.viewDidLoad()
+        print(output)
+        output.viewDidLoad()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +87,15 @@ class MainViewController: UIViewController {
         searchController.searchBar.setImage(loupeImage, for: .search, state: .normal)
         searchController.searchBar.tintColor = .black
     }
+
+    private func createIndicator() -> UIView {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
+        let indicator = UIActivityIndicatorView()
+        indicator.center = view.center
+        view.addSubview(indicator)
+        indicator.startAnimating()
+        return view
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -93,14 +103,20 @@ class MainViewController: UIViewController {
 extension MainViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellViewModels.count
+        return (cellViewModels.count > 0) ? (cellViewModels.count + 1) : 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionViewCell
-        let mainCellViewModel = cellViewModels[indexPath.row]
-        cell.configureImagesCell(imageInfo: mainCellViewModel.imageData)
-        return cell
+        if indexPath.row != cellViewModels.count {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionViewCell
+            let mainCellViewModel = cellViewModels[indexPath.row]
+            cell.configureImagesCell(imageInfo: mainCellViewModel.imageData)
+            return cell
+        } else {
+            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "indicator", for: indexPath) as! IndicatorViewCell
+            indicatorCell.activityIndicator.startAnimating()
+            return indicatorCell
+        }
     }
 }
 
@@ -109,31 +125,46 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print(indexPath.row)
-        if indexPath.row == cellViewModels.count - 1 && viewModel.currentPage < viewModel.totalPage {
-            print("выполняю")
-            output?.fetchData()
+        if indexPath.row == cellViewModels.count && viewModel.currentPage < viewModel.totalPage {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.output.fetchData()
+            }
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageViewController = DetailImageViewController()
-        let mainCellViewModel = cellViewModels[indexPath.row]
-        let imageData = mainCellViewModel.imageData
-        imageViewController.setImage(imageInfo: imageData)
-        navigationController?.pushViewController(imageViewController, animated: true)
+        if indexPath.row != cellViewModels.count {
+            let imageViewController = DetailImageViewController()
+            let mainCellViewModel = cellViewModels[indexPath.row]
+            let imageData = mainCellViewModel.imageData
+            imageViewController.setImage(imageInfo: imageData)
+            navigationController?.pushViewController(imageViewController, animated: true)
+        }
     }
 }
+
+//// MARK: - UIScrollViewDelegate
+//
+//extension MainViewController: UIScrollViewDelegate {
+//
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let offset = scrollView.contentOffset.y
+//        let contentHeight = scrollView.contentSize.height
+//        print(offset, contentHeight, scrollView.frame.height)
+//        if offset > (contentHeight - scrollView.frame.height - 200) && viewModel.currentPage < viewModel.totalPage {
+//            output.fetchData()
+//        }
+//    }
+//}
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(
-            width: view.bounds.width,
-            height: 240
-        )
+        let size = imagesCollectionView.frame.size
+        let cellHeight = (indexPath.row == cellViewModels.count && viewModel.currentPage < viewModel.totalPage) ? 50 : 240
+        return CGSize(width: size.width , height: CGFloat(cellHeight) * Layout.scaleFactorW)
     }
 }
 
@@ -164,11 +195,6 @@ extension MainViewController: MainViewInput {
 extension MainViewController {
 
     private func setConstraints() {
-        NSLayoutConstraint.activate([
-            imagesCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            imagesCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
-            imagesCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
-            imagesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
-        ])
+        imagesCollectionView.frame = view.bounds
     }
 }

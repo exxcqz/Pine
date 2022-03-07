@@ -35,6 +35,8 @@
 		119AABA127CB82E70085094C /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119AABA027CB82E70085094C /* ImageData.swift */; };
 		119AABA327CB88450085094C /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119AABA227CB88450085094C /* CacheManager.swift */; };
 		11B2C82627D62A40009BBB3E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B2C82527D62A40009BBB3E /* MainCoordinator.swift */; };
+		11B2C82A27D65D36009BBB3E /* IndicatorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B2C82927D65D36009BBB3E /* IndicatorViewCell.swift */; };
+		11B2C82D27D66D35009BBB3E /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B2C82C27D66D35009BBB3E /* Layout.swift */; };
 		11BB5D0227CCC05C00905191 /* DetailImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119AAB8F27CB77F60085094C /* DetailImageViewController.swift */; };
 		11BB5D0627CCCF8600905191 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BB5D0527CCCF8600905191 /* Strings.swift */; };
 		11ECCC4F27C73346003DE888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECCC4E27C73346003DE888 /* AppDelegate.swift */; };
@@ -72,6 +74,8 @@
 		119AABA027CB82E70085094C /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		119AABA227CB88450085094C /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		11B2C82527D62A40009BBB3E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		11B2C82927D65D36009BBB3E /* IndicatorViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorViewCell.swift; sourceTree = "<group>"; };
+		11B2C82C27D66D35009BBB3E /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		11BB5D0527CCCF8600905191 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		11ECCC4B27C73346003DE888 /* Pine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11ECCC4E27C73346003DE888 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,9 +114,9 @@
 		11265D3827C90A3E001A47F8 /* MainCollection */ = {
 			isa = PBXGroup;
 			children = (
+				11B2C82B27D66895009BBB3E /* Cell */,
 				116002D127D4B6C7004D0093 /* MainCollectionViewController.swift */,
 				116B0F6827D218BE00C85225 /* MainViewController.swift */,
-				11265D3927C90A4B001A47F8 /* MainCollectionViewCell.swift */,
 				116B0F6A27D2192300C85225 /* MainPresenter.swift */,
 				116B0F6C27D2199800C85225 /* MainModule.swift */,
 				116B0F6E27D219C200C85225 /* MainState.swift */,
@@ -161,6 +165,15 @@
 				119AABA027CB82E70085094C /* ImageData.swift */,
 			);
 			path = SearchImage;
+			sourceTree = "<group>";
+		};
+		11B2C82B27D66895009BBB3E /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				11265D3927C90A4B001A47F8 /* MainCollectionViewCell.swift */,
+				11B2C82927D65D36009BBB3E /* IndicatorViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		11BB5D0427CCC07B00905191 /* DetailImage */ = {
@@ -228,6 +241,7 @@
 				11ECCC5727C73349003DE888 /* Assets.xcassets */,
 				11265D3627C8D38A001A47F8 /* Fonts.swift */,
 				11BB5D0527CCCF8600905191 /* Strings.swift */,
+				11B2C82C27D66D35009BBB3E /* Layout.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -328,7 +342,9 @@
 				119AABA127CB82E70085094C /* ImageData.swift in Sources */,
 				116B0F6927D218BE00C85225 /* MainViewController.swift in Sources */,
 				116002D427D4B7E7004D0093 /* MainCellViewModel.swift in Sources */,
+				11B2C82A27D65D36009BBB3E /* IndicatorViewCell.swift in Sources */,
 				11BB5D0627CCCF8600905191 /* Strings.swift in Sources */,
+				11B2C82D27D66D35009BBB3E /* Layout.swift in Sources */,
 				11B2C82627D62A40009BBB3E /* MainCoordinator.swift in Sources */,
 				119AAB9B27CB7FC60085094C /* ImageInfo.swift in Sources */,
 				11265D3727C8D38A001A47F8 /* Fonts.swift in Sources */,

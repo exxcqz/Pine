@@ -8,8 +8,8 @@
 import UIKit
 
 final class MainState {
-    var imagesData = [ImageData]()
-    var query = ""
-    var currentPage = 1
-    var totalPage = 50
+    var imagesData: [ImageData] = []
+    var query: String = ""
+    var currentPage: Int = 1
+    var totalPage: Int = 50
 }

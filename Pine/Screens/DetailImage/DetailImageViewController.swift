@@ -6,8 +6,18 @@
 //
 
 import UIKit
+protocol DetailImageViewInput: class {
+    func update(with viewModel: DetailImageViewModel, force: Bool, animated: Bool)
+}
+
+protocol DetailImageViewOutput: class {
+    func viewDidLoad()
+}
 
 class DetailImageViewController: UIViewController {
+    var viewModel: DetailImageViewModel
+    var output: DetailImageViewOutput
+
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -40,11 +50,22 @@ class DetailImageViewController: UIViewController {
         return rectangle
     }()
 
+    init(viewModel: DetailImageViewModel, output: DetailImageViewOutput) {
+        self.viewModel = viewModel
+        self.output = output
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setViews()
         setConstraint()
         changeNavigationBar()
+        output.viewDidLoad()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -66,42 +87,54 @@ class DetailImageViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
     }
 
-    func setImage(imageInfo: ImageData) {
-        let url = imageInfo.urls.regular
-        NetworkDataFetch.shared.fetchImage(urlImage: url) { image in
-            self.imageView.image = image
-            let nameUser = "\(imageInfo.user?.firstName ?? "") \(imageInfo.user?.lastName ?? "")"
-            self.nameLabel.text = nameUser
-            let widthView = self.view.bounds.width
-            let scale = widthView / CGFloat(imageInfo.width)
-            if imageInfo.width < imageInfo.height {
-                NSLayoutConstraint.activate([
-                    self.imageView.heightAnchor.constraint(
-                        equalToConstant: 690 * Layout.scaleFactorW
-                    ),
-                    self.imageView.widthAnchor.constraint(
-                        equalToConstant: widthView
-                    ),
-                    self.imageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-                ])
+    private func setImage() {
+        guard let image = viewModel.image,
+              let imageData = viewModel.imageData
+        else {
+            return
+        }
 
-            } else {
-                NSLayoutConstraint.activate([
-                    self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-                    self.imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-                    self.imageView.heightAnchor.constraint(
-                        equalToConstant: CGFloat(imageInfo.height) * scale
-                    ),
-                    self.imageView.widthAnchor.constraint(
-                        equalToConstant: widthView
-                    )
-                ])
-            }
+        self.imageView.image = image
+        self.nameLabel.text = viewModel.nameUser
+        let widthView = self.view.bounds.width
+        let scale = widthView / CGFloat(imageData.width)
+        if imageData.width < imageData.height {
+            NSLayoutConstraint.activate([
+                self.imageView.heightAnchor.constraint(
+                    equalToConstant: 690 * Layout.scaleFactorW
+                ),
+                self.imageView.widthAnchor.constraint(
+                    equalToConstant: widthView
+                ),
+                self.imageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+                self.imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                self.imageView.heightAnchor.constraint(
+                    equalToConstant: CGFloat(imageData.height) * scale
+                ),
+                self.imageView.widthAnchor.constraint(
+                    equalToConstant: widthView
+                )
+            ])
         }
     }
 }
 
+// MARK: - DetailImageViewInput
+
+extension DetailImageViewController: DetailImageViewInput {
+    
+    func update(with viewModel: DetailImageViewModel, force: Bool, animated: Bool) {
+        self.viewModel = viewModel
+        setImage()
+    }
+}
+
 // MARK: - SetConstraint
+
 extension DetailImageViewController {
 
     private func setConstraint() {

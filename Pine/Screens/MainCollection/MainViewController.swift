@@ -12,8 +12,8 @@ protocol MainViewInput: class {
 }
 
 protocol MainViewOutput: class {
-    func viewDidLoad()
     func fetchData()
+    func nextDetailImageScreen(imageData: ImageData)
 }
 
 class MainViewController: UIViewController {
@@ -53,8 +53,7 @@ class MainViewController: UIViewController {
         setConstraints()
         setNavigationBar()
         setupSearchController()
-        print(output)
-        output.viewDidLoad()
+        output.fetchData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -134,11 +133,15 @@ extension MainViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row != cellViewModels.count {
-            let imageViewController = DetailImageViewController()
+//            let imageViewController = DetailImageViewController()
+//            let mainCellViewModel = cellViewModels[indexPath.row]
+//            let imageData = mainCellViewModel.imageData
+//            imageViewController.setImage(imageInfo: imageData)
+//            navigationController?.pushViewController(imageViewController, animated: true)
+
             let mainCellViewModel = cellViewModels[indexPath.row]
             let imageData = mainCellViewModel.imageData
-            imageViewController.setImage(imageInfo: imageData)
-            navigationController?.pushViewController(imageViewController, animated: true)
+            output.nextDetailImageScreen(imageData: imageData)
         }
     }
 }
@@ -151,7 +154,7 @@ extension MainViewController: UICollectionViewDelegate {
 //        let offset = scrollView.contentOffset.y
 //        let contentHeight = scrollView.contentSize.height
 //        print(offset, contentHeight, scrollView.frame.height)
-//        if offset > (contentHeight - scrollView.frame.height - 200) && viewModel.currentPage < viewModel.totalPage {
+//        if offset > (contentHeight - scrollView.frame.height) && viewModel.currentPage < viewModel.totalPage {
 //            output.fetchData()
 //        }
 //    }

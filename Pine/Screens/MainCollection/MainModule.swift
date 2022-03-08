@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainModuleOutput {
-    func exampleModuleEventTriggered(_ moduleInput: MainModuleInput)
+    func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData)
 }
 
 protocol MainModuleInput: class {

@@ -36,16 +36,14 @@ final class MainPresenter {
 
 extension MainPresenter: MainViewOutput {
 
-    func viewDidLoad() {
-        print("обновляю оутпут")
-        update(force: true, animated: false)
-        fetchRandomData()
-    }
-    
     func fetchData() {
         print("обновляю оутпут")
         update(force: true, animated: false)
         fetchRandomData()
+    }
+
+    func nextDetailImageScreen(imageData: ImageData) {
+        output?.mainCellTappedEventTriggered(self, imageData: imageData)
     }
 }
 

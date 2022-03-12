@@ -8,6 +8,7 @@
 import Foundation
 
 final class MainViewModel {
+    var imagesData: [ImageData]
     var cellViewModels: [MainCellViewModel]
     var query: String
     var currentPage: Int
@@ -18,5 +19,6 @@ final class MainViewModel {
         self.query = state.query
         self.currentPage = state.currentPage
         self.totalPage = state.totalPage
+        self.imagesData = state.imagesData
     }
 }

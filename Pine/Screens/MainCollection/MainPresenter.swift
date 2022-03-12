@@ -37,7 +37,6 @@ final class MainPresenter {
 extension MainPresenter: MainViewOutput {
 
     func fetchData() {
-        print("обновляю оутпут")
         update(force: true, animated: false)
         fetchRandomData()
     }
@@ -53,7 +52,6 @@ extension MainPresenter: MainModuleInput {
 
     func update(force: Bool, animated: Bool) {
         let viewModel = MainViewModel(state: state, mainCellViewModelsFactory: mainCellViewModelsFactory)
-        print("обновляю в презенторе")
         view?.update(with: viewModel, force: force, animated: animated)
     }
 }

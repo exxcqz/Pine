@@ -10,10 +10,15 @@ import Foundation
 class NetworkRequest {
     static let shared = NetworkRequest()
 
+    private var task: URLSessionDataTask?
+
     private init() {}
 
     func requestData(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        if let task = task {
+            task.cancel()
+        }
+        task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
                     completion(.failure(error))
@@ -22,6 +27,7 @@ class NetworkRequest {
                 guard let data = data else { return }
                 completion(.success(data))
             }
-        }.resume()
+        }
+        task?.resume()
     }
 }

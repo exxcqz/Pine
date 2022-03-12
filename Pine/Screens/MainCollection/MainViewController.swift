@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CollectionViewTools
 
 protocol MainViewInput: class {
     func update(with viewModel: MainViewModel, force: Bool, animated: Bool)
@@ -17,6 +18,8 @@ protocol MainViewOutput: class {
 }
 
 class MainViewController: UIViewController {
+    lazy var mainViewManager: CollectionViewManager = .init(collectionView: imagesCollectionView)
+
     var viewModel: MainViewModel
     var output: MainViewOutput
     
@@ -28,13 +31,13 @@ class MainViewController: UIViewController {
         collectionView.backgroundColor = .white
         collectionView.bounces = false
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.register(IndicatorViewCell.self, forCellWithReuseIdentifier: "indicator")
+        collectionView.register(MainIndicatorViewCell.self, forCellWithReuseIdentifier: "indicator")
         collectionView.keyboardDismissMode = .onDrag
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
 
-    var cellViewModels: [MainCellViewModel] = []
+//    var cellViewModels: [MainCellViewModel] = []
 
     init(viewModel: MainViewModel, output: MainViewOutput) {
         self.viewModel = viewModel
@@ -53,7 +56,9 @@ class MainViewController: UIViewController {
         setConstraints()
         setNavigationBar()
         setupSearchController()
-        output.fetchData()
+
+        resetMainCollection(imagesData: viewModel.imagesData)
+        mainViewManager.sectionItems = [makeMainSectionItem(imagesData: viewModel.imagesData)]
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -67,8 +72,9 @@ class MainViewController: UIViewController {
     }
 
     private func setDelegate() {
-        imagesCollectionView.delegate = self
-        imagesCollectionView.dataSource = self
+        //        imagesCollectionView.delegate = self
+        //        imagesCollectionView.dataSource = self
+        mainViewManager.scrollDelegate = self
         searchController.searchBar.delegate = self
     }
 
@@ -87,89 +93,110 @@ class MainViewController: UIViewController {
         searchController.searchBar.tintColor = .black
     }
 
-    private func createIndicator() -> UIView {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
-        let indicator = UIActivityIndicatorView()
-        indicator.center = view.center
-        view.addSubview(indicator)
-        indicator.startAnimating()
-        return view
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension MainViewController: UICollectionViewDataSource {
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (cellViewModels.count > 0) ? (cellViewModels.count + 1) : 0
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row != cellViewModels.count {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionViewCell
-            let mainCellViewModel = cellViewModels[indexPath.row]
-            cell.configureImagesCell(imageInfo: mainCellViewModel.imageData)
-            return cell
-        } else {
-            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "indicator", for: indexPath) as! IndicatorViewCell
-            indicatorCell.activityIndicator.startAnimating()
-            return indicatorCell
+    private func resetMainCollection(imagesData: [ImageData]) {
+        mainViewManager.update([makeMainSectionItem(imagesData: imagesData)], shouldReloadData: true) {
+            print("Reload complete")
         }
     }
+
+    // MARK: - Factory methods
+
+    func makeMainSectionItem(imagesData: [ImageData]) -> CollectionViewSectionItem {
+        let sectionItem = MainSectionItem()
+        var cellItems: [CollectionViewCellItem] = imagesData.map { imageData in
+            makeCellItem(imageData: imageData)
+        }
+        cellItems.append(makeIndicatorCellItem())
+        sectionItem.cellItems = cellItems
+        sectionItem.minimumLineSpacing = 4
+        return sectionItem
+    }
+
+    private func makeCellItem(imageData: ImageData) -> MainViewCellItem {
+        let cellItem = MainViewCellItem(imageData: imageData)
+        return cellItem
+    }
+
+    private func makeIndicatorCellItem() -> MainIndicatorViewCellItem {
+        let cellItem = MainIndicatorViewCellItem()
+        return cellItem
+    }
 }
 
-// MARK: - UICollectionViewDelegate
+//// MARK: - UICollectionViewDataSource
+//
+//extension MainViewController: UICollectionViewDataSource {
+//
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return (cellViewModels.count > 0) ? (cellViewModels.count + 1) : 0
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        if indexPath.row != cellViewModels.count {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionViewCell
+//            let mainCellViewModel = cellViewModels[indexPath.row]
+//            cell.configureImagesCell(imageInfo: mainCellViewModel.imageData)
+//            return cell
+//        } else {
+//            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "indicator", for: indexPath) as! IndicatorViewCell
+//            indicatorCell.activityIndicator.startAnimating()
+//            return indicatorCell
+//        }
+//    }
+//}
 
-extension MainViewController: UICollectionViewDelegate {
+//// MARK: - UICollectionViewDelegate
+//
+//extension MainViewController: UICollectionViewDelegate {
+//
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if indexPath.row == cellViewModels.count && viewModel.currentPage < viewModel.totalPage {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                self.output.fetchData()
+//            }
+//        }
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if indexPath.row != cellViewModels.count {
+//            //            let imageViewController = DetailImageViewController()
+//            //            let mainCellViewModel = cellViewModels[indexPath.row]
+//            //            let imageData = mainCellViewModel.imageData
+//            //            imageViewController.setImage(imageInfo: imageData)
+//            //            navigationController?.pushViewController(imageViewController, animated: true)
+//
+//            let mainCellViewModel = cellViewModels[indexPath.row]
+//            let imageData = mainCellViewModel.imageData
+//            output.nextDetailImageScreen(imageData: imageData)
+//        }
+//    }
+//}
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == cellViewModels.count && viewModel.currentPage < viewModel.totalPage {
+// MARK: - UIScrollViewDelegate
+
+extension MainViewController: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        if offset > (contentHeight - scrollView.frame.height) && viewModel.currentPage < viewModel.totalPage {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.output.fetchData()
             }
         }
     }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row != cellViewModels.count {
-//            let imageViewController = DetailImageViewController()
-//            let mainCellViewModel = cellViewModels[indexPath.row]
-//            let imageData = mainCellViewModel.imageData
-//            imageViewController.setImage(imageInfo: imageData)
-//            navigationController?.pushViewController(imageViewController, animated: true)
-
-            let mainCellViewModel = cellViewModels[indexPath.row]
-            let imageData = mainCellViewModel.imageData
-            output.nextDetailImageScreen(imageData: imageData)
-        }
-    }
 }
 
-//// MARK: - UIScrollViewDelegate
+//// MARK: - UICollectionViewDelegateFlowLayout
 //
-//extension MainViewController: UIScrollViewDelegate {
+//extension MainViewController: UICollectionViewDelegateFlowLayout {
 //
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let offset = scrollView.contentOffset.y
-//        let contentHeight = scrollView.contentSize.height
-//        print(offset, contentHeight, scrollView.frame.height)
-//        if offset > (contentHeight - scrollView.frame.height) && viewModel.currentPage < viewModel.totalPage {
-//            output.fetchData()
-//        }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let size = imagesCollectionView.frame.size
+//        let cellHeight = (indexPath.row == cellViewModels.count && viewModel.currentPage < viewModel.totalPage) ? 50 : 240
+//        return CGSize(width: size.width , height: CGFloat(cellHeight) * Layout.scaleFactorW)
 //    }
 //}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension MainViewController: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = imagesCollectionView.frame.size
-        let cellHeight = (indexPath.row == cellViewModels.count && viewModel.currentPage < viewModel.totalPage) ? 50 : 240
-        return CGSize(width: size.width , height: CGFloat(cellHeight) * Layout.scaleFactorW)
-    }
-}
 
 // MARK: - UISearchBarDelegate
 
@@ -188,8 +215,8 @@ extension MainViewController: MainViewInput {
 
     func update(with viewModel: MainViewModel, force: Bool, animated: Bool) {
         self.viewModel = viewModel
-        cellViewModels = viewModel.cellViewModels
-        imagesCollectionView.reloadData()
+//        cellViewModels = viewModel.cellViewModels
+        resetMainCollection(imagesData: viewModel.imagesData)
     }
 }
 

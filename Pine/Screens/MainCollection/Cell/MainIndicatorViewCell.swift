@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainIndicatorViewCell: UICollectionViewCell {
+final class MainIndicatorViewCell: UICollectionViewCell {
     var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.frame = CGRect(x: 0, y: 0, width: 24, height: 24)

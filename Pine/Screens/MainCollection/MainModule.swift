@@ -31,9 +31,8 @@ final class MainModule {
     }
 
     init(state: MainState = .init()) {
-        let mainCellViewModelsFactory = MainCellViewModelsFactory()
-        let viewModel = MainViewModel(state: state, mainCellViewModelsFactory: mainCellViewModelsFactory)
-        let presenter = MainPresenter(state: state, mainCellViewModelsFactory: mainCellViewModelsFactory)
+        let viewModel = MainViewModel(state: state)
+        let presenter = MainPresenter(state: state)
         let viewController = MainViewController(viewModel: viewModel, output: presenter)
         presenter.view = viewController
         self.presenter = presenter

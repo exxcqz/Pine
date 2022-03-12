@@ -30,14 +30,12 @@ class MainViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
         collectionView.bounces = false
-        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.register(MainIndicatorViewCell.self, forCellWithReuseIdentifier: "indicator")
         collectionView.keyboardDismissMode = .onDrag
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-
-//    var cellViewModels: [MainCellViewModel] = []
 
     init(viewModel: MainViewModel, output: MainViewOutput) {
         self.viewModel = viewModel
@@ -72,8 +70,6 @@ class MainViewController: UIViewController {
     }
 
     private func setDelegate() {
-        //        imagesCollectionView.delegate = self
-        //        imagesCollectionView.dataSource = self
         mainViewManager.scrollDelegate = self
         searchController.searchBar.delegate = self
     }
@@ -123,28 +119,6 @@ class MainViewController: UIViewController {
     }
 }
 
-//// MARK: - UICollectionViewDataSource
-//
-//extension MainViewController: UICollectionViewDataSource {
-//
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return (cellViewModels.count > 0) ? (cellViewModels.count + 1) : 0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        if indexPath.row != cellViewModels.count {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MainCollectionViewCell
-//            let mainCellViewModel = cellViewModels[indexPath.row]
-//            cell.configureImagesCell(imageInfo: mainCellViewModel.imageData)
-//            return cell
-//        } else {
-//            let indicatorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "indicator", for: indexPath) as! IndicatorViewCell
-//            indicatorCell.activityIndicator.startAnimating()
-//            return indicatorCell
-//        }
-//    }
-//}
-
 //// MARK: - UICollectionViewDelegate
 //
 //extension MainViewController: UICollectionViewDelegate {
@@ -187,17 +161,6 @@ extension MainViewController: UIScrollViewDelegate {
     }
 }
 
-//// MARK: - UICollectionViewDelegateFlowLayout
-//
-//extension MainViewController: UICollectionViewDelegateFlowLayout {
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let size = imagesCollectionView.frame.size
-//        let cellHeight = (indexPath.row == cellViewModels.count && viewModel.currentPage < viewModel.totalPage) ? 50 : 240
-//        return CGSize(width: size.width , height: CGFloat(cellHeight) * Layout.scaleFactorW)
-//    }
-//}
-
 // MARK: - UISearchBarDelegate
 
 extension MainViewController: UISearchBarDelegate {
@@ -215,7 +178,6 @@ extension MainViewController: MainViewInput {
 
     func update(with viewModel: MainViewModel, force: Bool, animated: Bool) {
         self.viewModel = viewModel
-//        cellViewModels = viewModel.cellViewModels
         resetMainCollection(imagesData: viewModel.imagesData)
     }
 }

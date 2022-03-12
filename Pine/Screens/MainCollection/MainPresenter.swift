@@ -11,11 +11,9 @@ final class MainPresenter {
     weak var view: MainViewInput?
     var output: MainModuleOutput?
     var state: MainState
-    let mainCellViewModelsFactory: MainCellViewModelsFactory
 
-    init(state: MainState, mainCellViewModelsFactory: MainCellViewModelsFactory) {
+    init(state: MainState) {
         self.state = state
-        self.mainCellViewModelsFactory = mainCellViewModelsFactory
     }
 
     func fetchRandomData() {
@@ -51,7 +49,7 @@ extension MainPresenter: MainViewOutput {
 extension MainPresenter: MainModuleInput {
 
     func update(force: Bool, animated: Bool) {
-        let viewModel = MainViewModel(state: state, mainCellViewModelsFactory: mainCellViewModelsFactory)
+        let viewModel = MainViewModel(state: state)
         view?.update(with: viewModel, force: force, animated: animated)
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import CollectionViewTools
 
-class MainIndicatorViewCellItem: CollectionViewCellItem {
+final class MainIndicatorViewCellItem: CollectionViewCellItem {
 
     typealias Cell = MainIndicatorViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)

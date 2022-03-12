@@ -8,9 +8,9 @@
 import UIKit
 import CollectionViewTools
 
-class MainViewCellItem: CollectionViewCellItem {
+final class MainViewCellItem: CollectionViewCellItem {
 
-    typealias Cell = MainCollectionViewCell
+    typealias Cell = MainViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
 
     private let imageData: ImageData

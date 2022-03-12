@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainCollectionViewCell: UICollectionViewCell {
+class MainViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -85,7 +85,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 
 // MARK: - SetConstraints
 
-extension MainCollectionViewCell {
+extension MainViewCell {
 
     private func setConstraints() {
         NSLayoutConstraint.activate([

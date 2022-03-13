@@ -8,24 +8,25 @@
 import Foundation
 
 final class MainPresenter {
+
+    typealias Dependencies = HasMainService
+
     weak var view: MainViewInput?
     var output: MainModuleOutput?
     var state: MainState
+    private let dependencies: Dependencies
 
-    init(state: MainState) {
+    init(state: MainState, dependencies: Dependencies) {
         self.state = state
+        self.dependencies = dependencies
     }
 
-    func fetchRandomData() {
-        NetworkDataFetch.shared.fetchRandomData(page: state.currentPage) { result, error in
-            guard let result = result else { return }
-            self.state.imagesData.append(contentsOf: result)
-            self.state.currentPage += 1
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            self.update(force: false, animated: true)
-            print("страница", self.state.currentPage)
+    private func fetchRandomData() {
+        dependencies.mainService.fetchRandomData(page: state.currentPage) { [weak self] imagesData in
+            self?.state.imagesData.append(contentsOf: imagesData)
+            self?.state.currentPage += 1
+            self?.update(force: false, animated: true)
+            print("страница", self?.state.currentPage)
         }
     }
 }

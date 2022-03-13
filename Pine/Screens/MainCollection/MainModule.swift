@@ -32,7 +32,7 @@ final class MainModule {
 
     init(state: MainState = .init()) {
         let viewModel = MainViewModel(state: state)
-        let presenter = MainPresenter(state: state)
+        let presenter = MainPresenter(state: state, dependencies: Services)
         let viewController = MainViewController(viewModel: viewModel, output: presenter)
         presenter.view = viewController
         self.presenter = presenter

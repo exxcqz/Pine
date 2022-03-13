@@ -27,6 +27,9 @@ final class MainViewCellItem: CollectionViewCellItem {
     }
 
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
-        return CGSize(width: 375, height: 240)
+        return CGSize(
+            width: 375 * Layout.scaleFactorW,
+            height: 240 * Layout.scaleFactorW
+        )
     }
 }

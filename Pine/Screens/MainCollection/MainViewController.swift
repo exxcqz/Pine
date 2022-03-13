@@ -75,8 +75,8 @@ class MainViewController: UIViewController {
     }
 
     private func setNavigationBar() {
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationController?.navigationBar.barStyle = .default
+        navigationItem.titleView = searchController.searchBar
     }
 
     private func setupSearchController() {
@@ -87,6 +87,7 @@ class MainViewController: UIViewController {
         searchController.searchBar.setImage(cancelImage, for: .clear, state: .normal)
         searchController.searchBar.setImage(loupeImage, for: .search, state: .normal)
         searchController.searchBar.tintColor = .black
+        searchController.hidesNavigationBarDuringPresentation = false
     }
 
     private func resetMainCollection(imagesData: [ImageData]) {
@@ -104,7 +105,7 @@ class MainViewController: UIViewController {
         }
         cellItems.append(makeIndicatorCellItem())
         sectionItem.cellItems = cellItems
-        sectionItem.minimumLineSpacing = 4
+        sectionItem.minimumLineSpacing = 4 * Layout.scaleFactorW
         return sectionItem
     }
 
@@ -140,6 +141,10 @@ extension MainViewController: UIScrollViewDelegate {
 // MARK: - UISearchBarDelegate
 
 extension MainViewController: UISearchBarDelegate {
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("start")
+    }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     }

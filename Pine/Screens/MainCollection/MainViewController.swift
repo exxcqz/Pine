@@ -97,7 +97,7 @@ class MainViewController: UIViewController {
 
     // MARK: - Factory methods
 
-    func makeMainSectionItem(imagesData: [ImageData]) -> CollectionViewSectionItem {
+    private func makeMainSectionItem(imagesData: [ImageData]) -> CollectionViewSectionItem {
         let sectionItem = MainSectionItem()
         var cellItems: [CollectionViewCellItem] = imagesData.map { imageData in
             makeCellItem(imageData: imageData)
@@ -110,6 +110,9 @@ class MainViewController: UIViewController {
 
     private func makeCellItem(imageData: ImageData) -> MainViewCellItem {
         let cellItem = MainViewCellItem(imageData: imageData)
+        cellItem.itemDidSelectHandler = { _ in
+            self.output.nextDetailImageScreen(imageData: imageData)
+        }
         return cellItem
     }
 
@@ -118,33 +121,6 @@ class MainViewController: UIViewController {
         return cellItem
     }
 }
-
-//// MARK: - UICollectionViewDelegate
-//
-//extension MainViewController: UICollectionViewDelegate {
-//
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if indexPath.row == cellViewModels.count && viewModel.currentPage < viewModel.totalPage {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                self.output.fetchData()
-//            }
-//        }
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if indexPath.row != cellViewModels.count {
-//            //            let imageViewController = DetailImageViewController()
-//            //            let mainCellViewModel = cellViewModels[indexPath.row]
-//            //            let imageData = mainCellViewModel.imageData
-//            //            imageViewController.setImage(imageInfo: imageData)
-//            //            navigationController?.pushViewController(imageViewController, animated: true)
-//
-//            let mainCellViewModel = cellViewModels[indexPath.row]
-//            let imageData = mainCellViewModel.imageData
-//            output.nextDetailImageScreen(imageData: imageData)
-//        }
-//    }
-//}
 
 // MARK: - UIScrollViewDelegate
 

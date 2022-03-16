@@ -43,6 +43,10 @@ extension MainPresenter: MainViewOutput {
     func nextDetailImageScreen(imageData: ImageData) {
         output?.mainCellTappedEventTriggered(self, imageData: imageData)
     }
+
+    func nextSearchScreen() {
+        output?.searchBarTappedEventTriggered(self)
+    }
 }
 
 //MARK: - MainModuleInput

@@ -9,6 +9,7 @@ import UIKit
 
 protocol MainModuleOutput {
     func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData)
+    func searchBarTappedEventTriggered(_ moduleInput: MainModuleInput)
 }
 
 protocol MainModuleInput: class {

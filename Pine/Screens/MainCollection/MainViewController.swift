@@ -15,6 +15,7 @@ protocol MainViewInput: class {
 protocol MainViewOutput: class {
     func fetchData()
     func nextDetailImageScreen(imageData: ImageData)
+    func nextSearchScreen()
 }
 
 class MainViewController: UIViewController {
@@ -23,7 +24,7 @@ class MainViewController: UIViewController {
     var viewModel: MainViewModel
     var output: MainViewOutput
     
-    private let searchController = UISearchController(searchResultsController: nil)
+    private let searchBar = UISearchBar()
     private var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
@@ -53,7 +54,7 @@ class MainViewController: UIViewController {
         setDelegate()
         setConstraints()
         setNavigationBar()
-        setupSearchController()
+        setupSearchBar()
 
         resetMainCollection(imagesData: viewModel.imagesData)
         mainViewManager.sectionItems = [makeMainSectionItem(imagesData: viewModel.imagesData)]
@@ -64,6 +65,12 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .default
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+//        imagesCollectionView.frame = view.bounds
+
+    }
+
     private func setupViews() {
         view.backgroundColor = .white
         view.addSubview(imagesCollectionView)
@@ -71,23 +78,24 @@ class MainViewController: UIViewController {
 
     private func setDelegate() {
         mainViewManager.scrollDelegate = self
-        searchController.searchBar.delegate = self
+        searchBar.delegate = self
     }
 
     private func setNavigationBar() {
         navigationController?.navigationBar.barStyle = .default
-        navigationItem.titleView = searchController.searchBar
+        navigationItem.titleView = searchBar
     }
 
-    private func setupSearchController() {
-        searchController.searchBar.placeholder = "Search"
-        searchController.obscuresBackgroundDuringPresentation = false
+    private func setupSearchBar() {
+        searchBar.delegate = self
+        searchBar.sizeToFit()
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = Strings.searchPlaceholder
+        searchBar.tintColor = .black
         let cancelImage = UIImage(named: Icons.icCross)
         let loupeImage = UIImage(named: Icons.icLoupe)
-        searchController.searchBar.setImage(cancelImage, for: .clear, state: .normal)
-        searchController.searchBar.setImage(loupeImage, for: .search, state: .normal)
-        searchController.searchBar.tintColor = .black
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchBar.setImage(cancelImage, for: .clear, state: .normal)
+        searchBar.setImage(loupeImage, for: .search, state: .normal)
     }
 
     private func resetMainCollection(imagesData: [ImageData]) {
@@ -143,13 +151,7 @@ extension MainViewController: UIScrollViewDelegate {
 extension MainViewController: UISearchBarDelegate {
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("start")
-    }
-
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    }
-
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        output.nextSearchScreen()
     }
 }
 
@@ -169,5 +171,6 @@ extension MainViewController {
 
     private func setConstraints() {
         imagesCollectionView.frame = view.bounds
+        imagesCollectionView.frame = CGRect(x: 0, y: 94, width: view.bounds.width, height: view.bounds.height - 94)
     }
 }

@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum Strings {
+    static let searchPlaceholder = "Search"
+    static let searchViewRecentTitle = "Recent"
+    static let searchViewClearButton = "Clear"
+}
+
 enum Icons {
     static let icBack = "icBack"
     static let icCross = "icCross"

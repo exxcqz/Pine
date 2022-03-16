@@ -25,13 +25,24 @@ final class MainCoordinator: BaseCoordinator<UINavigationController> {
         append(child: coordinator)
         coordinator.start()
     }
+
+    private func startSearchCoordinator() {
+        let coordinator = SearchCoordinator(viewController: rootViewController)
+        remove(child: self)
+        append(child: coordinator)
+        coordinator.start()
+    }
 }
 
 // MARK: - MainModuleOutput
 
 extension MainCoordinator: MainModuleOutput {
-    
+
     func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData) {
         startDetailImageCoordinator(imageData: imageData)
+    }
+
+    func searchBarTappedEventTriggered(_ moduleInput: MainModuleInput) {
+        startSearchCoordinator()
     }
 }

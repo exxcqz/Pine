@@ -16,6 +16,11 @@ final class SearchPresenter {
         self.state = state
     }
 
+    private func addQueryToRecent(query: String) {
+        state.recentSearches.append(query)
+        update(force: false, animated: false)
+    }
+
 }
 
 //MARK: - SearchViewOutput
@@ -32,6 +37,10 @@ extension SearchPresenter: SearchViewOutput {
 
     func searchCancelButtonEventTriggered() {
         output?.searchCancelButtonEventTriggered(self)
+    }
+
+    func fetchDataOnQuery(query: String) {
+        addQueryToRecent(query: query)
     }
 }
 

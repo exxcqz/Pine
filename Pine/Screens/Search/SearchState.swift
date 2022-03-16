@@ -8,9 +8,5 @@
 import Foundation
 
 final class SearchState {
-    var recentSearches: [String] = [
-        "heelo",
-        "privet",
-        "poka"
-    ]
+    var recentSearches: [String] = []
 }

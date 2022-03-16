@@ -61,10 +61,10 @@ class MainViewCell: UICollectionViewCell {
             task.cancel()
         }
         guard let url = URL(string: imageInfo.urls.small) else { return }
-        if let imageFromCache = CacheManager.cache.object(forKey: url.absoluteString as AnyObject) as? UIImage {
-            self.imageView.image = imageFromCache
-            return
-        }
+//        if let imageFromCache = CacheManager.cache.object(forKey: url.absoluteString as AnyObject) as? UIImage {
+//            self.imageView.image = imageFromCache
+//            return
+//        }
         task = URLSession.shared.dataTask(with: url) { data, _, _ in
             guard
                 let data = data,
@@ -72,7 +72,7 @@ class MainViewCell: UICollectionViewCell {
             else {
                 return
             }
-            CacheManager.cache.setObject(image, forKey: url.absoluteString as AnyObject)
+//            CacheManager.cache.setObject(image, forKey: url.absoluteString as AnyObject)
             DispatchQueue.main.async {
                 self.imageView.image = image
                 let nameUser = "\(imageInfo.user?.firstName ?? "") \(imageInfo.user?.lastName ?? "")"

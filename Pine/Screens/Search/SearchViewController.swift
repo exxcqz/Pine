@@ -15,6 +15,7 @@ protocol SearchViewOutput: class {
     func viewDidLoad()
     func clearRecentSearches()
     func searchCancelButtonEventTriggered()
+    func fetchDataOnQuery(query: String)
 }
 
 class SearchViewController: UIViewController {
@@ -110,6 +111,11 @@ class SearchViewController: UIViewController {
         output.clearRecentSearches()
         recentTableView.reloadData()
     }
+
+    private func fetchDataOnQuery(query: String) {
+        output.fetchDataOnQuery(query: query)
+        recentTableView.reloadData()
+    }
 }
 
 //MARK: - SearchViewInput
@@ -152,6 +158,9 @@ extension SearchViewController: UITableViewDelegate {
 extension SearchViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let query = searchBar.text else { return }
+        fetchDataOnQuery(query: query)
+
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

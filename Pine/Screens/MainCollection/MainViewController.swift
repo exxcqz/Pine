@@ -60,9 +60,10 @@ class MainViewController: UIViewController {
         mainViewManager.sectionItems = [makeMainSectionItem(imagesData: viewModel.imagesData)]
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.barStyle = .default
+        searchBar.resignFirstResponder()
     }
 
     override func viewDidLayoutSubviews() {

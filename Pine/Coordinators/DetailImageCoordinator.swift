@@ -26,7 +26,7 @@ final class DetailImageCoordinator: BaseCoordinator<UINavigationController> {
 
 extension DetailImageCoordinator: DetailImageModuleOutput {
 
-    func exampleModuleEventTriggered(_ moduleInput: DetailImageModuleInput) {
+    func detailImageModuleEventTriggered(_ moduleInput: DetailImageModuleInput) {
 
     }
 }

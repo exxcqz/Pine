@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DetailImageModuleOutput {
-    func exampleModuleEventTriggered(_ moduleInput: DetailImageModuleInput)
+    func detailImageModuleEventTriggered(_ moduleInput: DetailImageModuleInput)
 }
 
 protocol DetailImageModuleInput: class {

@@ -14,6 +14,17 @@ final class SearchCoordinator: BaseCoordinator<UINavigationController> {
     }
 
     override func start() {
-        rootViewController.setViewControllers([SearchViewController()], animated: false)
+        let searchModule = SearchModule()
+        searchModule.output = self
+        rootViewController.pushViewController(searchModule.viewController, animated: true)
+    }
+}
+
+//MARK: - SearchModuleOutput
+
+extension SearchCoordinator: SearchModuleOutput {
+    
+    func searchCancelButtonEventTriggered(_ moduleInput: SearchModuleInput) {
+        rootViewController.popViewController(animated: true)
     }
 }

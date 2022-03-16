@@ -7,7 +7,19 @@
 
 import UIKit
 
+protocol SearchViewInput: class {
+    func update(with viewModel: SearchViewModel, force: Bool, animated: Bool)
+}
+
+protocol SearchViewOutput: class {
+    func viewDidLoad()
+    func clearRecentSearches()
+    func searchCancelButtonEventTriggered()
+}
+
 class SearchViewController: UIViewController {
+    var viewModel: SearchViewModel
+    var output: SearchViewOutput
 
     private let searchBar = UISearchBar()
     private let recentLabel: UILabel = {
@@ -18,7 +30,7 @@ class SearchViewController: UIViewController {
     }()
 
     private let clearButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .roundedRect)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.proTextFontRegular(ofSize: 14 * Layout.scaleFactorW)
@@ -32,23 +44,34 @@ class SearchViewController: UIViewController {
         return tableView
     }()
 
-    private let recentSearches: [String] = [
+    private var recentSearches: [String] = [
         "heelo",
         "privet",
         "poka"
     ]
+
+    init(viewModel: SearchViewModel, output: SearchViewOutput) {
+        self.viewModel = viewModel
+        self.output = output
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchBar()
         setupViews()
         setDelegate()
+        setNavigationBar()
     }
 
     override func viewDidLayoutSubviews() {
-        recentLabel.frame = CGRect(x: 15, y: 109, width: 200, height: 29)
-        clearButton.frame = CGRect(x: 304, y: 113, width: 71, height: 20)
-        recentTableView.frame = CGRect(x: 0, y: 138, width: view.bounds.width, height: 634)
+        recentLabel.frame = CGRect(x: 15 * Layout.scaleFactorW, y: 109 * Layout.scaleFactorW, width: 200 * Layout.scaleFactorW, height: 29 * Layout.scaleFactorW)
+        clearButton.frame = CGRect(x: 304 * Layout.scaleFactorW, y: 113 * Layout.scaleFactorW, width: 71 * Layout.scaleFactorW, height: 20 * Layout.scaleFactorW)
+        recentTableView.frame = CGRect(x: 0, y: 138 * Layout.scaleFactorW, width: view.bounds.width, height: 634 * Layout.scaleFactorW)
     }
 
     private func setupViews() {
@@ -56,11 +79,17 @@ class SearchViewController: UIViewController {
         view.addSubview(recentLabel)
         view.addSubview(clearButton)
         view.addSubview(recentTableView)
+        clearButton.addTarget(self, action: #selector(clearRecentSearches), for: .touchUpInside)
     }
 
     private func setDelegate() {
         recentTableView.dataSource = self
         recentTableView.delegate = self
+    }
+
+    private func setNavigationBar() {
+        navigationItem.titleView = searchBar
+        navigationItem.hidesBackButton = true
     }
 
     private func setupSearchBar() {
@@ -74,8 +103,21 @@ class SearchViewController: UIViewController {
         let loupeImage = UIImage(named: Icons.icLoupe)
         searchBar.setImage(cancelImage, for: .clear, state: .normal)
         searchBar.setImage(loupeImage, for: .search, state: .normal)
-        navigationItem.titleView = searchBar
         searchBar.becomeFirstResponder()
+    }
+
+    @objc private func clearRecentSearches() {
+        output.clearRecentSearches()
+        recentTableView.reloadData()
+    }
+}
+
+//MARK: - SearchViewInput
+
+extension SearchViewController: SearchViewInput {
+
+    func update(with viewModel: SearchViewModel, force: Bool, animated: Bool) {
+        self.viewModel = viewModel
     }
 }
 
@@ -84,12 +126,12 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recentSearches.count
+        return viewModel.recentSearches.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = recentTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = recentSearches[indexPath.row]
+        cell.textLabel?.text = viewModel.recentSearches[indexPath.row]
         cell.textLabel?.tintColor = .black
         cell.textLabel?.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)
         return cell
@@ -113,5 +155,6 @@ extension SearchViewController: UISearchBarDelegate {
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        output.searchCancelButtonEventTriggered()
     }
 }

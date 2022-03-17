@@ -11,4 +11,8 @@ final class DetailImageState {
     var imageData: ImageData?
     var image: UIImage?
     var nameUser: String = ""
+
+    init(imageData: ImageData?) {
+        self.imageData = imageData
+    }
 }

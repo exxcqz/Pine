@@ -29,6 +29,20 @@ final class MainPresenter {
             print("страница", self?.state.currentPage)
         }
     }
+
+    private func fetchSearchData() {
+        guard let query = state.query else { return print("search error") }
+        dependencies.mainService.fetchSearchData(query: query, page: state.currentPage) { [weak self] imagesData in
+            self?.state.imagesData.append(contentsOf: imagesData)
+            self?.state.currentPage += 1
+            self?.update(force: false, animated: true)
+            print("страница", self?.state.currentPage)
+        }
+    }
+
+    private func openSearchScreen() {
+        output?.mainSearchBarTappedEventTriggered(self)
+    }
 }
 
 //MARK: - MainViewOutput
@@ -37,15 +51,25 @@ extension MainPresenter: MainViewOutput {
 
     func fetchData() {
         update(force: true, animated: false)
-        fetchRandomData()
+        switch state.searchMode {
+        case .random:
+            fetchRandomData()
+        case .query:
+            fetchSearchData()
+        }
     }
 
     func nextDetailImageScreen(imageData: ImageData) {
         output?.mainCellTappedEventTriggered(self, imageData: imageData)
     }
 
-    func nextSearchScreen() {
-        output?.searchBarTappedEventTriggered(self)
+    func mainSearchBarTappedEventTriggered() {
+        output?.mainSearchBarTappedEventTriggered(self)
+    }
+
+
+    func mainCancelButtonTappedEventTriggered() {
+        output?.mainCancelButtonTappedEventTriggered(self)
     }
 }
 

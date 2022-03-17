@@ -16,7 +16,8 @@ final class DetailImageCoordinator: BaseCoordinator<UINavigationController> {
     }
 
     override func start() {
-        let detailImageModule = DetailImageModule(imageData: imageData)
+        let detailImageState = DetailImageState(imageData: imageData)
+        let detailImageModule = DetailImageModule(state: detailImageState)
         detailImageModule.output = self
         rootViewController.pushViewController(detailImageModule.viewController, animated: true)
     }

@@ -8,12 +8,22 @@
 import UIKit
 
 final class MainCoordinator: BaseCoordinator<UINavigationController> {
+    let query: String?
 
-    init(viewController: UINavigationController) {
+    init(viewController: UINavigationController, query: String? = nil) {
+        self.query = query
         super.init(rootViewController: viewController)
     }
 
     override func start() {
+        if let query = query {
+            let mainState = MainState(query: query)
+            mainState.searchMode = .query
+            let mainModule = MainModule(state: mainState)
+            mainModule.output = self
+            rootViewController.pushViewController(mainModule.viewController, animated: true)
+            return
+        }
         let mainModule = MainModule()
         mainModule.output = self
         rootViewController.setViewControllers([mainModule.viewController], animated: true)
@@ -42,7 +52,11 @@ extension MainCoordinator: MainModuleOutput {
         startDetailImageCoordinator(imageData: imageData)
     }
 
-    func searchBarTappedEventTriggered(_ moduleInput: MainModuleInput) {
+    func mainSearchBarTappedEventTriggered(_ moduleInput: MainModuleInput) {
         startSearchCoordinator()
+    }
+
+    func mainCancelButtonTappedEventTriggered(_ moduleInput: MainModuleInput) {
+        rootViewController.popViewController(animated: true)
     }
 }

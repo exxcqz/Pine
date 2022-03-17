@@ -15,7 +15,8 @@ protocol MainViewInput: class {
 protocol MainViewOutput: class {
     func fetchData()
     func nextDetailImageScreen(imageData: ImageData)
-    func nextSearchScreen()
+    func mainSearchBarTappedEventTriggered()
+    func mainCancelButtonTappedEventTriggered()
 }
 
 class MainViewController: UIViewController {
@@ -63,12 +64,18 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.barStyle = .default
-        searchBar.resignFirstResponder()
+        switch viewModel.searchMode {
+        case .random:
+            searchBar.resignFirstResponder()
+        case .query:
+            searchBar.resignFirstResponder()
+            //            searchBar.becomeFirstResponder()
+        }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//        imagesCollectionView.frame = view.bounds
+        //        imagesCollectionView.frame = view.bounds
 
     }
 
@@ -88,10 +95,16 @@ class MainViewController: UIViewController {
     }
 
     private func setupSearchBar() {
-        searchBar.delegate = self
+        switch viewModel.searchMode {
+        case .random:
+            searchBar.placeholder = Strings.searchPlaceholder
+        case .query:
+            navigationItem.hidesBackButton = false
+            searchBar.showsCancelButton = true
+            searchBar.placeholder = viewModel.query
+        }
         searchBar.sizeToFit()
         searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = Strings.searchPlaceholder
         searchBar.tintColor = .black
         let cancelImage = UIImage(named: Icons.icCross)
         let loupeImage = UIImage(named: Icons.icLoupe)
@@ -152,7 +165,11 @@ extension MainViewController: UIScrollViewDelegate {
 extension MainViewController: UISearchBarDelegate {
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        output.nextSearchScreen()
+        output.mainSearchBarTappedEventTriggered()
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        output.mainCancelButtonTappedEventTriggered()
     }
 }
 

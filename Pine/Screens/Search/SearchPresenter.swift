@@ -39,8 +39,9 @@ extension SearchPresenter: SearchViewOutput {
         output?.searchCancelButtonEventTriggered(self)
     }
 
-    func fetchDataOnQuery(query: String) {
+    func searchButtonEventTriggered(query: String) {
         addQueryToRecent(query: query)
+        output?.searchButtonEventTriggered(self, query: query)
     }
 }
 

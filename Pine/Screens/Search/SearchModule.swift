@@ -9,6 +9,7 @@ import UIKit
 
 protocol SearchModuleOutput {
     func searchCancelButtonEventTriggered(_ moduleInput: SearchModuleInput)
+    func searchButtonEventTriggered(_ moduleInput: SearchModuleInput, query: String)
 }
 
 protocol SearchModuleInput: class {

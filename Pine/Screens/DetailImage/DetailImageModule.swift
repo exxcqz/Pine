@@ -30,8 +30,7 @@ final class DetailImageModule {
         return presenter
     }
 
-    init(imageData: ImageData, state: DetailImageState = .init()) {
-        state.imageData = imageData
+    init(state: DetailImageState = .init(imageData: nil)) {
         let viewModel = DetailImageViewModel(state: state)
         let presenter = DetailImagePresenter(state: state)
         let viewController = DetailImageViewController(viewModel: viewModel, output: presenter)

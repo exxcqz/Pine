@@ -7,9 +7,19 @@
 
 import UIKit
 
+enum SearchMode {
+    case random
+    case query
+}
+
 final class MainState {
+    var query: String?
+    var searchMode: SearchMode = .random
     var imagesData: [ImageData] = []
-    var query: String = ""
     var currentPage: Int = 1
     var totalPage: Int = 50
+
+    init(query: String?) {
+        self.query = query
+    }
 }

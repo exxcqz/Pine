@@ -15,7 +15,7 @@ protocol SearchViewOutput: class {
     func viewDidLoad()
     func clearRecentSearches()
     func searchCancelButtonEventTriggered()
-    func fetchDataOnQuery(query: String)
+    func searchButtonEventTriggered(query: String)
 }
 
 class SearchViewController: UIViewController {
@@ -86,6 +86,7 @@ class SearchViewController: UIViewController {
     private func setDelegate() {
         recentTableView.dataSource = self
         recentTableView.delegate = self
+        searchBar.delegate = self
     }
 
     private func setNavigationBar() {
@@ -94,7 +95,6 @@ class SearchViewController: UIViewController {
     }
 
     private func setupSearchBar() {
-        searchBar.delegate = self
         searchBar.sizeToFit()
         searchBar.searchBarStyle = .minimal
         searchBar.placeholder = Strings.searchPlaceholder
@@ -113,7 +113,7 @@ class SearchViewController: UIViewController {
     }
 
     private func fetchDataOnQuery(query: String) {
-        output.fetchDataOnQuery(query: query)
+        output.searchButtonEventTriggered(query: query)
         recentTableView.reloadData()
     }
 }

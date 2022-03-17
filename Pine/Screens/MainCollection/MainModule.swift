@@ -9,7 +9,8 @@ import UIKit
 
 protocol MainModuleOutput {
     func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData)
-    func searchBarTappedEventTriggered(_ moduleInput: MainModuleInput)
+    func mainSearchBarTappedEventTriggered(_ moduleInput: MainModuleInput)
+    func mainCancelButtonTappedEventTriggered(_ moduleInput: MainModuleInput)
 }
 
 protocol MainModuleInput: class {
@@ -31,7 +32,7 @@ final class MainModule {
         return presenter
     }
 
-    init(state: MainState = .init()) {
+    init(state: MainState = .init(query: nil)) {
         let viewModel = MainViewModel(state: state)
         let presenter = MainPresenter(state: state, dependencies: Services)
         let viewController = MainViewController(viewModel: viewModel, output: presenter)

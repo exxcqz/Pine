@@ -28,7 +28,7 @@ enum NetworkType {
             else {
                 return path
             }
-            path = "search/photos?per_page=30&page=\(page)&query=\(query)"
+            path = "search/photos?page=\(page)&query=\(query)"
             return path
         case .getRandomImage(let page):
             return "photos?page=\(page)"

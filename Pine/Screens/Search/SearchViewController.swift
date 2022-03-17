@@ -151,6 +151,10 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40.0 * Layout.scaleFactorW
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        output.searchButtonEventTriggered(query: viewModel.recentSearches[indexPath.row])
+    }
 }
 
 //MARK: - UISearchBarDelegate

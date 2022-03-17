@@ -68,8 +68,8 @@ class MainViewController: UIViewController {
         case .random:
             searchBar.resignFirstResponder()
         case .query:
-            searchBar.resignFirstResponder()
-            //            searchBar.becomeFirstResponder()
+            searchBar.becomeFirstResponder()
+            searchBar.endEditing(true)
         }
     }
 
@@ -99,9 +99,9 @@ class MainViewController: UIViewController {
         case .random:
             searchBar.placeholder = Strings.searchPlaceholder
         case .query:
-            navigationItem.hidesBackButton = false
+            navigationItem.hidesBackButton = true
             searchBar.showsCancelButton = true
-            searchBar.placeholder = viewModel.query
+            searchBar.text = viewModel.query
         }
         searchBar.sizeToFit()
         searchBar.searchBarStyle = .minimal
@@ -165,7 +165,12 @@ extension MainViewController: UIScrollViewDelegate {
 extension MainViewController: UISearchBarDelegate {
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        output.mainSearchBarTappedEventTriggered()
+        switch viewModel.searchMode {
+        case .random:
+            output.mainSearchBarTappedEventTriggered()
+        case .query:
+            break
+        }
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

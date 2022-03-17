@@ -125,7 +125,9 @@ class MainViewController: UIViewController {
         var cellItems: [CollectionViewCellItem] = imagesData.map { imageData in
             makeCellItem(imageData: imageData)
         }
-        cellItems.append(makeIndicatorCellItem())
+        if cellItems.count > 0 {
+            cellItems.append(makeIndicatorCellItem())
+        }
         sectionItem.cellItems = cellItems
         sectionItem.minimumLineSpacing = 4 * Layout.scaleFactorW
         return sectionItem

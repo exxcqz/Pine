@@ -60,7 +60,7 @@ class MainViewCell: UICollectionViewCell {
         if let task = task {
             task.cancel()
         }
-        guard let url = URL(string: imageInfo.urls.small) else { return }
+        guard let url = URL(string: imageInfo.urls.regular) else { return }
 //        if let imageFromCache = CacheManager.cache.object(forKey: url.absoluteString as AnyObject) as? UIImage {
 //            self.imageView.image = imageFromCache
 //            return

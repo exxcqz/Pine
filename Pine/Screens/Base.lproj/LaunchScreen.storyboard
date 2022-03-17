@@ -15,8 +15,32 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="dFO-9B-qnI">
+                                <rect key="frame" x="153" y="383" width="108" height="140"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="SX8-dr-LRL"/>
+                                    <constraint firstAttribute="width" secondItem="dFO-9B-qnI" secondAttribute="height" multiplier="27:35" id="aC9-hU-CiR"/>
+                                    <constraint firstAttribute="width" constant="108" id="bre-y7-4xW"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoR" translatesAutoresizingMaskIntoConstraints="NO" id="OFX-N5-kAa">
+                                <rect key="frame" x="191" y="806" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="h9Z-nQ-byG"/>
+                                    <constraint firstAttribute="height" constant="32" id="omT-rq-9hA"/>
+                                    <constraint firstAttribute="width" secondItem="OFX-N5-kAa" secondAttribute="height" multiplier="1:1" id="yec-jI-Iic"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="OFX-N5-kAa" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="7Uo-hk-Ydn"/>
+                            <constraint firstItem="dFO-9B-qnI" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fhe-7E-cIh"/>
+                            <constraint firstItem="dFO-9B-qnI" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="g66-8e-rkB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="OFX-N5-kAa" secondAttribute="bottom" constant="24" id="ziH-Vi-Wvq"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -25,6 +49,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="logo" width="108" height="140"/>
+        <image name="logoR" width="32" height="32"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

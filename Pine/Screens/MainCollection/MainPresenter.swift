@@ -32,9 +32,11 @@ final class MainPresenter {
 
     private func fetchSearchData() {
         guard let query = state.query else { return print("search error") }
-        dependencies.mainService.fetchSearchData(query: query, page: state.currentPage) { [weak self] imagesData in
+        dependencies.mainService.fetchSearchData(query: query, page: state.currentPage) { [weak self] result in
+            let imagesData = result.results
             self?.state.imagesData.append(contentsOf: imagesData)
             self?.state.currentPage += 1
+            self?.state.totalPage = result.totalPages
             self?.update(force: false, animated: true)
             print("страница", self?.state.currentPage)
         }
@@ -50,13 +52,18 @@ final class MainPresenter {
 extension MainPresenter: MainViewOutput {
 
     func fetchData() {
-        update(force: true, animated: false)
         switch state.searchMode {
         case .random:
             fetchRandomData()
         case .query:
             fetchSearchData()
         }
+    }
+
+    func fetchSearchData(query: String) {
+        state.query = query
+        state.imagesData.removeAll()
+        fetchSearchData()
     }
 
     func nextDetailImageScreen(imageData: ImageData) {

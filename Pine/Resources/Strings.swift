@@ -11,6 +11,8 @@ enum Strings {
     static let searchPlaceholder = "Search"
     static let searchViewRecentTitle = "Recent"
     static let searchViewClearButton = "Clear"
+    static let mainTitleLabelFoundNothing = "Found nothing"
+    static let mainLabelFoundNothing = "Try to change keyword and try again"
 }
 
 enum Icons {

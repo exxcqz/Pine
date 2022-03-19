@@ -29,7 +29,6 @@ class MainViewController: UIViewController {
     private let searchBar = UISearchBar()
     private var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
-        indicator.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
         return indicator
     }()
     private var titleLabelFoundNothing: UILabel = {
@@ -89,18 +88,14 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.barStyle = .default
-        switch viewModel.searchMode {
-        case .random:
-            searchBar.resignFirstResponder()
-        case .query:
-            searchBar.becomeFirstResponder()
-        }
+        searchBar.resignFirstResponder()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        loadingIndicator.center = view.center
         //        imagesCollectionView.frame = view.bounds
+        loadingIndicator.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        loadingIndicator.center = view.center
         titleLabelFoundNothing.frame = .init(x: 102.5, y: 282, width: 170, height: 29)
         labelFoundNothing.frame = .init(x: 0, y: 318, width: view.bounds.width, height: 16)
 
@@ -268,7 +263,7 @@ extension MainViewController: MainViewInput {
 extension MainViewController {
 
     private func setConstraints() {
-        imagesCollectionView.frame = view.bounds
+//        imagesCollectionView.frame = view.bounds
         imagesCollectionView.frame = CGRect(x: 0, y: 94, width: view.bounds.width, height: view.bounds.height - 94)
     }
 }

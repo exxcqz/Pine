@@ -19,14 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             appCoordinator.start(with: windowScene)
         }
-        
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//        window = UIWindow(windowScene: windowScene)
-//        let module = MainModule(state: .init())
-//        let nav = UINavigationController(rootViewController: module.viewController)
-//        window?.rootViewController = module.viewController
-//        window?.makeKeyAndVisible()
-//        window?.overrideUserInterfaceStyle = .light
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

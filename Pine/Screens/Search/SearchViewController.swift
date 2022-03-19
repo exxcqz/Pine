@@ -12,7 +12,7 @@ protocol SearchViewInput: class {
 }
 
 protocol SearchViewOutput: class {
-    func viewDidLoad()
+    func updateRecentSearches()
     func clearRecentSearches()
     func searchCancelButtonEventTriggered()
     func searchButtonEventTriggered(query: String)
@@ -42,14 +42,10 @@ class SearchViewController: UIViewController {
     private let recentTableView: UITableView = {
         var tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.backgroundColor = .white
+        tableView.keyboardDismissMode = .onDrag
         return tableView
     }()
-
-    private var recentSearches: [String] = [
-        "heelo",
-        "privet",
-        "poka"
-    ]
 
     init(viewModel: SearchViewModel, output: SearchViewOutput) {
         self.viewModel = viewModel
@@ -67,6 +63,11 @@ class SearchViewController: UIViewController {
         setupViews()
         setDelegate()
         setNavigationBar()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        output.updateRecentSearches()
     }
 
     override func viewDidLayoutSubviews() {
@@ -109,12 +110,10 @@ class SearchViewController: UIViewController {
 
     @objc private func clearRecentSearches() {
         output.clearRecentSearches()
-        recentTableView.reloadData()
     }
 
     private func fetchDataOnQuery(query: String) {
         output.searchButtonEventTriggered(query: query)
-        recentTableView.reloadData()
     }
 }
 
@@ -124,6 +123,7 @@ extension SearchViewController: SearchViewInput {
 
     func update(with viewModel: SearchViewModel, force: Bool, animated: Bool) {
         self.viewModel = viewModel
+        recentTableView.reloadData()
     }
 }
 

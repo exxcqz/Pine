@@ -14,24 +14,45 @@ final class SearchPresenter {
 
     init(state: SearchState) {
         self.state = state
+        createDataBaseForRecentSearches()
+    }
+
+    private func createDataBaseForRecentSearches() {
+        let recentSearches = UserDefaults.standard.array(forKey: "recentSearches") as? [String]
+        if recentSearches == nil {
+            let array: [String] = []
+            print("sozdal")
+            UserDefaults.standard.set(array, forKey: "recentSearches")
+        }
     }
 
     private func addQueryToRecent(query: String) {
-        state.recentSearches.append(query)
+        guard var recentSearches = UserDefaults.standard.array(forKey: "recentSearches") as? [String] else { return }
+        if recentSearches.contains(query) {
+            guard let index = recentSearches.firstIndex(of: query) else { return }
+            recentSearches.remove(at: index)
+        }
+        recentSearches.append(query)
+        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
+        state.updateRecentSearches()
         update(force: false, animated: false)
     }
-
 }
 
 //MARK: - SearchViewOutput
 
 extension SearchPresenter: SearchViewOutput {
 
-    func viewDidLoad() {
+    func updateRecentSearches() {
+        state.updateRecentSearches()
+        update(force: false, animated: false)
     }
 
     func clearRecentSearches() {
-        state.recentSearches.removeAll()
+        guard var recentSearches = UserDefaults.standard.array(forKey: "recentSearches") as? [String] else { return }
+        recentSearches.removeAll()
+        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
+        state.updateRecentSearches()
         update(force: false, animated: false)
     }
 

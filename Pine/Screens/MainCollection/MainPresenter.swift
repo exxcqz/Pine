@@ -42,6 +42,16 @@ final class MainPresenter {
         }
     }
 
+    private func addQueryToRecent(query: String) {
+        guard var recentSearches = UserDefaults.standard.array(forKey: "recentSearches") as? [String] else { return }
+        if recentSearches.contains(query) {
+            guard let index = recentSearches.firstIndex(of: query) else { return }
+            recentSearches.remove(at: index)
+        }
+        recentSearches.append(query)
+        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
+    }
+
     private func openSearchScreen() {
         output?.mainSearchBarTappedEventTriggered(self)
     }
@@ -61,9 +71,11 @@ extension MainPresenter: MainViewOutput {
     }
 
     func fetchSearchData(query: String) {
+        state.currentPage = 1
         state.query = query
         state.imagesData.removeAll()
         fetchSearchData()
+        addQueryToRecent(query: query)
     }
 
     func nextDetailImageScreen(imageData: ImageData) {

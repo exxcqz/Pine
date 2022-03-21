@@ -49,6 +49,24 @@ class MainViewController: UIViewController {
         label.isHidden = true
         return label
     }()
+    private var titleLabelNoConnection: UILabel = {
+        let label = UILabel()
+        label.text = Strings.mainTitleLabelNoConnection
+        label.font = UIFont.proTextFontMedium(ofSize: 24 * Layout.scaleFactorW)
+        label.textAlignment = .center
+        label.textColor = .black
+        label.isHidden = true
+        return label
+    }()
+    private var labelNoConnection: UILabel = {
+        let label = UILabel()
+        label.text = Strings.mainLabelNoConnection
+        label.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)
+        label.textAlignment = .center
+        label.textColor = .black
+        label.isHidden = true
+        return label
+    }()
 
     private var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -77,7 +95,6 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setDelegate()
-        setConstraints()
         setNavigationBar()
         setupSearchBar()
 
@@ -93,12 +110,33 @@ class MainViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //        imagesCollectionView.frame = view.bounds
-        loadingIndicator.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        imagesCollectionView.frame = .init(
+            x: 0,
+            y: 94 * Layout.scaleFactorW,
+            width: view.bounds.width,
+            height: view.bounds.height - (94 * Layout.scaleFactorW))
+        loadingIndicator.frame = CGRect(x: 0, y: 0, width: 24 * Layout.scaleFactorW, height: 24 * Layout.scaleFactorW)
         loadingIndicator.center = view.center
-        titleLabelFoundNothing.frame = .init(x: 102.5, y: 282, width: 170, height: 29)
-        labelFoundNothing.frame = .init(x: 0, y: 318, width: view.bounds.width, height: 16)
-
+        titleLabelFoundNothing.frame = .init(
+            x: 102.5 * Layout.scaleFactorW,
+            y: 282 * Layout.scaleFactorW,
+            width: 170 * Layout.scaleFactorW,
+            height: 29 * Layout.scaleFactorW)
+        labelFoundNothing.frame = .init(
+            x: 0,
+            y: 318 * Layout.scaleFactorW,
+            width: view.bounds.width,
+            height: 16 * Layout.scaleFactorW)
+        titleLabelNoConnection.frame = .init(
+            x: 0,
+            y: 320 * Layout.scaleFactorW,
+            width: view.bounds.width,
+            height: 29 * Layout.scaleFactorW)
+        labelNoConnection.frame = .init(
+            x: 0,
+            y: 356 * Layout.scaleFactorW,
+            width: view.bounds.width,
+            height: 16 * Layout.scaleFactorW)
     }
 
     private func setupViews() {
@@ -107,6 +145,8 @@ class MainViewController: UIViewController {
         view.addSubview(loadingIndicator)
         view.addSubview(titleLabelFoundNothing)
         view.addSubview(labelFoundNothing)
+        view.addSubview(titleLabelNoConnection)
+        view.addSubview(labelNoConnection)
     }
 
     private func setDelegate() {
@@ -152,6 +192,24 @@ class MainViewController: UIViewController {
         }
     }
 
+    private func checkNetworkConnection() {
+        if !viewModel.networkConnection {
+            if viewModel.currentPage == 1 {
+                imagesCollectionView.isHidden = true
+                titleLabelNoConnection.isHidden = false
+                labelNoConnection.isHidden = false
+                loadingIndicator.stopAnimating()
+                //            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                //                self.output.fetchData()
+                //            }
+            }
+        } else {
+            imagesCollectionView.isHidden = false
+            titleLabelNoConnection.isHidden = true
+            labelNoConnection.isHidden = true
+        }
+    }
+
     private func searchFoundNothing() {
         if viewModel.imagesData.isEmpty {
             titleLabelFoundNothing.isHidden = false
@@ -194,7 +252,7 @@ class MainViewController: UIViewController {
     }
 
     private func makeIndicatorCellItem() -> MainIndicatorViewCellItem {
-        let cellItem = MainIndicatorViewCellItem()
+        let cellItem = MainIndicatorViewCellItem(networkConnection: viewModel.networkConnection)
         return cellItem
     }
 }
@@ -209,6 +267,7 @@ extension MainViewController: UIScrollViewDelegate {
         if offset > (contentHeight - scrollView.frame.height) && viewModel.currentPage < viewModel.totalPage {
             startLoadingIndicator()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                print("вызываю")
                 self.output.fetchData()
             }
         }
@@ -250,20 +309,13 @@ extension MainViewController: MainViewInput {
         startLoadingIndicator()
         switch viewModel.searchMode {
         case .random:
-            break
+            checkNetworkConnection()
         case .query:
             searchBar.endEditing(true)
-            searchFoundNothing()
+            checkNetworkConnection()
+            if viewModel.networkConnection {
+                searchFoundNothing()
+            }
         }
-    }
-}
-
-// MARK: - SetConstraints
-
-extension MainViewController {
-
-    private func setConstraints() {
-//        imagesCollectionView.frame = view.bounds
-        imagesCollectionView.frame = CGRect(x: 0, y: 94, width: view.bounds.width, height: view.bounds.height - 94)
     }
 }

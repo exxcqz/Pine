@@ -13,6 +13,9 @@ enum Strings {
     static let searchViewClearButton = "Clear"
     static let mainTitleLabelFoundNothing = "Found nothing"
     static let mainLabelFoundNothing = "Try to change keyword and try again"
+    static let mainTitleLabelNoConnection = "No connection"
+    static let mainLabelNoConnection = "Check the connection and try again"
+    static let cellLabelNoConnection = "No internet connection. Waiting for network…"
 }
 
 enum Icons {

@@ -22,23 +22,49 @@ final class MainPresenter {
     }
 
     private func fetchRandomData() {
-        dependencies.mainService.fetchRandomData(page: state.currentPage) { [weak self] imagesData in
-            self?.state.imagesData.append(contentsOf: imagesData)
-            self?.state.currentPage += 1
-            self?.update(force: false, animated: true)
-            print("страница", self?.state.currentPage)
+        if !state.isEventScroll {
+            dependencies.mainService.fetchRandomData(page: state.currentPage) { [weak self] imagesData, error in
+                if let _ = error {
+                    self?.state.networkConnection = false
+                    self?.update(force: false, animated: true)
+                    return
+                }
+                guard let imagesData = imagesData else { return }
+                self?.state.networkConnection = true
+                self?.state.imagesData.append(contentsOf: imagesData)
+                self?.state.currentPage += 1
+                self?.update(force: false, animated: true)
+                print("страница", self?.state.currentPage)
+            }
+            state.isEventScroll = true
+            DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
+                self.state.isEventScroll = false
+            }
         }
     }
 
     private func fetchSearchData() {
-        guard let query = state.query else { return print("search error") }
-        dependencies.mainService.fetchSearchData(query: query, page: state.currentPage) { [weak self] result in
-            let imagesData = result.results
-            self?.state.imagesData.append(contentsOf: imagesData)
-            self?.state.currentPage += 1
-            self?.state.totalPage = result.totalPages
-            self?.update(force: false, animated: true)
-            print("страница", self?.state.currentPage)
+        if !state.isEventScroll {
+            guard let query = state.query else { return }
+            dependencies.mainService.fetchSearchData(query: query, page: state.currentPage) { [weak self] result, error in
+                if let _ = error {
+                    self?.state.networkConnection = false
+                    self?.update(force: false, animated: true)
+                    return
+                }
+                guard let result = result else { return }
+                let imagesData = result.results
+                self?.state.networkConnection = true
+                self?.state.imagesData.append(contentsOf: imagesData)
+                self?.state.currentPage += 1
+                self?.state.totalPage = result.totalPages
+                self?.update(force: false, animated: true)
+                print("страница", self?.state.currentPage)
+            }
+        }
+        state.isEventScroll = true
+        DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
+            self.state.isEventScroll = false
         }
     }
 

@@ -71,6 +71,7 @@ class SearchViewController: UIViewController {
     }
 
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         recentLabel.frame = CGRect(x: 15 * Layout.scaleFactorW, y: 109 * Layout.scaleFactorW, width: 200 * Layout.scaleFactorW, height: 29 * Layout.scaleFactorW)
         clearButton.frame = CGRect(x: 304 * Layout.scaleFactorW, y: 113 * Layout.scaleFactorW, width: 71 * Layout.scaleFactorW, height: 20 * Layout.scaleFactorW)
         recentTableView.frame = CGRect(x: 0, y: 138 * Layout.scaleFactorW, width: view.bounds.width, height: 634 * Layout.scaleFactorW)

@@ -18,6 +18,8 @@ final class MainState {
     var imagesData: [ImageData] = []
     var currentPage: Int = 1
     var totalPage: Int = 50
+    var networkConnection: Bool = true
+    var isEventScroll: Bool = false
 
     init(query: String?) {
         self.query = query

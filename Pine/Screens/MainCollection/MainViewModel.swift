@@ -13,6 +13,7 @@ final class MainViewModel {
     var imagesData: [ImageData]
     var currentPage: Int
     var totalPage: Int
+    var networkConnection: Bool
 
     init(state: MainState) {
         self.query = state.query
@@ -20,5 +21,6 @@ final class MainViewModel {
         self.imagesData = state.imagesData
         self.currentPage = state.currentPage
         self.totalPage = state.totalPage
+        self.networkConnection = state.networkConnection
     }
 }

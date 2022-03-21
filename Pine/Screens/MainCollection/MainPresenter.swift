@@ -100,6 +100,7 @@ extension MainPresenter: MainViewOutput {
         state.currentPage = 1
         state.query = query
         state.imagesData.removeAll()
+        CacheManager.cache.removeAllObjects()
         fetchSearchData()
         addQueryToRecent(query: query)
     }

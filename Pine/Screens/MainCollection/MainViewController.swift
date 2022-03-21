@@ -267,7 +267,6 @@ extension MainViewController: UIScrollViewDelegate {
         if offset > (contentHeight - scrollView.frame.height) && viewModel.currentPage < viewModel.totalPage {
             startLoadingIndicator()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                print("вызываю")
                 self.output.fetchData()
             }
         }

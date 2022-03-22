@@ -143,12 +143,12 @@
 			isa = PBXGroup;
 			children = (
 				11B2C82B27D66895009BBB3E /* Cell */,
-				116B0F6827D218BE00C85225 /* MainViewController.swift */,
-				11C98DA427DA0FC400FDE57F /* MainSectionItem.swift */,
-				116B0F6A27D2192300C85225 /* MainPresenter.swift */,
 				116B0F6C27D2199800C85225 /* MainModule.swift */,
+				116B0F6827D218BE00C85225 /* MainViewController.swift */,
+				116B0F6A27D2192300C85225 /* MainPresenter.swift */,
 				116B0F6E27D219C200C85225 /* MainState.swift */,
 				116B0F7527D2238600C85225 /* MainViewModel.swift */,
+				11C98DA427DA0FC400FDE57F /* MainSectionItem.swift */,
 			);
 			path = MainCollection;
 			sourceTree = "<group>";
@@ -168,11 +168,11 @@
 		1179826527DE518500CE56E8 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				1194313427E1E86400B117E5 /* SearchModule.swift */,
 				1179826627DE51AA00CE56E8 /* SearchViewController.swift */,
+				1194313227E1E75500B117E5 /* SearchPresenter.swift */,
 				1194312E27E1E64200B117E5 /* SearchState.swift */,
 				1194313027E1E70300B117E5 /* SearchViewModel.swift */,
-				1194313227E1E75500B117E5 /* SearchPresenter.swift */,
-				1194313427E1E86400B117E5 /* SearchModule.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -497,7 +497,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -552,7 +552,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -579,6 +579,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -609,6 +610,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -110,33 +110,39 @@ class MainViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        let heightNavBar = navigationController?.navigationBar.bounds.height ?? 0
         imagesCollectionView.frame = .init(
             x: 0,
-            y: 94 * Layout.scaleFactorW,
+            y: heightNavBar,
             width: view.bounds.width,
-            height: view.bounds.height - (94 * Layout.scaleFactorW))
+            height: view.bounds.height - heightNavBar
+        )
         loadingIndicator.frame = CGRect(x: 0, y: 0, width: 24 * Layout.scaleFactorW, height: 24 * Layout.scaleFactorW)
         loadingIndicator.center = view.center
         titleLabelFoundNothing.frame = .init(
             x: 102.5 * Layout.scaleFactorW,
             y: 282 * Layout.scaleFactorW,
             width: 170 * Layout.scaleFactorW,
-            height: 29 * Layout.scaleFactorW)
+            height: 29 * Layout.scaleFactorW
+        )
         labelFoundNothing.frame = .init(
             x: 0,
             y: 318 * Layout.scaleFactorW,
             width: view.bounds.width,
-            height: 16 * Layout.scaleFactorW)
+            height: 16 * Layout.scaleFactorW
+        )
         titleLabelNoConnection.frame = .init(
             x: 0,
             y: 320 * Layout.scaleFactorW,
             width: view.bounds.width,
-            height: 29 * Layout.scaleFactorW)
+            height: 29 * Layout.scaleFactorW
+        )
         labelNoConnection.frame = .init(
             x: 0,
             y: 356 * Layout.scaleFactorW,
             width: view.bounds.width,
-            height: 16 * Layout.scaleFactorW)
+            height: 16 * Layout.scaleFactorW
+        )
     }
 
     private func setupViews() {
@@ -244,7 +250,7 @@ class MainViewController: UIViewController {
     }
 
     private func makeCellItem(imageData: ImageData) -> MainViewCellItem {
-        let cellItem = MainViewCellItem(imageData: imageData)
+        let cellItem = MainViewCellItem(imageData: imageData, viewController: self)
         cellItem.itemDidSelectHandler = { _ in
             self.output.nextDetailImageScreen(imageData: imageData)
         }
@@ -264,7 +270,7 @@ extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
-        if offset > (contentHeight - scrollView.frame.height) && viewModel.currentPage < viewModel.totalPage {
+        if offset > (contentHeight - scrollView.frame.height - 20) && viewModel.currentPage < viewModel.totalPage {
             startLoadingIndicator()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.output.fetchData()

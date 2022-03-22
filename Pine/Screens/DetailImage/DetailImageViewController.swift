@@ -38,6 +38,7 @@ class DetailImageViewController: UIViewController {
     private let shareButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: Icons.icShareWhite), for: .normal)
+        button.addTarget(self, action: #selector(openShareController), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -120,6 +121,12 @@ class DetailImageViewController: UIViewController {
                 )
             ])
         }
+    }
+
+    @objc private func openShareController() {
+        guard let image = viewModel.image else { return }
+        let shareController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        present(shareController, animated: true, completion: nil)
     }
 }
 

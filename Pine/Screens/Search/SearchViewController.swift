@@ -36,6 +36,7 @@ class SearchViewController: UIViewController {
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.proTextFontRegular(ofSize: 14 * Layout.scaleFactorW)
         button.setTitle(Strings.searchViewClearButton, for: .normal)
+        button.addTarget(self, action: #selector(clearRecentSearches), for: .touchUpInside)
         return button
     }()
 
@@ -82,7 +83,6 @@ class SearchViewController: UIViewController {
         view.addSubview(recentLabel)
         view.addSubview(clearButton)
         view.addSubview(recentTableView)
-        clearButton.addTarget(self, action: #selector(clearRecentSearches), for: .touchUpInside)
     }
 
     private func setDelegate() {

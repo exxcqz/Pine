@@ -33,7 +33,7 @@ class MainViewCell: UICollectionViewCell {
         return label
     }()
 
-    private let shareButton: UIButton = {
+    let shareButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: Icons.icShareWhite), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -44,10 +44,10 @@ class MainViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addSubview(imageView)
+        contentView.addSubview(imageView)
         imageView.addSubview(transparentRectangleView)
         imageView.addSubview(nameLabel)
-        imageView.addSubview(shareButton)
+        contentView.addSubview(shareButton)
         setConstraints()
     }
 

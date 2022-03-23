@@ -18,29 +18,28 @@ protocol SearchViewOutput: class {
     func searchButtonEventTriggered(query: String)
 }
 
-class SearchViewController: UIViewController {
-    var viewModel: SearchViewModel
-    var output: SearchViewOutput
+final class SearchViewController: UIViewController {
+    private var viewModel: SearchViewModel
+    private let output: SearchViewOutput
 
-    private let searchBar = UISearchBar()
-    private let recentLabel: UILabel = {
+    private lazy var searchBar = UISearchBar()
+    private lazy var recentLabel: UILabel = {
         let label = UILabel()
         label.text = Strings.searchViewRecentTitle
         label.font = UIFont.proTextFontMedium(ofSize: 24 * Layout.scaleFactorW)
         return label
     }()
 
-    private let clearButton: UIButton = {
+    private lazy var clearButton: UIButton = {
         let button = UIButton(type: .roundedRect)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.proTextFontRegular(ofSize: 14 * Layout.scaleFactorW)
         button.setTitle(Strings.searchViewClearButton, for: .normal)
-        button.addTarget(self, action: #selector(clearRecentSearches), for: .touchUpInside)
         return button
     }()
 
-    private let recentTableView: UITableView = {
+    private lazy var recentTableView: UITableView = {
         var tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.backgroundColor = .white
@@ -73,9 +72,24 @@ class SearchViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        recentLabel.frame = CGRect(x: 15 * Layout.scaleFactorW, y: 109 * Layout.scaleFactorW, width: 200 * Layout.scaleFactorW, height: 29 * Layout.scaleFactorW)
-        clearButton.frame = CGRect(x: 304 * Layout.scaleFactorW, y: 113 * Layout.scaleFactorW, width: 71 * Layout.scaleFactorW, height: 20 * Layout.scaleFactorW)
-        recentTableView.frame = CGRect(x: 0, y: 138 * Layout.scaleFactorW, width: view.bounds.width, height: 634 * Layout.scaleFactorW)
+        recentLabel.frame = .init(
+            x: 15 * Layout.scaleFactorW,
+            y: 109 * Layout.scaleFactorW,
+            width: 200 * Layout.scaleFactorW,
+            height: 29 * Layout.scaleFactorW
+        )
+        clearButton.frame = .init(
+            x: 304 * Layout.scaleFactorW,
+            y: 113 * Layout.scaleFactorW,
+            width: 71 * Layout.scaleFactorW,
+            height: 20 * Layout.scaleFactorW
+        )
+        recentTableView.frame = .init(
+            x: 0,
+            y: 138 * Layout.scaleFactorW,
+            width: view.bounds.width,
+            height: 634 * Layout.scaleFactorW
+        )
     }
 
     private func setupViews() {
@@ -83,6 +97,7 @@ class SearchViewController: UIViewController {
         view.addSubview(recentLabel)
         view.addSubview(clearButton)
         view.addSubview(recentTableView)
+        clearButton.addTarget(self, action: #selector(clearRecentSearches), for: .touchUpInside)
     }
 
     private func setDelegate() {

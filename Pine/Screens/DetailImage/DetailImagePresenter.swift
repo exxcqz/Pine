@@ -22,6 +22,11 @@ final class DetailImagePresenter {
         let url = imageData.urls.regular
         NetworkDataFetch.shared.fetchImage(urlImage: url) { image in
             self.state.image = image
+            if imageData.width < imageData.height {
+                self.state.imageFullScreen = true
+            } else {
+                self.state.imageFullScreen = false
+            }
             self.update(force: false, animated: true)
         }
     }

@@ -14,40 +14,37 @@ protocol DetailImageViewOutput: class {
     func viewDidLoad()
 }
 
-class DetailImageViewController: UIViewController {
-    var viewModel: DetailImageViewModel
-    var output: DetailImageViewOutput
+final class DetailImageViewController: UIViewController {
+    private var viewModel: DetailImageViewModel
+    private let output: DetailImageViewOutput
 
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .black
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
-    private let nameLabel: UILabel = {
+    
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .proTextFontMedium(ofSize: 14)
         label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private let shareButton: UIButton = {
+    private lazy var shareButton: UIButton = {
         let button = UIButton()
+        button.isHidden = true
         button.setImage(UIImage(named: Icons.icShareWhite), for: .normal)
         button.addTarget(self, action: #selector(openShareController), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
-    private let transparentRectangleView: UIView = {
+    private lazy var transparentRectangleView: UIView = {
         let rectangle = UIView()
         rectangle.backgroundColor = .black
         rectangle.alpha = 0.2
-        rectangle.translatesAutoresizingMaskIntoConstraints = false
         return rectangle
     }()
 
@@ -63,10 +60,9 @@ class DetailImageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setViews()
-        setConstraint()
-        changeNavigationBar()
         output.viewDidLoad()
+        setViews()
+        changeNavigationBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,11 +70,52 @@ class DetailImageViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .black
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if viewModel.imageFullScreen {
+            imageView.frame = .init(
+                x: 0,
+                y: view.safeAreaInsets.top,
+                width: view.bounds.width,
+                height: view.bounds.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
+            )
+        } else {
+            guard let imageData = viewModel.imageData else { return }
+            let scale = view.bounds.width / CGFloat(imageData.width)
+            let height = CGFloat(imageData.height) * scale
+            imageView.frame = .init(
+                x: 0,
+                y: 0,
+                width: view.bounds.width,
+                height: height
+            )
+            imageView.center = view.center
+        }
+        transparentRectangleView.frame = .init(
+            x: 0,
+            y: view.bounds.height - view.safeAreaInsets.bottom - (44 * Layout.scaleFactorW),
+            width: view.bounds.width,
+            height: 44 * Layout.scaleFactorW
+        )
+        nameLabel.frame = .init(
+            x: 16 * Layout.scaleFactorW,
+            y: transparentRectangleView.center.y - (8 * Layout.scaleFactorW),
+            width: 315 * Layout.scaleFactorW,
+            height: 16 * Layout.scaleFactorW
+        )
+        shareButton.frame = .init(
+            x: 331 * Layout.scaleFactorW,
+            y: transparentRectangleView.center.y - (18 * Layout.scaleFactorW),
+            width: 36 * Layout.scaleFactorW,
+            height: 36 * Layout.scaleFactorW
+        )
+    }
+
     private func setViews() {
         view.backgroundColor = .black
         view.addSubview(imageView)
-        view.addSubview(nameLabel)
         view.addSubview(transparentRectangleView)
+        view.addSubview(nameLabel)
         view.addSubview(shareButton)
     }
 
@@ -89,38 +126,10 @@ class DetailImageViewController: UIViewController {
     }
 
     private func setImage() {
-        guard let image = viewModel.image,
-              let imageData = viewModel.imageData
-        else {
-            return
-        }
-
+        guard let image = viewModel.image else { return }
         self.imageView.image = image
         self.nameLabel.text = viewModel.nameUser
-        let widthView = self.view.bounds.width
-        let scale = widthView / CGFloat(imageData.width)
-        if imageData.width < imageData.height {
-            NSLayoutConstraint.activate([
-                self.imageView.heightAnchor.constraint(
-                    equalToConstant: 690 * Layout.scaleFactorW
-                ),
-                self.imageView.widthAnchor.constraint(
-                    equalToConstant: widthView
-                ),
-                self.imageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-            ])
-        } else {
-            NSLayoutConstraint.activate([
-                self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-                self.imageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-                self.imageView.heightAnchor.constraint(
-                    equalToConstant: CGFloat(imageData.height) * scale
-                ),
-                self.imageView.widthAnchor.constraint(
-                    equalToConstant: widthView
-                )
-            ])
-        }
+        self.shareButton.isHidden = false
     }
 
     @objc private func openShareController() {
@@ -137,33 +146,6 @@ extension DetailImageViewController: DetailImageViewInput {
     func update(with viewModel: DetailImageViewModel, force: Bool, animated: Bool) {
         self.viewModel = viewModel
         setImage()
-    }
-}
-
-// MARK: - SetConstraint
-
-extension DetailImageViewController {
-
-    private func setConstraint() {
-        NSLayoutConstraint.activate([
-            nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
-            nameLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
-            nameLabel.heightAnchor.constraint(equalToConstant: 16),
-            nameLabel.widthAnchor.constraint(equalToConstant: 315)
-        ])
-
-        NSLayoutConstraint.activate([
-            shareButton.widthAnchor.constraint(equalToConstant: 36),
-            shareButton.heightAnchor.constraint(equalToConstant: 36),
-            shareButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -8),
-            shareButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
-        ])
-
-        NSLayoutConstraint.activate([
-            transparentRectangleView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
-            transparentRectangleView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
-            transparentRectangleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            transparentRectangleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -44)
-        ])
+        viewDidLayoutSubviews()
     }
 }

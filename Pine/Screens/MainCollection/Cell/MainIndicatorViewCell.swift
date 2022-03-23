@@ -8,12 +8,12 @@
 import UIKit
 
 final class MainIndicatorViewCell: UICollectionViewCell {
-    var activityIndicator: UIActivityIndicatorView = {
+    lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         return indicator
     }()
 
-    var labelNoConnection: UILabel = {
+    lazy var labelNoConnection: UILabel = {
         let label = UILabel()
         label.text = Strings.cellLabelNoConnection
         label.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)

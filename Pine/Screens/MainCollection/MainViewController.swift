@@ -20,18 +20,19 @@ protocol MainViewOutput: class {
     func mainCancelButtonTappedEventTriggered()
 }
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     lazy var mainViewManager: CollectionViewManager = .init(collectionView: imagesCollectionView)
 
-    var viewModel: MainViewModel
-    var output: MainViewOutput
+    private var viewModel: MainViewModel
+    private let output: MainViewOutput
 
-    private let searchBar = UISearchBar()
-    private var loadingIndicator: UIActivityIndicatorView = {
+    private lazy var searchBar = UISearchBar()
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         return indicator
     }()
-    private var titleLabelFoundNothing: UILabel = {
+
+    private lazy var titleLabelFoundNothing: UILabel = {
         let label = UILabel()
         label.text = Strings.mainTitleLabelFoundNothing
         label.font = UIFont.proTextFontMedium(ofSize: 24 * Layout.scaleFactorW)
@@ -40,7 +41,8 @@ class MainViewController: UIViewController {
         label.isHidden = true
         return label
     }()
-    private var labelFoundNothing: UILabel = {
+
+    private lazy var labelFoundNothing: UILabel = {
         let label = UILabel()
         label.text = Strings.mainLabelFoundNothing
         label.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)
@@ -49,7 +51,8 @@ class MainViewController: UIViewController {
         label.isHidden = true
         return label
     }()
-    private var titleLabelNoConnection: UILabel = {
+
+    private lazy var titleLabelNoConnection: UILabel = {
         let label = UILabel()
         label.text = Strings.mainTitleLabelNoConnection
         label.font = UIFont.proTextFontMedium(ofSize: 24 * Layout.scaleFactorW)
@@ -58,7 +61,8 @@ class MainViewController: UIViewController {
         label.isHidden = true
         return label
     }()
-    private var labelNoConnection: UILabel = {
+
+    private lazy var labelNoConnection: UILabel = {
         let label = UILabel()
         label.text = Strings.mainLabelNoConnection
         label.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)
@@ -68,7 +72,7 @@ class MainViewController: UIViewController {
         return label
     }()
 
-    private var imagesCollectionView: UICollectionView = {
+    private lazy var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -77,7 +81,6 @@ class MainViewController: UIViewController {
         collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.register(MainIndicatorViewCell.self, forCellWithReuseIdentifier: "indicator")
         collectionView.keyboardDismissMode = .onDrag
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
 
@@ -97,7 +100,6 @@ class MainViewController: UIViewController {
         setDelegate()
         setNavigationBar()
         setupSearchBar()
-
         resetMainCollection(imagesData: viewModel.imagesData)
         mainViewManager.sectionItems = [makeMainSectionItem(imagesData: viewModel.imagesData)]
     }
@@ -110,14 +112,18 @@ class MainViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let heightNavBar = navigationController?.navigationBar.bounds.height ?? 0
         imagesCollectionView.frame = .init(
             x: 0,
-            y: heightNavBar,
+            y: view.safeAreaInsets.top,
             width: view.bounds.width,
-            height: view.bounds.height - heightNavBar
+            height: view.bounds.height - view.safeAreaInsets.top
         )
-        loadingIndicator.frame = CGRect(x: 0, y: 0, width: 24 * Layout.scaleFactorW, height: 24 * Layout.scaleFactorW)
+        loadingIndicator.frame = .init(
+            x: 0,
+            y: 0,
+            width: 24 * Layout.scaleFactorW,
+            height: 24 * Layout.scaleFactorW
+        )
         loadingIndicator.center = view.center
         titleLabelFoundNothing.frame = .init(
             x: 102.5 * Layout.scaleFactorW,

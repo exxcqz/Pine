@@ -113,7 +113,6 @@ final class MainViewController: UIViewController {
         collectionView.bounces = false
         collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.register(MainIndicatorViewCell.self, forCellWithReuseIdentifier: "indicator")
-        collectionView.keyboardDismissMode = .onDrag
         return collectionView
     }()
 
@@ -242,6 +241,9 @@ final class MainViewController: UIViewController {
         let loupeImage = UIImage(named: Icons.icLoupe)
         searchBar.setImage(cancelImage, for: .clear, state: .normal)
         searchBar.setImage(loupeImage, for: .search, state: .normal)
+        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+            cancelButton.isEnabled = true
+        }
     }
 
     private func startLoadingIndicator() {
@@ -309,6 +311,13 @@ final class MainViewController: UIViewController {
         output.fetchData()
     }
 
+    private func hideKeyboard() {
+        searchBar.endEditing(true)
+        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+            cancelButton.isEnabled = true
+        }
+    }
+
     // MARK: - Factory methods
 
     private func makeMainSectionItem(imagesData: [ImageData]) -> CollectionViewSectionItem {
@@ -348,6 +357,7 @@ final class MainViewController: UIViewController {
 extension MainViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        hideKeyboard()
         let offset = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         if offset > (contentHeight - scrollView.frame.height - 20) && viewModel.currentPage < viewModel.totalPage {
@@ -396,7 +406,7 @@ extension MainViewController: MainViewInput {
         case .random:
             checkNetworkConnection()
         case .query:
-            searchBar.endEditing(true)
+            hideKeyboard()
             checkNetworkConnection()
             if viewModel.networkConnection {
                 searchFoundNothing()

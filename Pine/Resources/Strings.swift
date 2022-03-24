@@ -16,6 +16,9 @@ enum Strings {
     static let mainTitleLabelNoConnection = "No connection"
     static let mainLabelNoConnection = "Check the connection and try again"
     static let cellLabelNoConnection = "No internet connection. Waiting for network…"
+    static let mainTitleLabelSearchWrong = "Woah!"
+    static let mainLabelSearchWrong = "Something somehow went wrong. \n We’re alreadt working on that"
+    static let mainButtonSearchWrong = "Retry"
 }
 
 enum Icons {

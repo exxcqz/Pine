@@ -72,6 +72,39 @@ final class MainViewController: UIViewController {
         return label
     }()
 
+    private lazy var titleLabelSearchWrong: UILabel = {
+        let label = UILabel()
+        label.text = Strings.mainTitleLabelSearchWrong
+        label.font = UIFont.proTextFontMedium(ofSize: 24 * Layout.scaleFactorW)
+        label.textAlignment = .center
+        label.textColor = .black
+        label.isHidden = true
+        return label
+    }()
+
+    private lazy var labelSearchWrong: UILabel = {
+        let label = UILabel()
+        label.text = Strings.mainLabelSearchWrong
+        label.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)
+        label.textAlignment = .center
+        label.textColor = .black
+        label.numberOfLines = 2
+        label.isHidden = true
+        return label
+    }()
+
+    private lazy var buttonSearchWrong: UIButton = {
+        let button = UIButton(type: .roundedRect)
+        button.setTitle(Strings.mainButtonSearchWrong, for: .normal)
+        button.titleLabel?.font = UIFont.latoFontBold(ofSize: 16 * Layout.scaleFactorW)
+        button.layer.cornerRadius = 6 * Layout.scaleFactorW
+        button.tintColor = .white
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(retryFetchSearchData), for: .touchUpInside)
+        button.isHidden = true
+        return button
+    }()
+
     private lazy var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
@@ -149,6 +182,25 @@ final class MainViewController: UIViewController {
             width: view.bounds.width,
             height: 16 * Layout.scaleFactorW
         )
+        titleLabelSearchWrong.frame = .init(
+            x: 0,
+            y: 245 * Layout.scaleFactorW,
+            width: view.bounds.width,
+            height: 29 * Layout.scaleFactorW
+        )
+        labelSearchWrong.frame = .init(
+            x: 0,
+            y: 281 * Layout.scaleFactorW,
+            width: view.bounds.width,
+            height: 34 * Layout.scaleFactorW
+        )
+        buttonSearchWrong.frame = .init(
+            x: 0,
+            y: 330 * Layout.scaleFactorW,
+            width: 160 * Layout.scaleFactorW,
+            height: 40 * Layout.scaleFactorW
+        )
+        buttonSearchWrong.center.x = view.center.x
     }
 
     private func setupViews() {
@@ -159,6 +211,9 @@ final class MainViewController: UIViewController {
         view.addSubview(labelFoundNothing)
         view.addSubview(titleLabelNoConnection)
         view.addSubview(labelNoConnection)
+        view.addSubview(titleLabelSearchWrong)
+        view.addSubview(labelSearchWrong)
+        view.addSubview(buttonSearchWrong)
     }
 
     private func setDelegate() {
@@ -208,17 +263,27 @@ final class MainViewController: UIViewController {
         if !viewModel.networkConnection {
             if viewModel.currentPage == 1 {
                 imagesCollectionView.isHidden = true
-                titleLabelNoConnection.isHidden = false
-                labelNoConnection.isHidden = false
+                switch viewModel.searchMode {
+                case .random:
+                    titleLabelNoConnection.isHidden = false
+                    labelNoConnection.isHidden = false
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 3) {
+                        self.output.fetchData()
+                    }
+                case .query:
+                    titleLabelSearchWrong.isHidden = false
+                    labelSearchWrong.isHidden = false
+                    buttonSearchWrong.isHidden = false
+                }
                 loadingIndicator.stopAnimating()
-                //            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                //                self.output.fetchData()
-                //            }
             }
         } else {
             imagesCollectionView.isHidden = false
             titleLabelNoConnection.isHidden = true
             labelNoConnection.isHidden = true
+            titleLabelSearchWrong.isHidden = true
+            labelSearchWrong.isHidden = true
+            buttonSearchWrong.isHidden = true
         }
     }
 
@@ -238,6 +303,10 @@ final class MainViewController: UIViewController {
         mainViewManager.update([makeMainSectionItem(imagesData: imagesData)], shouldReloadData: true) {
             print("Reload complete")
         }
+    }
+
+    @objc private func retryFetchSearchData() {
+        output.fetchData()
     }
 
     // MARK: - Factory methods
@@ -265,6 +334,11 @@ final class MainViewController: UIViewController {
 
     private func makeIndicatorCellItem() -> MainIndicatorViewCellItem {
         let cellItem = MainIndicatorViewCellItem(networkConnection: viewModel.networkConnection)
+        if !viewModel.networkConnection {
+            DispatchQueue.global().asyncAfter(deadline: .now() + 3) {
+                self.output.fetchData()
+            }
+        }
         return cellItem
     }
 }

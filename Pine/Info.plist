@@ -29,5 +29,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This application wants to add an image to your images library</string>
 </dict>
 </plist>

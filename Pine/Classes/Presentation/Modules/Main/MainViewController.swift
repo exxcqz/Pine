@@ -121,7 +121,7 @@ final class MainViewController: UIViewController {
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -377,7 +377,6 @@ extension MainViewController: UISearchBarDelegate {
         guard let query = searchBar.text else { return }
         output.fetchSearchData(query: query)
         imagesCollectionView.contentOffset = .zero
-        
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {

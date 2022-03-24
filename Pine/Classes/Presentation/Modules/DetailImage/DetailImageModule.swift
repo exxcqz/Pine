@@ -39,4 +39,3 @@ final class DetailImageModule {
         self.viewController = viewController
     }
 }
-

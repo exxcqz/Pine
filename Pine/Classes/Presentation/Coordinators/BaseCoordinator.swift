@@ -41,8 +41,7 @@ class BaseCoordinator<V: UIViewController>: NSObject, Coordinator, CoordinatorDe
     }
 
     func remove(child: Coordinator) {
-        if let index = childCoordinators.firstIndex(where: {
-            coordinator in
+        if let index = childCoordinators.firstIndex(where: { coordinator in
             return coordinator === child
         }) {
             childCoordinators.remove(at: index)

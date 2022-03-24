@@ -48,7 +48,7 @@ final class MainIndicatorViewCell: UICollectionViewCell {
             height: 16 * Layout.scaleFactorW
         )
     }
-    
+
     private func setup() {
         contentView.addSubview(activityIndicator)
         contentView.addSubview(labelNoConnection)

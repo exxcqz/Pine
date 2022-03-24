@@ -18,7 +18,7 @@ class NetworkRequest {
         if let task = task {
             task.cancel()
         }
-        task = URLSession.shared.dataTask(with: request) { data, response, error in
+        task = URLSession.shared.dataTask(with: request) { data, _, error in
             DispatchQueue.main.async {
                 if let error = error {
                     completion(.failure(error))

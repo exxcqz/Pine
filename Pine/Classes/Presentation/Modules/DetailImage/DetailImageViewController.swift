@@ -25,7 +25,7 @@ final class DetailImageViewController: UIViewController {
         imageView.backgroundColor = .black
         return imageView
     }()
-    
+
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .proTextFontMedium(ofSize: 14)
@@ -142,7 +142,7 @@ final class DetailImageViewController: UIViewController {
 // MARK: - DetailImageViewInput
 
 extension DetailImageViewController: DetailImageViewInput {
-    
+
     func update(with viewModel: DetailImageViewModel, force: Bool, animated: Bool) {
         self.viewModel = viewModel
         setImage()

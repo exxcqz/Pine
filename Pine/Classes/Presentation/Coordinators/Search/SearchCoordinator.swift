@@ -27,7 +27,7 @@ final class SearchCoordinator: BaseCoordinator<UINavigationController> {
     }
 }
 
-//MARK: - SearchModuleOutput
+// MARK: - SearchModuleOutput
 
 extension SearchCoordinator: SearchModuleOutput {
 

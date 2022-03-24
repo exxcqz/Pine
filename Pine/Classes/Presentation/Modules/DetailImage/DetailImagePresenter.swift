@@ -32,7 +32,7 @@ final class DetailImagePresenter {
     }
 }
 
-//MARK: - DetailImageViewOutput
+// MARK: - DetailImageViewOutput
 
 extension DetailImagePresenter: DetailImageViewOutput {
 
@@ -41,7 +41,7 @@ extension DetailImagePresenter: DetailImageViewOutput {
     }
 }
 
-//MARK: - DetailImageModuleInput
+// MARK: - DetailImageModuleInput
 
 extension DetailImagePresenter: DetailImageModuleInput {
 

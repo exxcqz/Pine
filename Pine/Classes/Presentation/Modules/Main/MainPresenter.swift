@@ -24,7 +24,7 @@ final class MainPresenter {
     private func fetchRandomData() {
         if !state.isEventScroll {
             dependencies.mainService.fetchRandomData(page: state.currentPage) { [weak self] imagesData, error in
-                if let _ = error {
+                if error != nil {
                     self?.state.networkConnection = false
                     self?.update(force: false, animated: true)
                     return
@@ -34,7 +34,6 @@ final class MainPresenter {
                 self?.state.imagesData.append(contentsOf: imagesData)
                 self?.state.currentPage += 1
                 self?.update(force: false, animated: true)
-                print("страница", self?.state.currentPage)
             }
             state.isEventScroll = true
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
@@ -46,8 +45,11 @@ final class MainPresenter {
     private func fetchSearchData() {
         if !state.isEventScroll {
             guard let query = state.query else { return }
-            dependencies.mainService.fetchSearchData(query: query, page: state.currentPage) { [weak self] result, error in
-                if let _ = error {
+            dependencies.mainService.fetchSearchData(
+                query: query,
+                page: state.currentPage
+            ) { [weak self] result, error in
+                if error != nil {
                     self?.state.networkConnection = false
                     self?.update(force: false, animated: true)
                     return
@@ -59,7 +61,6 @@ final class MainPresenter {
                 self?.state.currentPage += 1
                 self?.state.totalPage = result.totalPages
                 self?.update(force: false, animated: true)
-                print("страница", self?.state.currentPage)
             }
         }
         state.isEventScroll = true
@@ -83,7 +84,7 @@ final class MainPresenter {
     }
 }
 
-//MARK: - MainViewOutput
+// MARK: - MainViewOutput
 
 extension MainPresenter: MainViewOutput {
 
@@ -113,13 +114,12 @@ extension MainPresenter: MainViewOutput {
         output?.mainSearchBarTappedEventTriggered(self)
     }
 
-
     func mainCancelButtonTappedEventTriggered() {
         output?.mainCancelButtonTappedEventTriggered(self)
     }
 }
 
-//MARK: - MainModuleInput
+// MARK: - MainModuleInput
 
 extension MainPresenter: MainModuleInput {
 

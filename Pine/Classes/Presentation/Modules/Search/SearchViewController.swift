@@ -133,7 +133,7 @@ final class SearchViewController: UIViewController {
     }
 }
 
-//MARK: - SearchViewInput
+// MARK: - SearchViewInput
 
 extension SearchViewController: SearchViewInput {
 
@@ -143,10 +143,10 @@ extension SearchViewController: SearchViewInput {
     }
 }
 
-//MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 
 extension SearchViewController: UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.recentSearches.count
     }
@@ -160,7 +160,7 @@ extension SearchViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - UITableViewDelegate
+// MARK: - UITableViewDelegate
 
 extension SearchViewController: UITableViewDelegate {
 
@@ -173,7 +173,7 @@ extension SearchViewController: UITableViewDelegate {
     }
 }
 
-//MARK: - UISearchBarDelegate
+// MARK: - UISearchBarDelegate
 
 extension SearchViewController: UISearchBarDelegate {
 

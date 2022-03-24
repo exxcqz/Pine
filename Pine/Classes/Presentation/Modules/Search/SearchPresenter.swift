@@ -39,7 +39,7 @@ final class SearchPresenter {
     }
 }
 
-//MARK: - SearchViewOutput
+// MARK: - SearchViewOutput
 
 extension SearchPresenter: SearchViewOutput {
 
@@ -66,7 +66,7 @@ extension SearchPresenter: SearchViewOutput {
     }
 }
 
-//MARK: - SearchModuleInput
+// MARK: - SearchModuleInput
 
 extension SearchPresenter: SearchModuleInput {
 

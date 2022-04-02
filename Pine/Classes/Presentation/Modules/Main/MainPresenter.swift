@@ -9,7 +9,7 @@ import Foundation
 
 final class MainPresenter {
 
-    typealias Dependencies = HasMainService
+    typealias Dependencies = HasMainService & HasSearchService
 
     weak var view: MainViewInput?
     var output: MainModuleOutput?
@@ -45,7 +45,7 @@ final class MainPresenter {
     private func fetchSearchData() {
         if !state.isEventScroll {
             guard let query = state.query else { return }
-            dependencies.mainService.fetchSearchData(
+            dependencies.searchService.fetchSearchData(
                 query: query,
                 page: state.currentPage
             ) { [weak self] result, error in
@@ -67,16 +67,6 @@ final class MainPresenter {
         DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
             self.state.isEventScroll = false
         }
-    }
-
-    private func addQueryToRecent(query: String) {
-        guard var recentSearches = UserDefaults.standard.array(forKey: "recentSearches") as? [String] else { return }
-        if recentSearches.contains(query) {
-            guard let index = recentSearches.firstIndex(of: query) else { return }
-            recentSearches.remove(at: index)
-        }
-        recentSearches.append(query)
-        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
     }
 
     private func openSearchScreen() {
@@ -103,7 +93,7 @@ extension MainPresenter: MainViewOutput {
         state.imagesData.removeAll()
         CacheManager.cache.removeAllObjects()
         fetchSearchData()
-        addQueryToRecent(query: query)
+        dependencies.searchService.addQueryToRecent(query: query)
     }
 
     func nextDetailImageScreen(imageData: ImageData) {

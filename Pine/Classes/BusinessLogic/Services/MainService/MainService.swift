@@ -13,5 +13,4 @@ protocol HasMainService {
 
 protocol MainService {
     func fetchRandomData(page: Int, completion: @escaping ([ImageData]?, Error?) -> Void)
-    func fetchSearchData(query: String, page: Int, completion: @escaping (SearchResult?, Error?) -> Void)
 }

@@ -19,15 +19,4 @@ final class MainServiceImp: MainService {
             completion(result, nil)
         }
     }
-
-    func fetchSearchData(query: String, page: Int, completion: @escaping (SearchResult?, Error?) -> Void) {
-        NetworkDataFetch.shared.fetchSearchData(query: query, page: page) { result, error in
-            if let error = error {
-                print(error.localizedDescription, "Ошибка поиска")
-                completion(nil, error)
-            }
-            guard let result = result else { return }
-            completion(result, nil)
-        }
-    }
 }

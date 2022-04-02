@@ -34,7 +34,7 @@ final class SearchModule {
 
         init(state: SearchState = .init()) {
             let viewModel = SearchViewModel(state: state)
-            let presenter = SearchPresenter(state: state)
+            let presenter = SearchPresenter(state: state, dependencies: Services)
             let viewController = SearchViewController(viewModel: viewModel, output: presenter)
             presenter.view = viewController
             self.presenter = presenter

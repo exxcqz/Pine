@@ -7,13 +7,14 @@
 
 import Foundation
 
-typealias ServicesAlias = HasMainService
+typealias ServicesAlias = HasMainService & HasSearchService
 
 var Services: ServicesAlias { // swiftlint:disable:this variable_name
-    return MainServicesFactory()
+    return ServicesFactory()
 }
 
-final class MainServicesFactory: ServicesAlias {
+final class ServicesFactory: ServicesAlias {
+    lazy var searchService: SearchService = SearchServiceImp()
     lazy var mainService: MainService = MainServiceImp()
 }
 

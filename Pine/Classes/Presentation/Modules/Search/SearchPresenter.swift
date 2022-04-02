@@ -8,34 +8,18 @@
 import Foundation
 
 final class SearchPresenter {
+
+    typealias Dependencies = HasSearchService
+
     weak var view: SearchViewInput?
     var output: SearchModuleOutput?
     var state: SearchState
+    private let dependencies: Dependencies
 
-    init(state: SearchState) {
+    init(state: SearchState, dependencies: Dependencies) {
         self.state = state
-        createDataBaseForRecentSearches()
-    }
-
-    private func createDataBaseForRecentSearches() {
-        let recentSearches = UserDefaults.standard.array(forKey: "recentSearches") as? [String]
-        if recentSearches == nil {
-            let array: [String] = []
-            print("sozdal")
-            UserDefaults.standard.set(array, forKey: "recentSearches")
-        }
-    }
-
-    private func addQueryToRecent(query: String) {
-        guard var recentSearches = UserDefaults.standard.array(forKey: "recentSearches") as? [String] else { return }
-        if recentSearches.contains(query) {
-            guard let index = recentSearches.firstIndex(of: query) else { return }
-            recentSearches.remove(at: index)
-        }
-        recentSearches.append(query)
-        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
-        state.updateRecentSearches()
-        update(force: false, animated: false)
+        self.dependencies = dependencies
+        dependencies.searchService.createDataBaseForRecentSearches()
     }
 }
 
@@ -49,9 +33,7 @@ extension SearchPresenter: SearchViewOutput {
     }
 
     func clearRecentSearches() {
-        guard var recentSearches = UserDefaults.standard.array(forKey: "recentSearches") as? [String] else { return }
-        recentSearches.removeAll()
-        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
+        dependencies.searchService.clearRecentSearches()
         state.updateRecentSearches()
         update(force: false, animated: false)
     }
@@ -61,7 +43,7 @@ extension SearchPresenter: SearchViewOutput {
     }
 
     func searchButtonEventTriggered(query: String) {
-        addQueryToRecent(query: query)
+        dependencies.searchService.addQueryToRecent(query: query)
         output?.searchButtonEventTriggered(self, query: query)
     }
 }

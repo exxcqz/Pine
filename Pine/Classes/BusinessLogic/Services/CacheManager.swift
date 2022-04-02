@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CacheManager {
+final class CacheManager {
     static let cache = NSCache<AnyObject, AnyObject>()
 
     private init() {}

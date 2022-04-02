@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkRequest {
+final class NetworkRequest {
     static let shared = NetworkRequest()
 
     private var task: URLSessionDataTask?

@@ -37,7 +37,7 @@ final class MainViewCellItem: CollectionViewCellItem {
     }
 
     @objc private func openShareController() {
-        NetworkDataFetch.shared.fetchImage(urlImage: imageData.urls.regular) { image in
+        NetworkDataFetch.shared.fetchImage(urlImage: imageData.urls.full) { image in
             let shareController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.viewController?.present(shareController, animated: true, completion: nil)
         }

@@ -74,19 +74,19 @@ final class SearchViewController: UIViewController {
         super.viewDidLayoutSubviews()
         recentLabel.frame = .init(
             x: 15 * Layout.scaleFactorW,
-            y: 109 * Layout.scaleFactorW,
+            y: (15 * Layout.scaleFactorW) + view.safeAreaInsets.top,
             width: 200 * Layout.scaleFactorW,
             height: 29 * Layout.scaleFactorW
         )
         clearButton.frame = .init(
             x: 304 * Layout.scaleFactorW,
-            y: 113 * Layout.scaleFactorW,
+            y: (21 * Layout.scaleFactorW) + view.safeAreaInsets.top,
             width: 71 * Layout.scaleFactorW,
             height: 20 * Layout.scaleFactorW
         )
         recentTableView.frame = .init(
             x: 0,
-            y: 138 * Layout.scaleFactorW,
+            y: (44 * Layout.scaleFactorW) + view.safeAreaInsets.top,
             width: view.bounds.width,
             height: 634 * Layout.scaleFactorW
         )

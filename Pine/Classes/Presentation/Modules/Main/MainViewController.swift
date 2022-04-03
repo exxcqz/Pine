@@ -33,9 +33,8 @@ final class MainViewController: UIViewController {
         return indicator
     }()
 
-    private lazy var titleLabelFoundNothing: UILabel = {
+    private lazy var titleLabelError: UILabel = {
         let label = UILabel()
-        label.text = Strings.mainTitleLabelFoundNothing
         label.font = UIFont.proTextFontMedium(ofSize: 24 * Layout.scaleFactorW)
         label.textAlignment = .center
         label.textColor = .black
@@ -43,49 +42,8 @@ final class MainViewController: UIViewController {
         return label
     }()
 
-    private lazy var labelFoundNothing: UILabel = {
+    private lazy var subtitleLabelError: UILabel = {
         let label = UILabel()
-        label.text = Strings.mainLabelFoundNothing
-        label.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)
-        label.textAlignment = .center
-        label.textColor = .black
-        label.isHidden = true
-        return label
-    }()
-
-    private lazy var titleLabelNoConnection: UILabel = {
-        let label = UILabel()
-        label.text = Strings.mainTitleLabelNoConnection
-        label.font = UIFont.proTextFontMedium(ofSize: 24 * Layout.scaleFactorW)
-        label.textAlignment = .center
-        label.textColor = .black
-        label.isHidden = true
-        return label
-    }()
-
-    private lazy var labelNoConnection: UILabel = {
-        let label = UILabel()
-        label.text = Strings.mainLabelNoConnection
-        label.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)
-        label.textAlignment = .center
-        label.textColor = .black
-        label.isHidden = true
-        return label
-    }()
-
-    private lazy var titleLabelSearchWrong: UILabel = {
-        let label = UILabel()
-        label.text = Strings.mainTitleLabelSearchWrong
-        label.font = UIFont.proTextFontMedium(ofSize: 24 * Layout.scaleFactorW)
-        label.textAlignment = .center
-        label.textColor = .black
-        label.isHidden = true
-        return label
-    }()
-
-    private lazy var labelSearchWrong: UILabel = {
-        let label = UILabel()
-        label.text = Strings.mainLabelSearchWrong
         label.font = UIFont.proTextFontMedium(ofSize: 14 * Layout.scaleFactorW)
         label.textAlignment = .center
         label.textColor = .black
@@ -158,37 +116,13 @@ final class MainViewController: UIViewController {
             height: 24 * Layout.scaleFactorW
         )
         loadingIndicator.center = view.center
-        titleLabelFoundNothing.frame = .init(
-            x: 102.5 * Layout.scaleFactorW,
-            y: 282 * Layout.scaleFactorW,
-            width: 170 * Layout.scaleFactorW,
-            height: 29 * Layout.scaleFactorW
-        )
-        labelFoundNothing.frame = .init(
-            x: 0,
-            y: 318 * Layout.scaleFactorW,
-            width: view.bounds.width,
-            height: 16 * Layout.scaleFactorW
-        )
-        titleLabelNoConnection.frame = .init(
-            x: 0,
-            y: 320 * Layout.scaleFactorW,
-            width: view.bounds.width,
-            height: 29 * Layout.scaleFactorW
-        )
-        labelNoConnection.frame = .init(
-            x: 0,
-            y: 356 * Layout.scaleFactorW,
-            width: view.bounds.width,
-            height: 16 * Layout.scaleFactorW
-        )
-        titleLabelSearchWrong.frame = .init(
+        titleLabelError.frame = .init(
             x: 0,
             y: 245 * Layout.scaleFactorW,
             width: view.bounds.width,
             height: 29 * Layout.scaleFactorW
         )
-        labelSearchWrong.frame = .init(
+        subtitleLabelError.frame = .init(
             x: 0,
             y: 281 * Layout.scaleFactorW,
             width: view.bounds.width,
@@ -207,12 +141,8 @@ final class MainViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(imagesCollectionView)
         view.addSubview(loadingIndicator)
-        view.addSubview(titleLabelFoundNothing)
-        view.addSubview(labelFoundNothing)
-        view.addSubview(titleLabelNoConnection)
-        view.addSubview(labelNoConnection)
-        view.addSubview(titleLabelSearchWrong)
-        view.addSubview(labelSearchWrong)
+        view.addSubview(titleLabelError)
+        view.addSubview(subtitleLabelError)
         view.addSubview(buttonSearchWrong)
     }
 
@@ -268,37 +198,41 @@ final class MainViewController: UIViewController {
                 imagesCollectionView.isHidden = true
                 switch viewModel.searchMode {
                 case .random:
-                    titleLabelNoConnection.isHidden = false
-                    labelNoConnection.isHidden = false
+                    titleLabelError.isHidden = false
+                    subtitleLabelError.isHidden = false
+                    titleLabelError.text = Strings.mainTitleLabelNoConnection
+                    subtitleLabelError.text = Strings.mainLabelNoConnection
                     DispatchQueue.global().asyncAfter(deadline: .now() + 3) {
                         self.output.fetchData()
                     }
                 case .query:
-                    titleLabelSearchWrong.isHidden = false
-                    labelSearchWrong.isHidden = false
+                    titleLabelError.isHidden = false
+                    subtitleLabelError.isHidden = false
                     buttonSearchWrong.isHidden = false
+                    titleLabelError.text = Strings.mainTitleLabelSearchWrong
+                    subtitleLabelError.text = Strings.mainLabelSearchWrong
                 }
                 loadingIndicator.stopAnimating()
             }
         } else {
             imagesCollectionView.isHidden = false
-            titleLabelNoConnection.isHidden = true
-            labelNoConnection.isHidden = true
-            titleLabelSearchWrong.isHidden = true
-            labelSearchWrong.isHidden = true
+            titleLabelError.isHidden = true
+            subtitleLabelError.isHidden = true
             buttonSearchWrong.isHidden = true
         }
     }
 
     private func searchFoundNothing() {
         if viewModel.imagesData.isEmpty {
-            titleLabelFoundNothing.isHidden = false
-            labelFoundNothing.isHidden = false
+            titleLabelError.isHidden = false
+            subtitleLabelError.isHidden = false
+            titleLabelError.text = Strings.mainTitleLabelFoundNothing
+            subtitleLabelError.text = Strings.mainLabelFoundNothing
             loadingIndicator.stopAnimating()
             searchBar.becomeFirstResponder()
         } else {
-            titleLabelFoundNothing.isHidden = true
-            labelFoundNothing.isHidden = true
+            titleLabelError.isHidden = true
+            subtitleLabelError.isHidden = true
         }
     }
 

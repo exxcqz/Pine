@@ -13,12 +13,12 @@ final class MainViewCellItem: CollectionViewCellItem {
     typealias Cell = MainViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
 
+    private let output: MainViewOutput
     private let imageData: ImageData
-    weak var viewController: UIViewController?
 
-    init(imageData: ImageData, viewController: UIViewController?) {
+    init(imageData: ImageData, output: MainViewOutput) {
         self.imageData = imageData
-        self.viewController = viewController
+        self.output = output
     }
 
     func configure(_ cell: UICollectionViewCell) {
@@ -26,7 +26,7 @@ final class MainViewCellItem: CollectionViewCellItem {
             return
         }
         cell.configureImagesCell(imageInfo: imageData)
-        cell.shareButton.addTarget(self, action: #selector(openShareController), for: .touchUpInside)
+        cell.shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
     }
 
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
@@ -36,10 +36,7 @@ final class MainViewCellItem: CollectionViewCellItem {
         )
     }
 
-    @objc private func openShareController() {
-        NetworkDataFetch.shared.fetchImage(urlImage: imageData.urls.full) { image in
-            let shareController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-            self.viewController?.present(shareController, animated: true, completion: nil)
-        }
+    @objc private func shareButtonTapped() {
+        output.shareButtonTappedEventTriggered(urlImage: imageData.urls.regular)
     }
 }

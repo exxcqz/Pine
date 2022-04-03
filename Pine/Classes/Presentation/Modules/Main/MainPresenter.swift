@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class MainPresenter {
 
@@ -106,6 +107,12 @@ extension MainPresenter: MainViewOutput {
 
     func mainCancelButtonTappedEventTriggered() {
         output?.mainCancelButtonTappedEventTriggered(self)
+    }
+
+    func shareButtonTappedEventTriggered(urlImage: String) {
+        dependencies.mainService.fetchImage(urlImage: urlImage) { image in
+            self.output?.mainShareButtonTappedEventTriggered(self, image: image)
+        }
     }
 }
 

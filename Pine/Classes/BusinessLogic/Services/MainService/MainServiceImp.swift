@@ -5,7 +5,7 @@
 //  Created by Nikita Gavrikov on 13.03.2022.
 //
 
-import Foundation
+import UIKit
 
 final class MainServiceImp: MainService {
 
@@ -17,6 +17,12 @@ final class MainServiceImp: MainService {
             }
             guard let result = result else { return }
             completion(result, nil)
+        }
+    }
+
+    func fetchImage(urlImage: String, completion: @escaping (UIImage) -> Void) {
+        NetworkDataFetch.shared.fetchImage(urlImage: urlImage) { image in
+            completion(image)
         }
     }
 }

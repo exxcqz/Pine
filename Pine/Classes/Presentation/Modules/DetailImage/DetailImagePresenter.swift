@@ -19,7 +19,7 @@ final class DetailImagePresenter {
     private func setDetailImage() {
         guard let imageData = state.imageData else { return }
         state.nameUser = "\(imageData.user?.firstName ?? "") \(imageData.user?.lastName ?? "")"
-        let url = imageData.urls.full
+        let url = imageData.urls.regular
         NetworkDataFetch.shared.fetchImage(urlImage: url) { image in
             self.state.image = image
             if imageData.width < imageData.height {

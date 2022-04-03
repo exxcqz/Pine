@@ -11,6 +11,7 @@ protocol MainModuleOutput {
     func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData)
     func mainSearchBarTappedEventTriggered(_ moduleInput: MainModuleInput)
     func mainCancelButtonTappedEventTriggered(_ moduleInput: MainModuleInput)
+    func mainShareButtonTappedEventTriggered(_ moduleInput: MainModuleInput, image: UIImage)
 }
 
 protocol MainModuleInput: class {

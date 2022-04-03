@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol HasMainService {
     var mainService: MainService { get }
@@ -13,4 +14,5 @@ protocol HasMainService {
 
 protocol MainService {
     func fetchRandomData(page: Int, completion: @escaping ([ImageData]?, Error?) -> Void)
+    func fetchImage(urlImage: String, completion: @escaping (UIImage) -> Void)
 }

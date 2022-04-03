@@ -42,6 +42,11 @@ final class MainCoordinator: BaseCoordinator<UINavigationController> {
         append(child: coordinator)
         coordinator.start()
     }
+
+    private func openShareController(image: UIImage) {
+        let shareController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        rootViewController.present(shareController, animated: true, completion: nil)
+    }
 }
 
 // MARK: - MainModuleOutput
@@ -58,5 +63,9 @@ extension MainCoordinator: MainModuleOutput {
 
     func mainCancelButtonTappedEventTriggered(_ moduleInput: MainModuleInput) {
         rootViewController.popViewController(animated: true)
+    }
+
+    func mainShareButtonTappedEventTriggered(_ moduleInput: MainModuleInput, image: UIImage) {
+        openShareController(image: image)
     }
 }

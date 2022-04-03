@@ -18,6 +18,7 @@ protocol MainViewOutput: class {
     func nextDetailImageScreen(imageData: ImageData)
     func mainSearchBarTappedEventTriggered()
     func mainCancelButtonTappedEventTriggered()
+    func shareButtonTappedEventTriggered(urlImage: String)
 }
 
 final class MainViewController: UIViewController {
@@ -334,7 +335,7 @@ final class MainViewController: UIViewController {
     }
 
     private func makeCellItem(imageData: ImageData) -> MainViewCellItem {
-        let cellItem = MainViewCellItem(imageData: imageData, viewController: self)
+        let cellItem = MainViewCellItem(imageData: imageData, output: output)
         cellItem.itemDidSelectHandler = { _ in
             self.output.nextDetailImageScreen(imageData: imageData)
         }

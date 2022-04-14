@@ -73,7 +73,6 @@ final class MainTransitionManager: NSObject, UIViewControllerAnimatedTransitioni
         containerView.addSubview(snapShotImageContainerView)
         containerView.addSubview(toViewController.view)
         cell.isHidden = true
-        print(cell.nameLabel.text)
 
         toViewController.view.isHidden = true
         toViewController.view.setNeedsLayout()

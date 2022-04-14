@@ -78,6 +78,10 @@ final class MainPresenter {
 // MARK: - MainViewOutput
 
 extension MainPresenter: MainViewOutput {
+    func selectedImageDataIndex() -> Int? {
+        return state.selectedImageDataIndex
+    }
+
 
     func fetchData() {
         switch state.searchMode {
@@ -124,5 +128,14 @@ extension MainPresenter: MainModuleInput {
     func update(force: Bool, animated: Bool) {
         let viewModel = MainViewModel(state: state)
         view?.update(with: viewModel, force: force, animated: animated)
+    }
+}
+
+// MARK: - MainSectionItemsFactoryOutput
+
+extension MainPresenter: MainSectionItemsFactoryOutput {
+
+    func didSelectImageDataWithIndex(_ index: Int) {
+        state.selectedImageDataIndex = index
     }
 }

@@ -54,7 +54,6 @@
 		11BB5D0627CCCF8600905191 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BB5D0527CCCF8600905191 /* Strings.swift */; };
 		11BC99F027DCA64B005FF37F /* MainIndicatorViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BC99EF27DCA64B005FF37F /* MainIndicatorViewCellItem.swift */; };
 		11C98DA327D9FB3E00FDE57F /* MainViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C98DA227D9FB3E00FDE57F /* MainViewCellItem.swift */; };
-		11C98DA527DA0FC400FDE57F /* MainSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C98DA427DA0FC400FDE57F /* MainSectionItem.swift */; };
 		11E59A8D27F87B6D00E9D490 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E59A8C27F87B6D00E9D490 /* SearchService.swift */; };
 		11E59A8F27F87C6400E9D490 /* SearchServiceImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E59A8E27F87C6400E9D490 /* SearchServiceImp.swift */; };
 		11ECCC4F27C73346003DE888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECCC4E27C73346003DE888 /* AppDelegate.swift */; };
@@ -110,7 +109,6 @@
 		11BB5D0527CCCF8600905191 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		11BC99EF27DCA64B005FF37F /* MainIndicatorViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainIndicatorViewCellItem.swift; sourceTree = "<group>"; };
 		11C98DA227D9FB3E00FDE57F /* MainViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCellItem.swift; sourceTree = "<group>"; };
-		11C98DA427DA0FC400FDE57F /* MainSectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSectionItem.swift; sourceTree = "<group>"; };
 		11E59A8C27F87B6D00E9D490 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		11E59A8E27F87C6400E9D490 /* SearchServiceImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchServiceImp.swift; sourceTree = "<group>"; };
 		11ECCC4B27C73346003DE888 /* Pine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pine.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,7 +154,6 @@
 				116B0F6A27D2192300C85225 /* MainPresenter.swift */,
 				116B0F6E27D219C200C85225 /* MainState.swift */,
 				116B0F7527D2238600C85225 /* MainViewModel.swift */,
-				11C98DA427DA0FC400FDE57F /* MainSectionItem.swift */,
 				11405507280580BF00746EAB /* MainTransitionManager.swift */,
 				1140550D2806E22C00746EAB /* MainSectionItemsFactory.swift */,
 			);
@@ -473,7 +470,6 @@
 				119AABA127CB82E70085094C /* ImageData.swift in Sources */,
 				116B0F6927D218BE00C85225 /* MainViewController.swift in Sources */,
 				1194313327E1E75500B117E5 /* SearchPresenter.swift in Sources */,
-				11C98DA527DA0FC400FDE57F /* MainSectionItem.swift in Sources */,
 				11B2C82A27D65D36009BBB3E /* MainIndicatorViewCell.swift in Sources */,
 				11BB5D0627CCCF8600905191 /* Strings.swift in Sources */,
 				11B2C82D27D66D35009BBB3E /* Layout.swift in Sources */,

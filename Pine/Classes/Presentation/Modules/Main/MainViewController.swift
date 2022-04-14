@@ -19,6 +19,7 @@ protocol MainViewOutput: class {
     func mainSearchBarTappedEventTriggered()
     func mainCancelButtonTappedEventTriggered()
     func shareButtonTappedEventTriggered(urlImage: String)
+    func selectedImageDataIndex() -> Int?
 }
 
 final class MainViewController: UIViewController {
@@ -26,7 +27,13 @@ final class MainViewController: UIViewController {
 
     private var viewModel: MainViewModel
     private let output: MainViewOutput
-    var selectedCell: MainViewCell?
+    private let factory: MainSectionItemsFactory
+    var selectedCell: MainViewCell? {
+        guard let index = output.selectedImageDataIndex() else {
+            return nil
+        }
+        return self.imagesCollectionView.cellForItem(at: .init(row: index, section: 0)) as? MainViewCell
+    }
 
     private lazy var searchBar = UISearchBar()
     private lazy var loadingIndicator: UIActivityIndicatorView = {
@@ -74,9 +81,10 @@ final class MainViewController: UIViewController {
         return collectionView
     }()
 
-    init(viewModel: MainViewModel, output: MainViewOutput) {
+    init(viewModel: MainViewModel, output: MainViewOutput, factory: MainSectionItemsFactory) {
         self.viewModel = viewModel
         self.output = output
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -91,7 +99,7 @@ final class MainViewController: UIViewController {
         setNavigationBar()
         setupSearchBar()
         resetMainCollection(imagesData: viewModel.imagesData)
-        mainViewManager.sectionItems = [makeMainSectionItem(imagesData: viewModel.imagesData)]
+        mainViewManager.sectionItems = [factory.makeMainSectionItem(imagesData: viewModel.imagesData)]
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -239,7 +247,7 @@ final class MainViewController: UIViewController {
     }
 
     private func resetMainCollection(imagesData: [ImageData]) {
-        mainViewManager.update([makeMainSectionItem(imagesData: imagesData)], shouldReloadData: true) {
+        mainViewManager.update([factory.makeMainSectionItem(imagesData: imagesData)], shouldReloadData: true) {
             print("Reload complete")
         }
     }
@@ -253,41 +261,6 @@ final class MainViewController: UIViewController {
         if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
             cancelButton.isEnabled = true
         }
-    }
-
-    // MARK: - Factory methods
-
-    private func makeMainSectionItem(imagesData: [ImageData]) -> CollectionViewSectionItem {
-        let sectionItem = MainSectionItem()
-        var cellItems: [CollectionViewCellItem] = imagesData.map { imageData in
-            makeCellItem(imageData: imageData)
-        }
-        if cellItems.count > 0 && viewModel.currentPage < viewModel.totalPage {
-            cellItems.append(makeIndicatorCellItem())
-        }
-        sectionItem.cellItems = cellItems
-        sectionItem.minimumLineSpacing = 4 * Layout.scaleFactorW
-        return sectionItem
-    }
-
-    private func makeCellItem(imageData: ImageData) -> MainViewCellItem {
-        let cellItem = MainViewCellItem(imageData: imageData, output: output)
-        cellItem.itemDidSelectHandler = { indexPath in
-            let cell = self.imagesCollectionView.cellForItem(at: indexPath) as? MainViewCell
-            self.selectedCell = cell
-            self.output.nextDetailImageScreen(imageData: imageData, image: cell?.imageView.image)
-        }
-        return cellItem
-    }
-
-    private func makeIndicatorCellItem() -> MainIndicatorViewCellItem {
-        let cellItem = MainIndicatorViewCellItem(networkConnection: viewModel.networkConnection)
-        if !viewModel.networkConnection {
-            DispatchQueue.global().asyncAfter(deadline: .now() + 3) {
-                self.output.fetchData()
-            }
-        }
-        return cellItem
     }
 }
 

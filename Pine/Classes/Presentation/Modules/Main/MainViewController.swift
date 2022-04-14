@@ -15,7 +15,7 @@ protocol MainViewInput: class {
 protocol MainViewOutput: class {
     func fetchData()
     func fetchSearchData(query: String)
-    func nextDetailImageScreen(imageData: ImageData)
+    func nextDetailImageScreen(imageData: ImageData, image: UIImage?)
     func mainSearchBarTappedEventTriggered()
     func mainCancelButtonTappedEventTriggered()
     func shareButtonTappedEventTriggered(urlImage: String)
@@ -26,6 +26,7 @@ final class MainViewController: UIViewController {
 
     private var viewModel: MainViewModel
     private let output: MainViewOutput
+    var selectedCell: MainViewCell?
 
     private lazy var searchBar = UISearchBar()
     private lazy var loadingIndicator: UIActivityIndicatorView = {
@@ -64,14 +65,12 @@ final class MainViewController: UIViewController {
         return button
     }()
 
-    private lazy var imagesCollectionView: UICollectionView = {
+    lazy var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
         collectionView.bounces = false
-        collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.register(MainIndicatorViewCell.self, forCellWithReuseIdentifier: "indicator")
         return collectionView
     }()
 
@@ -97,6 +96,7 @@ final class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.delegate = self
         navigationController?.navigationBar.barStyle = .default
         searchBar.resignFirstResponder()
     }
@@ -136,6 +136,8 @@ final class MainViewController: UIViewController {
         )
         buttonSearchWrong.center.x = view.center.x
     }
+
+    // MARK: - Private
 
     private func setupViews() {
         view.backgroundColor = .white
@@ -270,8 +272,10 @@ final class MainViewController: UIViewController {
 
     private func makeCellItem(imageData: ImageData) -> MainViewCellItem {
         let cellItem = MainViewCellItem(imageData: imageData, output: output)
-        cellItem.itemDidSelectHandler = { _ in
-            self.output.nextDetailImageScreen(imageData: imageData)
+        cellItem.itemDidSelectHandler = { indexPath in
+            let cell = self.imagesCollectionView.cellForItem(at: indexPath) as? MainViewCell
+            self.selectedCell = cell
+            self.output.nextDetailImageScreen(imageData: imageData, image: cell?.imageView.image)
         }
         return cellItem
     }

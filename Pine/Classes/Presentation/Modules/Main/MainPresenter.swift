@@ -97,8 +97,9 @@ extension MainPresenter: MainViewOutput {
         dependencies.searchService.addQueryToRecent(query: query)
     }
 
-    func nextDetailImageScreen(imageData: ImageData) {
-        output?.mainCellTappedEventTriggered(self, imageData: imageData)
+    func nextDetailImageScreen(imageData: ImageData, image: UIImage?) {
+        guard let image = image else { return }
+        output?.mainCellTappedEventTriggered(self, imageData: imageData, image: image)
     }
 
     func mainSearchBarTappedEventTriggered() {

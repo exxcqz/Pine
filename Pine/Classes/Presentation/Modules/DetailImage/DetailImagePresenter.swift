@@ -19,16 +19,11 @@ final class DetailImagePresenter {
     private func setDetailImage() {
         guard let imageData = state.imageData else { return }
         state.nameUser = "\(imageData.user?.firstName ?? "") \(imageData.user?.lastName ?? "")"
-        let url = imageData.urls.regular
-        NetworkDataFetch.shared.fetchImage(urlImage: url) { image in
-            self.state.image = image
-            if imageData.width < imageData.height {
-                self.state.imageFullScreen = true
-            } else {
-                self.state.imageFullScreen = false
-            }
-            self.update(force: false, animated: true)
-        }
+//        let url = imageData.urls.regular
+//        NetworkDataFetch.shared.fetchImage(urlImage: url) { image in
+//            self.state.image = image
+//        }
+        self.update(force: false, animated: true)
     }
 }
 

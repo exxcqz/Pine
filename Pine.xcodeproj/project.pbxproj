@@ -13,9 +13,11 @@
 		11265D3327C8D37B001A47F8 /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D2E27C8D37B001A47F8 /* SFProText-Regular.ttf */; };
 		11265D3427C8D37B001A47F8 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D2F27C8D37B001A47F8 /* Lato-Medium.ttf */; };
 		11265D3527C8D37B001A47F8 /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D3027C8D37B001A47F8 /* SFProText-Bold.ttf */; };
-		11265D3727C8D38A001A47F8 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11265D3627C8D38A001A47F8 /* Fonts.swift */; };
 		11265D3A27C90A4B001A47F8 /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11265D3927C90A4B001A47F8 /* MainViewCell.swift */; };
 		11265D4127C92D1E001A47F8 /* Framezilla in Frameworks */ = {isa = PBXBuildFile; productRef = 11265D4027C92D1E001A47F8 /* Framezilla */; };
+		11405508280580BF00746EAB /* MainTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11405507280580BF00746EAB /* MainTransitionManager.swift */; };
+		1140550C2805841800746EAB /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1140550B2805841800746EAB /* Fonts.swift */; };
+		1140550E2806E22C00746EAB /* MainSectionItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1140550D2806E22C00746EAB /* MainSectionItemsFactory.swift */; };
 		115D611127DDDEC40086A7AD /* MainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D611027DDDEC40086A7AD /* MainService.swift */; };
 		115D611327DDE0C10086A7AD /* MainServiceImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D611227DDE0C10086A7AD /* MainServiceImp.swift */; };
 		116B0F6927D218BE00C85225 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116B0F6827D218BE00C85225 /* MainViewController.swift */; };
@@ -68,8 +70,10 @@
 		11265D2E27C8D37B001A47F8 /* SFProText-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Regular.ttf"; sourceTree = "<group>"; };
 		11265D2F27C8D37B001A47F8 /* Lato-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Medium.ttf"; sourceTree = "<group>"; };
 		11265D3027C8D37B001A47F8 /* SFProText-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Bold.ttf"; sourceTree = "<group>"; };
-		11265D3627C8D38A001A47F8 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Fonts.swift; path = ../../../../Documents/Fonts.swift; sourceTree = "<group>"; };
 		11265D3927C90A4B001A47F8 /* MainViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCell.swift; sourceTree = "<group>"; };
+		11405507280580BF00746EAB /* MainTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTransitionManager.swift; sourceTree = "<group>"; };
+		1140550B2805841800746EAB /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		1140550D2806E22C00746EAB /* MainSectionItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSectionItemsFactory.swift; sourceTree = "<group>"; };
 		115D611027DDDEC40086A7AD /* MainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainService.swift; sourceTree = "<group>"; };
 		115D611227DDE0C10086A7AD /* MainServiceImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainServiceImp.swift; sourceTree = "<group>"; };
 		116B0F6827D218BE00C85225 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +157,8 @@
 				116B0F6E27D219C200C85225 /* MainState.swift */,
 				116B0F7527D2238600C85225 /* MainViewModel.swift */,
 				11C98DA427DA0FC400FDE57F /* MainSectionItem.swift */,
+				11405507280580BF00746EAB /* MainTransitionManager.swift */,
+				1140550D2806E22C00746EAB /* MainSectionItemsFactory.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -351,7 +357,7 @@
 			children = (
 				11265D2B27C8D37A001A47F8 /* Fonts */,
 				11ECCC5727C73349003DE888 /* Assets.xcassets */,
-				11265D3627C8D38A001A47F8 /* Fonts.swift */,
+				1140550B2805841800746EAB /* Fonts.swift */,
 				11BB5D0527CCCF8600905191 /* Strings.swift */,
 				11B2C82C27D66D35009BBB3E /* Layout.swift */,
 			);
@@ -458,8 +464,10 @@
 				1195EFF427D741ED000CCAC4 /* DetailImageModule.swift in Sources */,
 				116B0F7427D21D5B00C85225 /* AppCoordinator.swift in Sources */,
 				1194312F27E1E64300B117E5 /* SearchState.swift in Sources */,
+				1140550C2805841800746EAB /* Fonts.swift in Sources */,
 				119AAB9227CB7D290085094C /* NetworkType.swift in Sources */,
 				11BC99F027DCA64B005FF37F /* MainIndicatorViewCellItem.swift in Sources */,
+				1140550E2806E22C00746EAB /* MainSectionItemsFactory.swift in Sources */,
 				1194313127E1E70300B117E5 /* SearchViewModel.swift in Sources */,
 				11BB5D0227CCC05C00905191 /* DetailImageViewController.swift in Sources */,
 				119AABA127CB82E70085094C /* ImageData.swift in Sources */,
@@ -471,10 +479,10 @@
 				11B2C82D27D66D35009BBB3E /* Layout.swift in Sources */,
 				11B2C82627D62A40009BBB3E /* MainCoordinator.swift in Sources */,
 				1194313527E1E86400B117E5 /* SearchModule.swift in Sources */,
+				11405508280580BF00746EAB /* MainTransitionManager.swift in Sources */,
 				11E59A8F27F87C6400E9D490 /* SearchServiceImp.swift in Sources */,
 				119AAB9B27CB7FC60085094C /* ImageInfo.swift in Sources */,
 				1179826727DE51AA00CE56E8 /* SearchViewController.swift in Sources */,
-				11265D3727C8D38A001A47F8 /* Fonts.swift in Sources */,
 				11ECCC4F27C73346003DE888 /* AppDelegate.swift in Sources */,
 				1195EFFA27D743E0000CCAC4 /* DetailImagePresenter.swift in Sources */,
 				1195EFF827D742A9000CCAC4 /* DetailImageViewModel.swift in Sources */,

@@ -32,6 +32,7 @@ final class SearchCoordinator: BaseCoordinator<UINavigationController> {
 extension SearchCoordinator: SearchModuleOutput {
 
     func searchCancelButtonEventTriggered(_ moduleInput: SearchModuleInput) {
+        rootViewController.delegate = nil
         rootViewController.popViewController(animated: true)
     }
 

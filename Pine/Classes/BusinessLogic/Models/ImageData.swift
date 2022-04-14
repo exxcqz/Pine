@@ -5,7 +5,7 @@
 //  Created by Nikita Gavrikov on 27.02.2022.
 //
 
-import Foundation
+import UIKit
 
 struct ImageData: Codable {
     let id: String

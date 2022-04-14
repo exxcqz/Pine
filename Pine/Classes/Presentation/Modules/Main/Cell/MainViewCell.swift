@@ -8,7 +8,7 @@
 import UIKit
 
 final class MainViewCell: UICollectionViewCell {
-    private lazy var imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -23,7 +23,7 @@ final class MainViewCell: UICollectionViewCell {
         return rectangle
     }()
 
-    private lazy var nameLabel: UILabel = {
+     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .proTextFontMedium(ofSize: 14)
         label.textColor = .white

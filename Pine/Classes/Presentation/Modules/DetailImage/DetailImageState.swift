@@ -11,9 +11,9 @@ final class DetailImageState {
     var imageData: ImageData?
     var image: UIImage?
     var nameUser: String = ""
-    var imageFullScreen: Bool = true
 
-    init(imageData: ImageData?) {
+    init(imageData: ImageData?, image: UIImage?) {
         self.imageData = imageData
+        self.image = image
     }
 }

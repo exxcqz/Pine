@@ -18,9 +18,10 @@ final class DetailImageViewController: UIViewController {
     private var viewModel: DetailImageViewModel
     private let output: DetailImageViewOutput
 
-    private lazy var imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.image = viewModel.image
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.backgroundColor = .black
         return imageView
@@ -72,25 +73,12 @@ final class DetailImageViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if viewModel.imageFullScreen {
-            imageView.frame = .init(
-                x: 0,
-                y: view.safeAreaInsets.top,
-                width: view.bounds.width,
-                height: view.bounds.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
-            )
-        } else {
-            guard let imageData = viewModel.imageData else { return }
-            let scale = view.bounds.width / CGFloat(imageData.width)
-            let height = CGFloat(imageData.height) * scale
-            imageView.frame = .init(
-                x: 0,
-                y: 0,
-                width: view.bounds.width,
-                height: height
-            )
-            imageView.center = view.center
-        }
+        imageView.frame = .init(
+            x: 0,
+            y: view.safeAreaInsets.top,
+            width: view.bounds.width,
+            height: view.bounds.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
+        )
         transparentRectangleView.frame = .init(
             x: 0,
             y: view.bounds.height - view.safeAreaInsets.bottom - (44 * Layout.scaleFactorW),

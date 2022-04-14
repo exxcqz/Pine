@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainModuleOutput {
-    func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData)
+    func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData, image: UIImage)
     func mainSearchBarTappedEventTriggered(_ moduleInput: MainModuleInput)
     func mainCancelButtonTappedEventTriggered(_ moduleInput: MainModuleInput)
     func mainShareButtonTappedEventTriggered(_ moduleInput: MainModuleInput, image: UIImage)
@@ -20,7 +20,7 @@ protocol MainModuleInput: class {
 }
 
 final class MainModule {
-    let viewController: UIViewController
+    let viewController: MainViewController
     let presenter: MainPresenter
 
     var output: MainModuleOutput? {

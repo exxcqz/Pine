@@ -29,14 +29,15 @@ final class MainCoordinator: BaseCoordinator<UINavigationController> {
         rootViewController.setViewControllers([mainModule.viewController], animated: true)
     }
 
-    private func startDetailImageCoordinator(imageData: ImageData) {
-        let coordinator = DetailImageCoordinator(imageData: imageData, viewController: rootViewController)
+    private func startDetailImageCoordinator(imageData: ImageData, image: UIImage) {
+        let coordinator = DetailImageCoordinator(imageData: imageData, image: image, viewController: rootViewController)
         remove(child: self)
         append(child: coordinator)
         coordinator.start()
     }
 
     private func startSearchCoordinator() {
+        rootViewController.delegate = nil
         let coordinator = SearchCoordinator(viewController: rootViewController)
         remove(child: self)
         append(child: coordinator)
@@ -53,8 +54,8 @@ final class MainCoordinator: BaseCoordinator<UINavigationController> {
 
 extension MainCoordinator: MainModuleOutput {
 
-    func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData) {
-        startDetailImageCoordinator(imageData: imageData)
+    func mainCellTappedEventTriggered(_ moduleInput: MainModuleInput, imageData: ImageData, image: UIImage) {
+        startDetailImageCoordinator(imageData: imageData, image: image)
     }
 
     func mainSearchBarTappedEventTriggered(_ moduleInput: MainModuleInput) {
@@ -62,10 +63,20 @@ extension MainCoordinator: MainModuleOutput {
     }
 
     func mainCancelButtonTappedEventTriggered(_ moduleInput: MainModuleInput) {
+        rootViewController.delegate = nil
         rootViewController.popViewController(animated: true)
     }
 
     func mainShareButtonTappedEventTriggered(_ moduleInput: MainModuleInput, image: UIImage) {
         openShareController(image: image)
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+
+extension MainViewController: UINavigationControllerDelegate {
+
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return MainTransitionManager(operation: operation)
     }
 }

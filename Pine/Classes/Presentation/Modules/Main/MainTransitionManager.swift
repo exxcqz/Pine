@@ -9,7 +9,7 @@ import UIKit
 
 final class MainTransitionManager: NSObject, UIViewControllerAnimatedTransitioning {
     private let operation: UINavigationController.Operation
-    private let duration: TimeInterval = 1.0
+    private let duration: TimeInterval = 0.3
 
     init(operation: UINavigationController.Operation) {
         self.operation = operation
@@ -32,7 +32,7 @@ final class MainTransitionManager: NSObject, UIViewControllerAnimatedTransitioni
         }
     }
 
-    func animateTransitionForPresent(using transitionContext: UIViewControllerContextTransitioning) {
+    private func animateTransitionForPresent(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: .from) as? MainViewController,
               let toViewController = transitionContext.viewController(forKey: .to) as? DetailImageViewController,
               let cell = fromViewController.selectedCell
@@ -54,23 +54,14 @@ final class MainTransitionManager: NSObject, UIViewControllerAnimatedTransitioni
 
         let snapShotImageContainerView = UIView()
         snapShotImageContainerView.clipsToBounds = true
+        snapShotImageContainerView.frame = cell.convert(cell.imageView.frame, to: fromViewController.view)
         snapShotImageContainerView.addSubview(snapShotImageView)
 
-        snapShotImageContainerView.frame = cell.convert(cell.imageView.frame, to: fromViewController.view)
         let targetFrame = toViewController.view.convert(toViewController.imageView.frame, from: toViewController.view)
-
         let size = image?.size ?? .zero
         let aspectRatio = size.width / size.height
-        let width: CGFloat
-        let height: CGFloat
-        if aspectRatio > 1 {
-            height = targetFrame.height
-            width = height * aspectRatio
-        }
-        else {
-            width = targetFrame.width
-            height = width / aspectRatio
-        }
+        let width = targetFrame.width
+        let height = width / aspectRatio
         snapShotImageView.frame = .init(
             x: (snapShotImageContainerView.frame.width - width) / 2,
             y: (snapShotImageContainerView.frame.height - height) / 2,
@@ -82,6 +73,7 @@ final class MainTransitionManager: NSObject, UIViewControllerAnimatedTransitioni
         containerView.addSubview(snapShotImageContainerView)
         containerView.addSubview(toViewController.view)
         cell.isHidden = true
+        print(cell.nameLabel.text)
 
         toViewController.view.isHidden = true
         toViewController.view.setNeedsLayout()
@@ -100,7 +92,7 @@ final class MainTransitionManager: NSObject, UIViewControllerAnimatedTransitioni
         })
     }
 
-    func animateTransitionForDismiss(using transitionContext: UIViewControllerContextTransitioning) {
+    private func animateTransitionForDismiss(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: .from) as? DetailImageViewController,
               let toViewController = transitionContext.viewController(forKey: .to) as? MainViewController,
               let cell = toViewController.selectedCell
@@ -127,26 +119,13 @@ final class MainTransitionManager: NSObject, UIViewControllerAnimatedTransitioni
             fromViewController.imageView.frame,
             from: fromViewController.view
         )
+        snapShotImageView.frame = snapShotImageContainerView.bounds
 
-        let targetFrame = toViewController.imagesCollectionView.convert(cell.imageView.frame, from: toViewController.view)
+        let targetFrame = toViewController.imagesCollectionView.convert(cell.imageView.frame, to: toViewController.view)
         let size = image?.size ?? .zero
         let aspectRatio = size.width / size.height
-        let width: CGFloat
-        let height: CGFloat
-        if aspectRatio > 1 {
-            height = targetFrame.height
-            width = height * aspectRatio
-        }
-        else {
-            width = targetFrame.width
-            height = width / aspectRatio
-        }
-        snapShotImageView.frame = .init(
-            x: (snapShotImageContainerView.frame.width - width) / 2,
-            y: (snapShotImageContainerView.frame.height - height) / 2,
-            width: width,
-            height: height
-        )
+        let width = targetFrame.width
+        let height = width / aspectRatio
 
         containerView.addSubview(toViewController.view)
         containerView.addSubview(snapShotBackgroundView)

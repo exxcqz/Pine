@@ -9,11 +9,11 @@ import UIKit
 
 final class MainTransitionManagerForDismiss: NSObject, UIViewControllerAnimatedTransitioning {
     private let duration: TimeInterval = 0.3
-    
+
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
-    
+
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: .from) as? DetailImageViewController,
               let toViewController = transitionContext.viewController(forKey: .to) as? MainViewController,
@@ -26,18 +26,18 @@ final class MainTransitionManagerForDismiss: NSObject, UIViewControllerAnimatedT
                                                                     detailImageViewController: fromViewController,
                                                                     cell: cell,
                                                                     transitionContext: transitionContext)
-        
+
         let containerView = transitionContext.containerView
         let snapShotBackgroundView = transitionManagerContext.snapShotBackgroundView
         let snapShotImageView = transitionManagerContext.snapShotImageView
         let snapShotImageContainerView = transitionManagerContext.snapShotImageContainerView
-        
+
         snapShotImageContainerView.addSubview(snapShotImageView)
         containerView.addSubview(toViewController.view)
         containerView.addSubview(snapShotBackgroundView)
         containerView.addSubview(snapShotImageContainerView)
         fromViewController.view.isHidden = true
-        
+
         UIView.animate(withDuration: duration, animations: {
             snapShotImageContainerView.frame = transitionManagerContext.cellSnapShotFrame()
             snapShotImageView.frame = transitionManagerContext.cellImageViewFrame()

@@ -9,11 +9,11 @@ import UIKit
 
 final class MainTransitionManagerForPresent: NSObject, UIViewControllerAnimatedTransitioning {
     private let duration: TimeInterval = 0.3
-    
+
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         duration
     }
-    
+
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: .from) as? MainViewController,
               let toViewController = transitionContext.viewController(forKey: .to) as? DetailImageViewController,
@@ -26,22 +26,22 @@ final class MainTransitionManagerForPresent: NSObject, UIViewControllerAnimatedT
                                                                     detailImageViewController: toViewController,
                                                                     cell: cell,
                                                                     transitionContext: transitionContext)
-        
+
         let containerView = transitionContext.containerView
         let snapShotBackgroundView = transitionManagerContext.snapShotBackgroundView
         let snapShotImageView = transitionManagerContext.snapShotImageView
         let snapShotImageContainerView = transitionManagerContext.snapShotImageContainerView
-        
+
         snapShotImageContainerView.addSubview(snapShotImageView)
         containerView.addSubview(snapShotBackgroundView)
         containerView.addSubview(snapShotImageContainerView)
         containerView.addSubview(toViewController.view)
-        
+
         cell.isHidden = true
         toViewController.view.isHidden = true
         toViewController.view.setNeedsLayout()
         toViewController.view.layoutIfNeeded()
-        
+
         UIView.animate(withDuration: duration, animations: {
             snapShotImageContainerView.frame = transitionManagerContext.previewSnapshotFrame()
             snapShotImageView.frame = snapShotImageContainerView.bounds

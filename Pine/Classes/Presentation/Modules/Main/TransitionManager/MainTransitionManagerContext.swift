@@ -18,7 +18,7 @@ final class MainTransitionManagerContext {
     private var detailImageViewController: DetailImageViewController
     private let cell: MainViewCell
     private let transitionContext: UIViewControllerContextTransitioning
-    
+
     lazy var snapShotBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
@@ -31,7 +31,7 @@ final class MainTransitionManagerContext {
         }
         return view
     }()
-    
+
     lazy var snapShotImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -45,7 +45,7 @@ final class MainTransitionManagerContext {
         }
         return imageView
     }()
-    
+
     lazy var snapShotImageContainerView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -59,7 +59,7 @@ final class MainTransitionManagerContext {
         }
         return view
     }()
-    
+
     init(typeTransition: TypeTransition,
          mainViewController: MainViewController,
          detailImageViewController: DetailImageViewController,
@@ -71,12 +71,12 @@ final class MainTransitionManagerContext {
         self.cell = cell
         self.transitionContext = transitionContext
     }
-    
+
     func cellSnapShotFrame() -> CGRect {
         return mainViewController.imagesCollectionView.convert(cell.frame,
                                                                to: mainViewController.view)
     }
-    
+
     func cellImageViewFrame() -> CGRect {
         let (width, height) = getSnapShotImageViewSize()
         return .init(x: (snapShotImageContainerView.frame.width - width) / 2,
@@ -84,12 +84,12 @@ final class MainTransitionManagerContext {
                      width: width,
                      height: height)
     }
-    
+
     func previewSnapshotFrame() -> CGRect {
         return detailImageViewController.view.convert(detailImageViewController.imageView.frame,
                                                       from: detailImageViewController.view)
     }
-    
+
     private func getSnapShotImageViewSize() -> (width: CGFloat, height: CGFloat) {
         let targetFrame: CGRect
         let size: CGSize

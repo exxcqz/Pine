@@ -20,7 +20,7 @@ final class MainSectionItemsFactory {
         self.output = output
     }
 
-    func makeMainSectionItem(imagesData: [ImageData]) -> CollectionViewSectionItem {
+    func makeMainSectionItem(imagesData: [ImageData]) -> [CollectionViewSectionItem] {
         let sectionItem = GeneralCollectionViewSectionItem()
         var cellItems: [CollectionViewCellItem] = imagesData.map { imageData in
             makeCellItem(imageData: imageData)
@@ -30,7 +30,7 @@ final class MainSectionItemsFactory {
         }
         sectionItem.cellItems = cellItems
         sectionItem.minimumLineSpacing = 4 * Layout.scaleFactorW
-        return sectionItem
+        return [sectionItem]
     }
 
     func makeCellItem(imageData: ImageData) -> MainViewCellItem {

@@ -82,7 +82,6 @@ extension MainPresenter: MainViewOutput {
         return state.selectedImageDataIndex
     }
 
-
     func fetchData() {
         switch state.searchMode {
         case .random:

@@ -20,8 +20,8 @@ final class MainState {
     var totalPage: Int = 50
     var networkConnection: Bool = true
     var isEventScroll: Bool = false
-    var selectedImageDataIndex: Int? = nil
-    
+    var selectedImageDataIndex: Int?
+
     init(query: String?) {
         self.query = query
     }

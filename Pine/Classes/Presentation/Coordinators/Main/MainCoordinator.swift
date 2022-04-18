@@ -76,7 +76,19 @@ extension MainCoordinator: MainModuleOutput {
 
 extension MainViewController: UINavigationControllerDelegate {
 
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return MainTransitionManager(operation: operation)
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationController.Operation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .none:
+            return nil
+        case .push:
+            return MainTransitionManagerForPresent()
+        case .pop:
+            return MainTransitionManagerForDismiss()
+        @unknown default:
+            return nil
+        }
     }
 }

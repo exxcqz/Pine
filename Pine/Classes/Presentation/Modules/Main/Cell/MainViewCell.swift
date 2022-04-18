@@ -85,9 +85,11 @@ final class MainViewCell: UICollectionViewCell {
             task.cancel()
         }
         guard let url = URL(string: imageInfo.urls.regular) else { return }
-        if let userInfoFromCache = CacheManager.cache.object(forKey: url.absoluteString as AnyObject) as? (image: UIImage, userName: String) {
-            self.imageView.image = userInfoFromCache.image
-            self.nameLabel.text = userInfoFromCache.userName
+        if let cachedImageData = CacheManager.cache.object(
+            forKey: url.absoluteString as AnyObject
+        ) as? (image: UIImage, userName: String) {
+            self.imageView.image = cachedImageData.image
+            self.nameLabel.text = cachedImageData.userName
             return
         }
         task = URLSession.shared.dataTask(with: url) { data, _, _ in

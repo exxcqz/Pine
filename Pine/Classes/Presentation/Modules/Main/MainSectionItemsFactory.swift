@@ -20,7 +20,7 @@ final class MainSectionItemsFactory {
         self.output = output
     }
 
-    func makeMainSectionItem(imagesData: [ImageData]) -> [CollectionViewSectionItem] {
+    func makeMainSectionItems(imagesData: [ImageData]) -> [CollectionViewSectionItem] {
         let sectionItem = GeneralCollectionViewSectionItem()
         var cellItems: [CollectionViewCellItem] = imagesData.map { imageData in
             makeCellItem(imageData: imageData)

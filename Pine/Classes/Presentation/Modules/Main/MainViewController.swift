@@ -99,7 +99,7 @@ final class MainViewController: UIViewController {
         setNavigationBar()
         setupSearchBar()
         resetMainCollection(imagesData: viewModel.imagesData)
-        mainViewManager.sectionItems = factory.makeMainSectionItem(imagesData: viewModel.imagesData)
+        mainViewManager.sectionItems = factory.makeMainSectionItems(imagesData: viewModel.imagesData)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -247,7 +247,7 @@ final class MainViewController: UIViewController {
     }
 
     private func resetMainCollection(imagesData: [ImageData]) {
-        mainViewManager.update(factory.makeMainSectionItem(imagesData: imagesData), shouldReloadData: true) {
+        mainViewManager.update(factory.makeMainSectionItems(imagesData: imagesData), shouldReloadData: true) {
             print("Reload complete")
         }
     }

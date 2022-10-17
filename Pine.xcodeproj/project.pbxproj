@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11265D2227C787AD001A47F8 /* CollectionViewTools in Frameworks */ = {isa = PBXBuildFile; productRef = 11265D2127C787AD001A47F8 /* CollectionViewTools */; };
 		11265D3127C8D37B001A47F8 /* SFProText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D2C27C8D37B001A47F8 /* SFProText-Medium.ttf */; };
 		11265D3227C8D37B001A47F8 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D2D27C8D37B001A47F8 /* Lato-Bold.ttf */; };
 		11265D3327C8D37B001A47F8 /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D2E27C8D37B001A47F8 /* SFProText-Regular.ttf */; };
 		11265D3427C8D37B001A47F8 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D2F27C8D37B001A47F8 /* Lato-Medium.ttf */; };
 		11265D3527C8D37B001A47F8 /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11265D3027C8D37B001A47F8 /* SFProText-Bold.ttf */; };
 		11265D3A27C90A4B001A47F8 /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11265D3927C90A4B001A47F8 /* MainViewCell.swift */; };
-		11265D4127C92D1E001A47F8 /* Framezilla in Frameworks */ = {isa = PBXBuildFile; productRef = 11265D4027C92D1E001A47F8 /* Framezilla */; };
 		1140550C2805841800746EAB /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1140550B2805841800746EAB /* Fonts.swift */; };
 		1140550E2806E22C00746EAB /* MainSectionItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1140550D2806E22C00746EAB /* MainSectionItemsFactory.swift */; };
 		115D611127DDDEC40086A7AD /* MainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115D611027DDDEC40086A7AD /* MainService.swift */; };
@@ -54,6 +52,12 @@
 		11B76EC62809441C009C5E22 /* MainTransitionManagerForDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11B76EC52809441C009C5E22 /* MainTransitionManagerForDismiss.swift */; };
 		11BB5D0227CCC05C00905191 /* DetailImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119AAB8F27CB77F60085094C /* DetailImageViewController.swift */; };
 		11BB5D0627CCCF8600905191 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BB5D0527CCCF8600905191 /* Strings.swift */; };
+		11BBEBFD28FD15F000FBCC5F /* CollectionViewTools.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BBEBF728FD15EC00FBCC5F /* CollectionViewTools.xcframework */; };
+		11BBEBFE28FD15F000FBCC5F /* CollectionViewTools.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 11BBEBF728FD15EC00FBCC5F /* CollectionViewTools.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		11BBEC0028FD15F100FBCC5F /* DeepDiff.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BBEBF828FD15EC00FBCC5F /* DeepDiff.xcframework */; };
+		11BBEC0128FD15F100FBCC5F /* DeepDiff.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 11BBEBF828FD15EC00FBCC5F /* DeepDiff.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		11BBEC0228FD15F300FBCC5F /* Framezilla.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BBEBF928FD15ED00FBCC5F /* Framezilla.xcframework */; };
+		11BBEC0328FD15F300FBCC5F /* Framezilla.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 11BBEBF928FD15ED00FBCC5F /* Framezilla.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		11BC99F027DCA64B005FF37F /* MainIndicatorViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BC99EF27DCA64B005FF37F /* MainIndicatorViewCellItem.swift */; };
 		11C98DA327D9FB3E00FDE57F /* MainViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C98DA227D9FB3E00FDE57F /* MainViewCellItem.swift */; };
 		11E59A8D27F87B6D00E9D490 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E59A8C27F87B6D00E9D490 /* SearchService.swift */; };
@@ -64,6 +68,22 @@
 		11ECCC5827C73349003DE888 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11ECCC5727C73349003DE888 /* Assets.xcassets */; };
 		11ECCC5B27C73349003DE888 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11ECCC5927C73349003DE888 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		11BBEBFF28FD15F000FBCC5F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				11BBEC0128FD15F100FBCC5F /* DeepDiff.xcframework in Embed Frameworks */,
+				11BBEC0328FD15F300FBCC5F /* Framezilla.xcframework in Embed Frameworks */,
+				11BBEBFE28FD15F000FBCC5F /* CollectionViewTools.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		11265D2C27C8D37B001A47F8 /* SFProText-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Medium.ttf"; sourceTree = "<group>"; };
@@ -111,6 +131,9 @@
 		11B76EC3280941C3009C5E22 /* MainTransitionManagerForPresent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTransitionManagerForPresent.swift; sourceTree = "<group>"; };
 		11B76EC52809441C009C5E22 /* MainTransitionManagerForDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTransitionManagerForDismiss.swift; sourceTree = "<group>"; };
 		11BB5D0527CCCF8600905191 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		11BBEBF728FD15EC00FBCC5F /* CollectionViewTools.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CollectionViewTools.xcframework; path = Carthage/Build/CollectionViewTools.xcframework; sourceTree = SOURCE_ROOT; };
+		11BBEBF828FD15EC00FBCC5F /* DeepDiff.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DeepDiff.xcframework; path = Carthage/Build/DeepDiff.xcframework; sourceTree = SOURCE_ROOT; };
+		11BBEBF928FD15ED00FBCC5F /* Framezilla.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Framezilla.xcframework; path = Carthage/Build/Framezilla.xcframework; sourceTree = SOURCE_ROOT; };
 		11BC99EF27DCA64B005FF37F /* MainIndicatorViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainIndicatorViewCellItem.swift; sourceTree = "<group>"; };
 		11C98DA227D9FB3E00FDE57F /* MainViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCellItem.swift; sourceTree = "<group>"; };
 		11E59A8C27F87B6D00E9D490 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
@@ -129,8 +152,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11265D2227C787AD001A47F8 /* CollectionViewTools in Frameworks */,
-				11265D4127C92D1E001A47F8 /* Framezilla in Frameworks */,
+				11BBEC0028FD15F100FBCC5F /* DeepDiff.xcframework in Frameworks */,
+				11BBEC0228FD15F300FBCC5F /* Framezilla.xcframework in Frameworks */,
+				11BBEBFD28FD15F000FBCC5F /* CollectionViewTools.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +383,9 @@
 				1137224A27EC3E3000C700C8 /* Classes */,
 				11ECCC6627C733FE003DE888 /* Resources */,
 				11ECCC5C27C73349003DE888 /* Info.plist */,
+				11BBEBF728FD15EC00FBCC5F /* CollectionViewTools.xcframework */,
+				11BBEBF828FD15EC00FBCC5F /* DeepDiff.xcframework */,
+				11BBEBF928FD15ED00FBCC5F /* Framezilla.xcframework */,
 			);
 			path = Pine;
 			sourceTree = "<group>";
@@ -385,7 +412,7 @@
 				11ECCC4727C73346003DE888 /* Sources */,
 				11ECCC4827C73346003DE888 /* Frameworks */,
 				11ECCC4927C73346003DE888 /* Resources */,
-				11B76EBD28091B14009C5E22 /* ShellScript */,
+				11BBEBFF28FD15F000FBCC5F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -393,8 +420,6 @@
 			);
 			name = Pine;
 			packageProductDependencies = (
-				11265D2127C787AD001A47F8 /* CollectionViewTools */,
-				11265D4027C92D1E001A47F8 /* Framezilla */,
 			);
 			productName = Pine;
 			productReference = 11ECCC4B27C73346003DE888 /* Pine.app */;
@@ -425,8 +450,6 @@
 			);
 			mainGroup = 11ECCC4227C73346003DE888;
 			packageReferences = (
-				11265D2027C787AD001A47F8 /* XCRemoteSwiftPackageReference "CollectionViewTools" */,
-				11265D3F27C92D1E001A47F8 /* XCRemoteSwiftPackageReference "Framezilla" */,
 			);
 			productRefGroup = 11ECCC4C27C73346003DE888 /* Products */;
 			projectDirPath = "";
@@ -454,26 +477,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		11B76EBD28091B14009C5E22 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\n#echo \"skip\"\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		11ECCC4727C73346003DE888 /* Sources */ = {
@@ -751,38 +754,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		11265D2027C787AD001A47F8 /* XCRemoteSwiftPackageReference "CollectionViewTools" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/rosberry/CollectionViewTools";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.7;
-			};
-		};
-		11265D3F27C92D1E001A47F8 /* XCRemoteSwiftPackageReference "Framezilla" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/rosberry/Framezilla";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		11265D2127C787AD001A47F8 /* CollectionViewTools */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 11265D2027C787AD001A47F8 /* XCRemoteSwiftPackageReference "CollectionViewTools" */;
-			productName = CollectionViewTools;
-		};
-		11265D4027C92D1E001A47F8 /* Framezilla */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 11265D3F27C92D1E001A47F8 /* XCRemoteSwiftPackageReference "Framezilla" */;
-			productName = Framezilla;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 11ECCC4327C73346003DE888 /* Project object */;
 }

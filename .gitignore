@@ -27,3 +27,4 @@ build/
 *.swp
 *.un~
 .DS_Store
+Carthage
